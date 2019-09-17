@@ -1,0 +1,10 @@
+D:\Source code\Library-Management\LibraryManagement.Database\bin\Debug\LibraryManagement.Database.dacpac
+D:\Source code\Library-Management\LibraryManagement.Database\bin\Debug\LibraryManagement.Database.dll
+D:\Source code\Library-Management\LibraryManagement.Database\bin\Debug\LibraryManagement.Database.pdb
+D:\Source code\Library-Management\LibraryManagement.Database\obj\Debug\LibraryManagement.Database.sqlprojAssemblyReference.cache
+D:\Source code\Library-Management\LibraryManagement.Database\obj\Debug\Model.xml
+D:\Source code\Library-Management\LibraryManagement.Database\obj\Debug\refactor.xml
+D:\Source code\Library-Management\LibraryManagement.Database\obj\Debug\postdeploy.sql
+D:\Source code\Library-Management\LibraryManagement.Database\obj\Debug\predeploy.sql
+D:\Source code\Library-Management\LibraryManagement.Database\obj\Debug\LibraryManagement.Database.dll
+D:\Source code\Library-Management\LibraryManagement.Database\obj\Debug\LibraryManagement.Database.pdb
