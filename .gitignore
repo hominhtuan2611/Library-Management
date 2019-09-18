@@ -1,6 +1,4 @@
 
-.vs/
-
 LibraryManagement.Database/obj/
 
 *.jfm
@@ -16,3 +14,17 @@ LibraryManagement.API/obj/Debug/
 LibraryManagement.Web/obj/Debug/
 
 *.cache
+
+.vs/Library-Management/v16/Server/sqlite3/db.lock
+
+.vs/Library-Management/v16/Server/sqlite3/storage.ide
+
+.vs/Library-Management/v16/Server/sqlite3/storage.ide-shm
+
+.vs/Library-Management/v16/Server/sqlite3/storage.ide-wal
+
+.vs/Library-Management/v16/.suo
+
+*.sqlite
+
+.vs/Library-Management/DesignTimeBuild/.dtbcache
