@@ -1,2 +1,10 @@
 
 .vs/
+
+LibraryManagement.Database/obj/
+
+*.jfm
+
+*.dbmdl
+
+LibraryManagement.Database/LibraryManagement.Database.refactorlog
