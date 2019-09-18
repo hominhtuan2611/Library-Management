@@ -8,3 +8,11 @@ LibraryManagement.Database/obj/
 *.dbmdl
 
 LibraryManagement.Database/LibraryManagement.Database.refactorlog
+
+LibraryManagement.Admin/obj/Debug/
+
+LibraryManagement.API/obj/Debug/
+
+LibraryManagement.Web/obj/Debug/
+
+*.cache
