@@ -1,4 +1,4 @@
-﻿CREATE TABLE [dbo].[Pesonnels]
+﻿CREATE TABLE [dbo].[Personnels]
 (
 	[Id] INT NOT NULL PRIMARY KEY IDENTITY, 
     [Name] NVARCHAR(30) NOT NULL, 
@@ -12,5 +12,7 @@
     [CreatedDay] DATE NULL, 
     [CreatedBy] INT NULL, 
     [ModifiedDay] DATE NULL, 
-    [ModifiedBy] INT NULL
+    [ModifiedBy] INT NULL, 
+    CONSTRAINT [FK_Personnels_ToPersonnels_CreatedBy] FOREIGN KEY ([CreatedBy]) REFERENCES [Personnels]([Id]), 
+    CONSTRAINT [FK_Personnels_ToPersonnels_MofifiedBy] FOREIGN KEY ([ModifiedBy]) REFERENCES [Personnels]([Id])
 )

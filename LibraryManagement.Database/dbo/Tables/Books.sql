@@ -12,5 +12,8 @@
     [CreatedDay] DATE NULL, 
     [CreatedBy] INT NULL, 
     [ModifiedDay] DATE NULL, 
-    [ModifiedBy] INT NULL
+    [ModifiedBy] INT NULL, 
+    CONSTRAINT [FK_Books_ToPersonnels_CreatedBy] FOREIGN KEY ([CreatedBy]) REFERENCES [Personnels]([Id]), 
+    CONSTRAINT [FK_Books_ToPersonnels_MofifiedBy] FOREIGN KEY ([ModifiedBy]) REFERENCES [Personnels]([Id]), 
+    CONSTRAINT [FK_Books_ToBookTypes] FOREIGN KEY ([BookType]) REFERENCES [BookTypes]([Id])
 )
