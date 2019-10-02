@@ -28,3 +28,9 @@ LibraryManagement.Web/obj/Debug/
 *.sqlite
 
 .vs/Library-Management/DesignTimeBuild/.dtbcache
+
+*.pdb
+
+*.dacpac
+
+*.dll
