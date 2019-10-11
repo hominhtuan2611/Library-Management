@@ -1,11 +1,9 @@
-﻿CREATE TABLE [dbo].[CTPhieuMuon]
+﻿CREATE TABLE [dbo].[CTPhieuNhap]
 (
-	[Id] INT NOT NULL PRIMARY KEY IDENTITY, 
-    [IdPhieuMuon] INT NOT NULL, 
+	[Id] INT NOT NULL PRIMARY KEY,
+	[IdPhieuNhap] INT NOT NULL, 
     [IdBook] INT NOT NULL, 
     [SoLuong] INT NOT NULL, 
-    [NgayMuon] DATE NULL, 
-    [NgayTra] DATE NULL, 
     [TinhTrangSach] NVARCHAR(50) NULL,
 	[CreatedDay] DATE NULL, 
     [CreatedBy] INT NULL, 

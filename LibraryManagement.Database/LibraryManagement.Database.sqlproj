@@ -58,6 +58,7 @@
     <Folder Include="Properties" />
     <Folder Include="dbo" />
     <Folder Include="dbo\Tables" />
+    <Folder Include="SeedData" />
   </ItemGroup>
   <ItemGroup>
     <Build Include="dbo\Tables\Customers.sql" />
@@ -66,8 +67,16 @@
     <Build Include="dbo\Tables\BookTypes.sql" />
     <Build Include="dbo\Tables\PhieuMuon.sql" />
     <Build Include="dbo\Tables\CTPhieuMuon.sql" />
+    <Build Include="dbo\Tables\PhieuNhap.sql" />
+    <Build Include="dbo\Tables\CTPhieuNhap.sql" />
   </ItemGroup>
   <ItemGroup>
     <RefactorLog Include="LibraryManagement.Database.refactorlog" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="SeedData\GeneralSeedData.sql" />
+  </ItemGroup>
+  <ItemGroup>
+    <PreDeploy Include="LibraryManagementDatabase_SeedData.sql" />
   </ItemGroup>
 </Project>
