@@ -9,4 +9,4 @@
                SELECT * FROM [$(TableName)]					
 --------------------------------------------------------------------------------------
 */
-:r .\SeedData\GeneralSeedData.sql
+--:r .\SeedData\GeneralSeedData.sql

@@ -34,3 +34,17 @@ LibraryManagement.Web/obj/Debug/
 *.dacpac
 
 *.dll
+
+*.testlog
+
+*.manifest
+
+LibraryManagement.Database/bin/Debug/
+
+LibraryManagement.Web/obj/
+
+*.props
+
+*.config
+
+LibraryManagement.Admin/obj/
