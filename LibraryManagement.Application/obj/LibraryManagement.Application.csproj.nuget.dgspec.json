@@ -1,26 +1,24 @@
 {
   "format": 1,
   "restore": {
-    "D:\\Source code\\Library-Management\\LibraryManagement.Application\\LibraryManagement.Application.csproj": {}
+    "D:\\Documents\\Student\\5th_Year\\Web Services\\Project\\Library-Management\\LibraryManagement.Application\\LibraryManagement.Application.csproj": {}
   },
   "projects": {
-    "D:\\Source code\\Library-Management\\LibraryManagement.Application\\LibraryManagement.Application.csproj": {
+    "D:\\Documents\\Student\\5th_Year\\Web Services\\Project\\Library-Management\\LibraryManagement.Application\\LibraryManagement.Application.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\Source code\\Library-Management\\LibraryManagement.Application\\LibraryManagement.Application.csproj",
+        "projectUniqueName": "D:\\Documents\\Student\\5th_Year\\Web Services\\Project\\Library-Management\\LibraryManagement.Application\\LibraryManagement.Application.csproj",
         "projectName": "LibraryManagement.Application",
-        "projectPath": "D:\\Source code\\Library-Management\\LibraryManagement.Application\\LibraryManagement.Application.csproj",
-        "packagesPath": "C:\\Users\\Soc Kien Tam\\.nuget\\packages\\",
-        "outputPath": "D:\\Source code\\Library-Management\\LibraryManagement.Application\\obj\\",
+        "projectPath": "D:\\Documents\\Student\\5th_Year\\Web Services\\Project\\Library-Management\\LibraryManagement.Application\\LibraryManagement.Application.csproj",
+        "packagesPath": "C:\\Users\\nguye\\.nuget\\packages\\",
+        "outputPath": "D:\\Documents\\Student\\5th_Year\\Web Services\\Project\\Library-Management\\LibraryManagement.Application\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
-          "C:\\Microsoft\\Xamarin\\NuGet\\",
           "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
         ],
         "configFilePaths": [
-          "C:\\Users\\Soc Kien Tam\\AppData\\Roaming\\NuGet\\NuGet.Config",
-          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config",
-          "C:\\Program Files (x86)\\NuGet\\Config\\Xamarin.Offline.config"
+          "C:\\Users\\nguye\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
           "netcoreapp2.2"
@@ -43,17 +41,6 @@
       "frameworks": {
         "netcoreapp2.2": {
           "dependencies": {
-            "Microsoft.AspNetCore.App": {
-              "suppressParent": "All",
-              "target": "Package",
-              "version": "[2.2.0, )",
-              "autoReferenced": true
-            },
-            "Microsoft.AspNetCore.Razor.Design": {
-              "suppressParent": "All",
-              "target": "Package",
-              "version": "[2.2.0, )"
-            },
             "Microsoft.NETCore.App": {
               "suppressParent": "All",
               "target": "Package",

@@ -4,21 +4,17 @@ SET IDENTITY_INSERT [BookTypes] ON
 GO
 IF NOT EXISTS (SELECT TOP 1 * FROM [BookTypes])
 BEGIN
-INSERT INTO [BookTypes] ([TypeName]) 
-VALUES ('Tiểu thuyết')
+INSERT INTO [BookTypes] ([Id],[TypeName]) 
+VALUES (1, N'Tiểu thuyết')
 END
 GO
 SET IDENTITY_INSERT [BookTypes] OFF
 GO
 
-SET IDENTITY_INSERT [Books] ON
-GO
 IF NOT EXISTS (SELECT TOP 1 * FROM [Books])
 BEGIN
-INSERT INTO [Books] ([Id], [Name],[Author],[BookType],[PublishingYear] ,[Publisher], [Summary],[TotalPage]) 
-VALUES (9786045389393, 'Kẻ trộm sách', 'Markus Zuskas',1, 2017, 'Nhà xuất bản Hội Nhà Văn','Có rất nhiều câu chuyện mà tôi cho phép chúng ta làm tôi xao nhãng trong khi làm việc...',571)
+INSERT INTO [Books] ([Id], [Name],[Author],[PublishingYear] ,[Publisher], [Summary],[TotalPage],[BookType],[Status]) 
+VALUES ('9786045389393', N'Kẻ trộm sách', N'Markus Zuskas', 2017, N'Nhà xuất bản Hội Nhà Văn', N'Có rất nhiều câu chuyện mà tôi cho phép chúng ta làm tôi xao nhãng trong khi làm việc...',571, 1, 1)
 END
-GO
-SET IDENTITY_INSERT [dbo].[Books] OFF
 GO
 

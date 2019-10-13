@@ -71,12 +71,13 @@
     <Build Include="dbo\Tables\CTPhieuNhap.sql" />
   </ItemGroup>
   <ItemGroup>
-    <RefactorLog Include="LibraryManagement.Database.refactorlog" />
-  </ItemGroup>
-  <ItemGroup>
     <None Include="SeedData\GeneralSeedData.sql" />
   </ItemGroup>
   <ItemGroup>
-    <PreDeploy Include="LibraryManagementDatabase_SeedData.sql" />
+    <PostDeploy Include="LibraryManagementDatabase_SeedData.sql" />
+    <None Include="LibraryManagementDatabase.PostDeployment.sql" />
+  </ItemGroup>
+  <ItemGroup>
+    <PreDeploy Include="LibraryManagementDatabase.PreDeployment.sql" />
   </ItemGroup>
 </Project>
