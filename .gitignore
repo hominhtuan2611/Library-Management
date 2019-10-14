@@ -50,3 +50,15 @@ LibraryManagement.Web/obj/
 LibraryManagement.Admin/obj/Debug/
 
 LibraryManagement.Admin/bin/Debug/
+
+LibraryManagement.API/obj/
+
+LibraryManagement.Admin/obj/
+
+LibraryManagement.API/bin/Debug/netcoreapp2.2/
+
+LibraryManagement.Application/obj/
+
+LibraryManagement.Web/bin/Debug/netcoreapp2.2/
+
+LibraryManagement.Application/bin/Debug/netcoreapp2.2/
