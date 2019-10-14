@@ -8,5 +8,5 @@
     [NgayTra] DATE NULL, 
     [TinhTrangSach] NVARCHAR(50) NULL, 
     CONSTRAINT [FK_CTPhieuMuon_PhieuMuon] FOREIGN KEY ([PhieuMuon]) REFERENCES [PhieuMuon]([Id]), 
-    CONSTRAINT [FK_CTPhieuMuon_Books] FOREIGN KEY ([Book]) REFERENCES [Books]([Id])
+    CONSTRAINT [FK_CTPhieuMuon_Books] FOREIGN KEY ([Book]) REFERENCES [Sach]([Id])
 )

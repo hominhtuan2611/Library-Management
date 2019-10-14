@@ -47,4 +47,6 @@ LibraryManagement.Web/obj/
 
 *.config
 
-LibraryManagement.Admin/obj/
+LibraryManagement.Admin/obj/Debug/
+
+LibraryManagement.Admin/bin/Debug/

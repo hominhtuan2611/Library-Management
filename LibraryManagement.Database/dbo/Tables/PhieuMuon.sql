@@ -8,6 +8,6 @@
 	[HanTra] DATE NOT NULL, 
 	[DaTra] BIT NOT NULL DEFAULT 0,
 	[TrangThai] INT, 
-    CONSTRAINT [FK_PhieuMuon_Personnels] FOREIGN KEY ([MANV]) REFERENCES [Personnels]([Id]), 
-    CONSTRAINT [FK_PhieuMuon_Customers] FOREIGN KEY ([MAKH]) REFERENCES [Customers]([Id])
+    CONSTRAINT [FK_PhieuMuon_NhanVien] FOREIGN KEY ([MANV]) REFERENCES [NhanVien]([Id]), 
+    CONSTRAINT [FK_PhieuMuon_KhachHang] FOREIGN KEY ([MAKH]) REFERENCES [KhachHang]([Id])
 )

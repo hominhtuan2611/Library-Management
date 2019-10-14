@@ -61,10 +61,10 @@
     <Folder Include="SeedData" />
   </ItemGroup>
   <ItemGroup>
-    <Build Include="dbo\Tables\Customers.sql" />
-    <Build Include="dbo\Tables\Books.sql" />
-    <Build Include="dbo\Tables\Personnels.sql" />
-    <Build Include="dbo\Tables\BookTypes.sql" />
+    <Build Include="dbo\Tables\KhachHang.sql" />
+    <Build Include="dbo\Tables\Sach.sql" />
+    <Build Include="dbo\Tables\NhanVien.sql" />
+    <Build Include="dbo\Tables\LoaiSach.sql" />
     <Build Include="dbo\Tables\PhieuMuon.sql" />
     <Build Include="dbo\Tables\CTPhieuMuon.sql" />
     <Build Include="dbo\Tables\PhieuNhap.sql" />
@@ -79,5 +79,8 @@
   </ItemGroup>
   <ItemGroup>
     <PreDeploy Include="LibraryManagementDatabase.PreDeployment.sql" />
+  </ItemGroup>
+  <ItemGroup>
+    <RefactorLog Include="LibraryManagement.Database.refactorlog" />
   </ItemGroup>
 </Project>

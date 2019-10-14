@@ -6,5 +6,5 @@
     [SoLuong] INT NOT NULL, 
     [TinhTrangSach] NVARCHAR(50) NULL, 
     CONSTRAINT [FK_CTPhieuNhap_PhieuNhap] FOREIGN KEY ([PhieuNhap]) REFERENCES [PhieuNhap]([Id]), 
-    CONSTRAINT [FK_CTPhieuNhap_Books] FOREIGN KEY ([Book]) REFERENCES [Books]([Id])
+    CONSTRAINT [FK_CTPhieuNhap_Books] FOREIGN KEY ([Book]) REFERENCES [Sach]([Id])
 )
