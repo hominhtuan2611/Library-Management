@@ -1,7 +1,9 @@
 ﻿USE [LibraryDB]
+GO
 
 SET IDENTITY_INSERT [LoaiSach] ON
 GO
+
 IF NOT EXISTS (SELECT TOP 1 * FROM [LoaiSach])
 BEGIN
 INSERT INTO [LoaiSach] ([Id],[TenLoai]) 
@@ -14,6 +16,7 @@ VALUES (1, N'Tiểu thuyết'),
 (7, N'Sách kinh tế')
 END
 GO
+
 SET IDENTITY_INSERT [Loaisach] OFF
 GO
 
@@ -30,23 +33,23 @@ VALUES ('9786045389393', N'Kẻ trộm sách', N'Markus Zuskas', 2017, N'Nhà xu
 ('2518407786529', N'Nhà Giả Kim', N'Paulo Coelho', 2013,N'Nhà Xuất Bản Văn Học', N'Tất cả những trải nghiệm trong chuyến phiêu du theo đuổi vận mệnh của mình đã giúp Santiago thấu hiểu được ý nghĩa sâu xa nhất của hạnh phúc, hòa hợp với vũ trụ và con người.',228, 5, 1),
 ('9786045985007', N'Để Làm Nên Sự Nghiệp', N'H.N Casson', 2017,N'Nhà Xuất Bản Lao Động', N'Đây là một cuốn sách có nội dung thiết thực, hữu ích. Nó cung cấp cho bạn đọc những tri thức, kỹ năng sống, bài học bổ ích trong lĩnh vực kinh doanh nói riêng và cuộc sống nói chung. Cuốn sách là một cẩm nang không thể bỏ qua đối với những ai đang có ý định lập nghiệp bằng con đường kinh doanh, cũng như những ai đã và đang thành công trên thương trường.',219, 6, 1),
 ('9786045827949', N'Khám phá ngôn ngữ tư duy', N'Philip Miller', 2017,N'Nhà Xuất Bản Tổng Hợp Thành Phố Hồ Chí Minh', N'Đằng sau thái độ, hành vi của mỗi chúng ta là cả một “bản đồ thế giới” (map of the world) – chứa đựng những thói quen, niềm tin, giá trị, ký ức,… – định hình nên suy nghĩ, hành động, cách ta nhìn nhận về bản thân, về mọi người và về thế giới xung quanh. Liệu pháp NLP (Neuro Linguistic Programming – Lập trình Ngôn Ngữ Tư duy) giúp thay đổi tận gốc hành vi, tức là thay đổi kiểu suy nghĩ dẫn đến hành vi của mỗi người. Không giống như các phương pháp truyền thống khác, chỉ đơn thuần bảo ta cần phải làm gì, NLP hướng dẫn ta cách làm để đạt được mục tiêu đề ra, để trở thành mẫu người mà mình mong muốn.',175, 7, 1),
-('9786049608261', N'Tuổi trẻ đáng giá bao nhiêu?', N'Rosie Nguyễn', 2018,N'Nhà Xuất Bản Hội Văn Học', N'"Bạn hối tiếc vì không nắm bắt lấy một cơ hội nào đó, chẳng có ai phải mất ngủ.
-
-Bạn trải qua những ngày tháng nhạt nhẽo với công việc bạn căm ghét, người ta chẳng hề bận lòng.
-
-Bạn có chết mòn nơi xó tường với những ước mơ dang dở, đó không phải là việc của họ.
-
-Suy cho cùng, quyết định là ở bạn. Muốn có điều gì hay không là tùy bạn.
-
-Nên hãy làm những điều bạn thích. Hãy đi theo tiếng nói trái tim. Hãy sống theo cách bạn cho là mình nên sống.
-
-Vì sau tất cả, chẳng ai quan tâm."',285, 2, 1)
+('9786049608261', N'Tuổi trẻ đáng giá bao nhiêu?', N'Rosie Nguyễn', 2018,N'Nhà Xuất Bản Hội Văn Học', N'Bạn hối tiếc vì không nắm bắt lấy một cơ hội nào đó, chẳng có ai phải mất ngủ. Bạn trải qua những ngày tháng nhạt nhẽo với công việc bạn căm ghét, người ta chẳng hề bận lòng. Bạn có chết mòn nơi xó tường với những ước mơ dang dở, đó không phải là việc của họ. Suy cho cùng, quyết định là ở bạn. Muốn có điều gì hay không là tùy bạn. Nên hãy làm những điều bạn thích. Hãy đi theo tiếng nói trái tim. Hãy sống theo cách bạn cho là mình nên sống. Vì sau tất cả, chẳng ai quan tâm.',285, 2, 1)
 END
 GO
 
-
+IF NOT EXISTS (SELECT TOP 1 * FROM [KhachHang])
+BEGIN
 INSERT INTO [KhachHang] ([TenKH],[GioiTinh],[NgaySinh],[CMND],[DiaChi],[SDT],[NgayDangKy]) 
 VALUES (N'Hồ Minh Tuấn', N'Nam', '1997-1-26', '261541432', N'Quận Tân Bình','0833475600', '2019-10-16'),
 (N'Nguyễn Như Sang', N'Nam', '1997-10-2', '647381962', N'Quận 3','0987165433', '2019-10-10'),
 (N'Hồ Thị Mận', N'Nữ', '1997-1-20', '878436251', N'Quận 5','0986386291', '2019-12-10')
+END
+GO
+
+IF NOT EXISTS (SELECT TOP 1 * FROM [NhanVien])
+BEGIN
+INSERT INTO [NhanVien] ([TenNV],[GioiTinh],[NgaySinh],[CMND],[DiaChi],[SDT],[ViTri],[Email],[MatKhau],[TrangThai]) 
+VALUES (N'Admin', N'Nam', '1997-1-26', '261541432', N'Quận Tân Bình','0833475600',N'Admin', N'admin@gmail.com', HASHBYTES('SHA2_256', '12345678x@X'), 1),
+(N'Nguyễn Văn Bình', N'Nam', '1997-10-2', '647381962', N'Quận 3','0987165433',N'Thủ thư', N'thuthu1@gmail.com', HASHBYTES('SHA2_256', '12345678x@X'), 1)
+END
 GO

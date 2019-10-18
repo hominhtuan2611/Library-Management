@@ -1,4 +1,4 @@
-﻿CREATE TABLE [dbo].[NhanVien]
+CREATE TABLE [dbo].[NhanVien]
 (
 	[Id] INT NOT NULL PRIMARY KEY IDENTITY, 
     [TenNV] NVARCHAR(30) NOT NULL, 
@@ -8,5 +8,7 @@
     [DiaChi] NVARCHAR(50) NULL, 
     [SDT] NCHAR(11) NULL, 
 	[ViTri] NVARCHAR(30) NULL,
+	[Email]	NVARCHAR(50) NOT NULL,
+	[MatKhau] NVARCHAR(MAX) NOT NULL,
     [TrangThai] BIT NOT NULL DEFAULT 1, 
 )
