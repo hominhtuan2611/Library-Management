@@ -1,4 +1,4 @@
-﻿USE [LibraryDB]
+USE [LibraryDB]
 GO
 
 SET IDENTITY_INSERT [LoaiSach] ON
@@ -39,16 +39,16 @@ GO
 
 IF NOT EXISTS (SELECT TOP 1 * FROM [KhachHang])
 BEGIN
-INSERT INTO [KhachHang] ([TenKH],[GioiTinh],[NgaySinh],[CMND],[DiaChi],[SDT],[NgayDangKy]) 
-VALUES (N'Hồ Minh Tuấn', N'Nam', '1997-1-26', '261541432', N'Quận Tân Bình','0833475600', '2019-10-16'),
-(N'Nguyễn Như Sang', N'Nam', '1997-10-2', '647381962', N'Quận 3','0987165433', '2019-10-10'),
-(N'Hồ Thị Mận', N'Nữ', '1997-1-20', '878436251', N'Quận 5','0986386291', '2019-12-10')
+INSERT INTO [KhachHang] ([TenKH],[GioiTinh],[NgaySinh],[CMND],[DiaChi],[SDT],[NgayDangKy],[Username], [Password], [TrangThai]) 
+VALUES (N'Hồ Minh Tuấn', N'Nam', '1997-1-26', '261541432', N'Quận Tân Bình','0833475600', '2019-10-16', N'tuanho@gmail.com', HASHBYTES('SHA2_256', '12345678x@X'), 1),
+(N'Nguyễn Như Sang', N'Nam', '1997-10-2', '647381962', N'Quận 3','0987165433', '2019-10-10', N'sangnguyen@gmail.com', HASHBYTES('SHA2_256', '12345678x@X'), 1),
+(N'Hồ Thị Mận', N'Nữ', '1997-1-20', '878436251', N'Quận 5','0986386291', '2019-12-10', N'manho@gmail.com', HASHBYTES('SHA2_256', '12345678x@X'), 1)
 END
 GO
 
 IF NOT EXISTS (SELECT TOP 1 * FROM [NhanVien])
 BEGIN
-INSERT INTO [NhanVien] ([TenNV],[GioiTinh],[NgaySinh],[CMND],[DiaChi],[SDT],[ViTri],[Email],[MatKhau],[TrangThai]) 
+INSERT INTO [NhanVien] ([TenNV],[GioiTinh],[NgaySinh],[CMND],[DiaChi],[SDT],[ViTri],[Username],[Password],[TrangThai]) 
 VALUES (N'Admin', N'Nam', '1997-1-26', '261541432', N'Quận Tân Bình','0833475600',N'Admin', N'admin@gmail.com', HASHBYTES('SHA2_256', '12345678x@X'), 1),
 (N'Nguyễn Văn Bình', N'Nam', '1997-10-2', '647381962', N'Quận 3','0987165433',N'Thủ thư', N'thuthu1@gmail.com', HASHBYTES('SHA2_256', '12345678x@X'), 1)
 END

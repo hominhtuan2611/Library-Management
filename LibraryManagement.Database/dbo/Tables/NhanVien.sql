@@ -8,7 +8,7 @@ CREATE TABLE [dbo].[NhanVien]
     [DiaChi] NVARCHAR(50) NULL, 
     [SDT] NCHAR(11) NULL, 
 	[ViTri] NVARCHAR(30) NULL,
-	[Email]	NVARCHAR(50) NOT NULL,
-	[MatKhau] NVARCHAR(MAX) NOT NULL,
+	[Username]	NVARCHAR(50) NOT NULL,
+	[Password] NVARCHAR(MAX) NOT NULL,
     [TrangThai] BIT NOT NULL DEFAULT 1, 
 )
