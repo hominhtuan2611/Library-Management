@@ -1,4 +1,4 @@
-CREATE TABLE [dbo].[NhanVien]
+﻿CREATE TABLE [dbo].[NhanVien]
 (
 	[Id] INT NOT NULL PRIMARY KEY IDENTITY, 
     [TenNV] NVARCHAR(30) NOT NULL, 
@@ -10,5 +10,5 @@ CREATE TABLE [dbo].[NhanVien]
 	[ViTri] NVARCHAR(30) NULL,
 	[Username]	NVARCHAR(50) NOT NULL,
 	[Password] NVARCHAR(MAX) NOT NULL,
-    [TrangThai] BIT NOT NULL DEFAULT 1, 
+    [TrangThai] BIT NOT NULL DEFAULT 1
 )

@@ -11,4 +11,10 @@
     <PackageReference Include="Microsoft.AspNetCore.Razor.Design" Version="2.2.0" PrivateAssets="All" />
   </ItemGroup>
 
+
+  <ItemGroup>
+    <ProjectReference Include="..\LibraryManagement.API\LibraryManagement.API.csproj" />
+    <ProjectReference Include="..\LibraryManagement.Application\LibraryManagement.Application.csproj" />
+  </ItemGroup>
+
 </Project>

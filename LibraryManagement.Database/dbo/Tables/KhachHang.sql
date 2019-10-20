@@ -1,4 +1,4 @@
-CREATE TABLE [dbo].[KhachHang]
+﻿CREATE TABLE [dbo].[KhachHang]
 (
 	[Id] INT NOT NULL PRIMARY KEY IDENTITY, 
     [TenKH] NVARCHAR(30) NOT NULL, 
