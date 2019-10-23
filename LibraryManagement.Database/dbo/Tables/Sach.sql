@@ -1,7 +1,7 @@
 ﻿CREATE TABLE [dbo].[Sach]
 (
 	[Id] VARCHAR(20) NOT NULL PRIMARY KEY, 
-    [TenSach] NVARCHAR(50) NOT NULL, 
+    [TenSach] NVARCHAR(100) NOT NULL, 
     [TacGia] NVARCHAR(30) NOT NULL, 
     [NhaXuatBan] NVARCHAR(100) NULL, 
     [NamXuatBan] INT NULL, 
