@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using LibraryManagement.API.Models;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -27,6 +28,26 @@ namespace LibraryManagement.API
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.Configure<CookiePolicyOptions>(options =>
+            {
+                // This lambda determines whether user consent for non-essential cookies is needed for a given request.
+
+                options.CheckConsentNeeded = context => false;      // *IMPORTANT: Set to false to use Session cookies
+
+                options.MinimumSameSitePolicy = SameSiteMode.None;
+            });
+
+            //In-Memory Cache
+            services.AddDistributedMemoryCache();
+
+            services.AddSession(options =>
+            {
+                options.IdleTimeout = TimeSpan.FromMinutes(5);     //Session Timeout
+            });
+
+            // Add HttpContextAccessor
+            services.AddHttpContextAccessor();
+
             // Configure SQL Server connection
             string connString = Configuration.GetConnectionString("DefaultConnection");
             services.AddDbContext<LibraryDBContext>(options =>
@@ -55,6 +76,12 @@ namespace LibraryManagement.API
                 // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
                 app.UseHsts();
             }
+
+            app.UseStaticFiles();
+            app.UseCookiePolicy();
+
+            // *IMPORTANT: This session call MUST go before UseMvc()
+            app.UseSession();
 
             app.UseHttpsRedirection();
             app.UseMvc();

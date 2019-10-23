@@ -5,6 +5,8 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using LibraryManagement.Admin.Models;
+using Microsoft.AspNetCore.Http;
+using LibraryManagement.Application.Common;
 
 namespace LibraryManagement.Admin.Controllers
 {
@@ -12,11 +14,16 @@ namespace LibraryManagement.Admin.Controllers
     {
         public IActionResult Index()
         {
-            return View();
-        }
+            //string user = HttpContext.Session.GetString(CommonConstants.User_Session);
 
-        public IActionResult Privacy()
-        {
+            //if (user == "" || user == null)
+            //{
+            //    return RedirectToAction("Authorize", "Home");
+            //}
+            //else
+            //{
+            //    return View();
+            //}
             return View();
         }
 

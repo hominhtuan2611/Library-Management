@@ -24,7 +24,7 @@ namespace LibraryManagement.API.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Sach>>> GetSach()
         {
-            return await _context.Sach.ToListAsync();
+            return await _context.Sach.Where(x => x.TrangThai == true).ToListAsync();
         }
 
         // GET: api/Saches/5
@@ -105,7 +105,7 @@ namespace LibraryManagement.API.Controllers
                 return NotFound();
             }
 
-            _context.Sach.Remove(sach);
+            sach.TrangThai = false;
             await _context.SaveChangesAsync();
 
             return sach;

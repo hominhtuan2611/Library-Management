@@ -17,4 +17,12 @@
     <ProjectReference Include="..\LibraryManagement.Application\LibraryManagement.Application.csproj" />
   </ItemGroup>
 
+
+  <ItemGroup>
+    <Folder Include="wwwroot\data\" />
+    <Folder Include="wwwroot\dist\" />
+    <Folder Include="wwwroot\less\" />
+    <Folder Include="wwwroot\vendor\" />
+  </ItemGroup>
+
 </Project>
