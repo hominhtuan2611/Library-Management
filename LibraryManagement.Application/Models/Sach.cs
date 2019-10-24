@@ -19,6 +19,8 @@ namespace LibraryManagement.API.Models
         public int? TongSoTrang { get; set; }
         public string TomTat { get; set; }
         public int? LoaiSach { get; set; }
+        public int? SoLuong { get; set; }
+        public string HinhAnh { get; set; }
         public bool? TrangThai { get; set; }
 
         public virtual LoaiSach LoaiSachNavigation { get; set; }

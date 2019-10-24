@@ -73,9 +73,9 @@ GO
 --Insert table Phieu Muon
 IF NOT EXISTS (SELECT TOP 1 * FROM [PhieuMuon])
 BEGIN
-INSERT INTO [PhieuMuon] ([MaKH],[MaNV],[NgayMuon],[TongSachMuon],[HanTra]) 
-VALUES (1, 1, '2019-1-26', 2, '2019-2-5'),
-(2, 2, '2019-1-10', 3, '2019-1-27')
+INSERT INTO [PhieuMuon] ([MaKH],[MaNV],[NgayMuon],[TongSachMuon],[HanTra],[DaTra],[TrangThai]) 
+VALUES (1, 1, '2019-1-26', 2, '2019-2-5', 1, 1),
+(2, 2, '2019-1-10', 3, '2019-1-27', 1, 1)
 END
 GO
 
@@ -94,9 +94,9 @@ GO
 --Insert table Phieu Nhap
 IF NOT EXISTS (SELECT TOP 1 * FROM [PhieuNhap])
 BEGIN
-INSERT INTO [PhieuNhap] ([NgayNhap],[SoLuong],[NhaCungCap],[NhanVienNhap]) 
-VALUES ('2018-12-24', 3, N'Nhà Sách Nhân Văn',1),
-('2019-10-30', 3, N'Nhà Sách Phương Nam',2)
+INSERT INTO [PhieuNhap] ([NgayNhap],[SoLuong],[NhaCungCap],[NhanVienNhap],[TrangThai]) 
+VALUES ('2018-12-24', 3, N'Nhà Sách Nhân Văn',1, 1),
+('2019-10-30', 3, N'Nhà Sách Phương Nam',2, 1)
 END
 GO
 

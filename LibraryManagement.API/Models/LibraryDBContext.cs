@@ -29,7 +29,7 @@ namespace LibraryManagement.API.Models
 //            if (!optionsBuilder.IsConfigured)
 //            {
 //#warning To protect potentially sensitive information in your connection string, you should move it out of source code. See http://go.microsoft.com/fwlink/?LinkId=723263 for guidance on storing connection strings.
-//                optionsBuilder.UseSqlServer("Data Source=DESKTOP-7MFA92E\\SQLEXPRESS;Initial Catalog=LibraryDB;Trusted_Connection=True");
+//                optionsBuilder.UseSqlServer("Data Source=DESKTOP-7MFA92E\\SQLEXPRESS;Initial Catalog=LibraryDB;Trusted_Connection=True;");
 //            }
 //        }
 
@@ -68,8 +68,6 @@ namespace LibraryManagement.API.Models
             modelBuilder.Entity<CtphieuNhap>(entity =>
             {
                 entity.ToTable("CTPhieuNhap");
-
-                entity.Property(e => e.Id).ValueGeneratedNever();
 
                 entity.Property(e => e.Book)
                     .IsRequired()
@@ -180,7 +178,7 @@ namespace LibraryManagement.API.Models
 
                 entity.Property(e => e.MaKh).HasColumnName("MaKH");
 
-                entity.Property(e => e.Manv).HasColumnName("MANV");
+                entity.Property(e => e.MaNv).HasColumnName("MaNV");
 
                 entity.Property(e => e.NgayMuon).HasColumnType("date");
 
@@ -190,17 +188,15 @@ namespace LibraryManagement.API.Models
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_PhieuMuon_KhachHang");
 
-                entity.HasOne(d => d.ManvNavigation)
+                entity.HasOne(d => d.MaNvNavigation)
                     .WithMany(p => p.PhieuMuon)
-                    .HasForeignKey(d => d.Manv)
+                    .HasForeignKey(d => d.MaNv)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_PhieuMuon_NhanVien");
             });
 
             modelBuilder.Entity<PhieuNhap>(entity =>
             {
-                entity.Property(e => e.Id).ValueGeneratedNever();
-
                 entity.Property(e => e.NgayNhap).HasColumnType("date");
 
                 entity.Property(e => e.NhaCungCap).HasMaxLength(50);
@@ -226,7 +222,7 @@ namespace LibraryManagement.API.Models
 
                 entity.Property(e => e.TenSach)
                     .IsRequired()
-                    .HasMaxLength(50);
+                    .HasMaxLength(100);
 
                 entity.Property(e => e.TrangThai)
                     .IsRequired()

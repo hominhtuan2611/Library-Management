@@ -9,6 +9,7 @@
     [TomTat] NVARCHAR(MAX) NULL, 
     [LoaiSach] INT NULL, 
 	[SoLuong] INT NULL, 
+	[HinhAnh] NVARCHAR(MAX) NULL, 
     [TrangThai] BIT NOT NULL DEFAULT 1, 
     CONSTRAINT [FK_Books_ToBookTypes] FOREIGN KEY ([LoaiSach]) REFERENCES [LoaiSach]([Id])
 )

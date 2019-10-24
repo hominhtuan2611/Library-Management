@@ -15,6 +15,7 @@ namespace LibraryManagement.API.Models
         public int? SoLuong { get; set; }
         public string NhaCungCap { get; set; }
         public int? NhanVienNhap { get; set; }
+        public int? TrangThai { get; set; }
 
         public virtual NhanVien NhanVienNhapNavigation { get; set; }
         public virtual ICollection<CtphieuNhap> CtphieuNhap { get; set; }

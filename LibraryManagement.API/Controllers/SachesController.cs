@@ -24,7 +24,7 @@ namespace LibraryManagement.API.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Sach>>> GetSach()
         {
-            return await _context.Sach.Where(x => x.TrangThai == true).ToListAsync();
+            return await _context.Sach.Include(a => a.LoaiSachNavigation).Where(x => x.TrangThai == true).ToListAsync();
         }
 
         // GET: api/Saches/5
