@@ -1,6 +1,6 @@
 ﻿CREATE TABLE [dbo].[CTPhieuNhap]
 (
-	[Id] INT NOT NULL PRIMARY KEY,
+	[Id] INT NOT NULL PRIMARY KEY IDENTITY,
 	[PhieuNhap] INT NOT NULL, 
     [Book] VARCHAR(20) NOT NULL, 
     [SoLuong] INT NOT NULL, 

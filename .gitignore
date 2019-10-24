@@ -39,6 +39,8 @@ LibraryManagement.Web/obj/Debug/
 
 *.manifest
 
+*.refactorlog
+
 LibraryManagement.Database/bin/Debug/
 
 LibraryManagement.Web/obj/
