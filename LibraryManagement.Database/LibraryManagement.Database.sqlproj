@@ -61,7 +61,7 @@
     <Folder Include="SeedData" />
   </ItemGroup>
   <ItemGroup>
-    <Build Include="dbo\Tables\KhachHang.sql" />
+    <Build Include="dbo\Tables\DocGia.sql" />
     <Build Include="dbo\Tables\Sach.sql" />
     <Build Include="dbo\Tables\NhanVien.sql" />
     <Build Include="dbo\Tables\LoaiSach.sql" />

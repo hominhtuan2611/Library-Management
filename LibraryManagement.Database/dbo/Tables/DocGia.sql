@@ -1,7 +1,7 @@
-﻿CREATE TABLE [dbo].[KhachHang]
+﻿CREATE TABLE [dbo].[DocGia]
 (
 	[Id] INT NOT NULL PRIMARY KEY IDENTITY, 
-    [TenKH] NVARCHAR(30) NOT NULL, 
+    [TenDG] NVARCHAR(30) NOT NULL, 
     [GioiTinh] NVARCHAR(10) NOT NULL, 
     [NgaySinh] DATE NOT NULL, 
     [CMND] NCHAR(12) NOT NULL, 
