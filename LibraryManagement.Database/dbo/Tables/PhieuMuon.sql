@@ -9,5 +9,5 @@
 	[DaTra] BIT NOT NULL DEFAULT 0,
 	[TrangThai] INT, 
     CONSTRAINT [FK_PhieuMuon_NhanVien] FOREIGN KEY ([MaNV]) REFERENCES [NhanVien]([Id]), 
-    CONSTRAINT [FK_PhieuMuon_KhachHang] FOREIGN KEY ([MaDG]) REFERENCES [DocGia]([Id])
+    CONSTRAINT [FK_PhieuMuon_DocGia] FOREIGN KEY ([MaDG]) REFERENCES [DocGia]([Id])
 )

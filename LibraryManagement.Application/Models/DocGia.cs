@@ -3,15 +3,15 @@ using System.Collections.Generic;
 
 namespace LibraryManagement.API.Models
 {
-    public partial class KhachHang
+    public partial class DocGia
     {
-        public KhachHang()
+        public DocGia()
         {
             PhieuMuon = new HashSet<PhieuMuon>();
         }
 
         public int Id { get; set; }
-        public string TenKh { get; set; }
+        public string TenDg { get; set; }
         public string GioiTinh { get; set; }
         public DateTime NgaySinh { get; set; }
         public string Cmnd { get; set; }

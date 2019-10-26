@@ -11,7 +11,7 @@ namespace LibraryManagement.API.Models
         }
 
         public int Id { get; set; }
-        public int MaKh { get; set; }
+        public int MaDg { get; set; }
         public int MaNv { get; set; }
         public DateTime NgayMuon { get; set; }
         public int? TongSachMuon { get; set; }
@@ -19,7 +19,7 @@ namespace LibraryManagement.API.Models
         public bool DaTra { get; set; }
         public int? TrangThai { get; set; }
 
-        public virtual KhachHang MaKhNavigation { get; set; }
+        public virtual DocGia MaDgNavigation { get; set; }
         public virtual NhanVien MaNvNavigation { get; set; }
         public virtual ICollection<CtphieuMuon> CtphieuMuon { get; set; }
     }
