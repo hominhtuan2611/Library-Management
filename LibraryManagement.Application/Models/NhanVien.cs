@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 namespace LibraryManagement.API.Models
 {
@@ -14,6 +15,8 @@ namespace LibraryManagement.API.Models
         public int Id { get; set; }
         public string TenNv { get; set; }
         public string GioiTinh { get; set; }
+
+        [DisplayFormat(DataFormatString = "{0:d}", ApplyFormatInEditMode = true)]
         public DateTime NgaySinh { get; set; }
         public string Cmnd { get; set; }
         public string DiaChi { get; set; }

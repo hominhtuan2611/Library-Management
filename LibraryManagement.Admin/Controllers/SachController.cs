@@ -74,9 +74,28 @@ namespace LibraryManagement.Admin.Controllers
         }
 
         // GET: Sach/Details/5
-        public ActionResult Details(int id)
+        public async Task<IActionResult> Details(string id)
         {
-            return View();
+            if (id == null)
+            {
+                return BadRequest();
+            }
+
+            Sach sach = null;
+
+            HttpResponseMessage respond = await ApiService.GetAPI(apiAddress).GetAsync($"/api/sach/{id}");
+
+            if (respond.IsSuccessStatusCode)
+            {
+                sach = await respond.Content.ReadAsAsync<Sach>();
+            }
+
+            if (sach == null)
+            {
+                return NotFound();
+            }
+
+            return View(sach);
         }
 
         // GET: Sach/Create

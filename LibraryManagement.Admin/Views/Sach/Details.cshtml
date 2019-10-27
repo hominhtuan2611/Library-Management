@@ -1,0 +1,86 @@
+﻿@model LibraryManagement.API.Models.Sach
+
+@{
+    ViewData["Title"] = "Details";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1>Chi tiết</h1>
+
+<div>
+    <h4>Sách</h4>
+    <hr />
+    <dl class="row">
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Id)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Id)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.TenSach)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.TenSach)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.LoaiSachNavigation)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.LoaiSachNavigation.TenLoai)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.TacGia)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.TacGia)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.NhaXuatBan)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.NhaXuatBan)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.NamXuatBan)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.NamXuatBan)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.TongSoTrang)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.TongSoTrang)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.TomTat)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.TomTat)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.SoLuong)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.SoLuong)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.HinhAnh)
+        </dt>
+        <dd class = "col-sm-10">
+            <img src=@Html.DisplayFor(model => model.HinhAnh) alt="Sample Image" width="150px" />
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.TrangThai)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.TrangThai)
+        </dd>
+        
+    </dl>
+</div>
+<div>
+    <a class="btn btn-primary" asp-action="Edit" asp-route-id="@Model.Id">Sửa</a> |
+    <a class="btn btn-default" asp-action="Index">Trở về</a>
+</div>

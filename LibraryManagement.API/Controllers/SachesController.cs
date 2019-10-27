@@ -75,6 +75,7 @@ namespace LibraryManagement.API.Controllers
         [HttpPost]
         public async Task<ActionResult<Sach>> PostSach(Sach sach)
         {
+            sach.TrangThai = true;
             _context.Sach.Add(sach);
             try
             {

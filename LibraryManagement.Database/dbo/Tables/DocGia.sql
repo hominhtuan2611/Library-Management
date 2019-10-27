@@ -8,7 +8,7 @@
     [DiaChi] NVARCHAR(50) NULL, 
     [SDT] NCHAR(11) NULL, 
     [SoLanViPham] INT NULL DEFAULT 0,
-	[NgayDangKy] DATE NULL ,
+	[NgayDangKy] DATE NOT NULL ,
 	[Username]	NVARCHAR(50) NOT NULL,
 	[Password] NVARCHAR(MAX) NOT NULL,
     [TrangThai] BIT NOT NULL DEFAULT 1
