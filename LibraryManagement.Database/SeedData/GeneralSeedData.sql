@@ -55,9 +55,9 @@ GO
 IF NOT EXISTS (SELECT TOP 1 * FROM [DocGia])
 BEGIN
 INSERT INTO [DocGia] ([TenDG],[GioiTinh],[NgaySinh],[CMND],[DiaChi],[SDT],[NgayDangKy],[Username], [Password], [TrangThai]) 
-VALUES (N'Hồ Minh Tuấn', N'Nam', '1997-1-26', '261541432', N'Quận Tân Bình','0833475600', '2019-10-16', N'tuanho@gmail.com', HASHBYTES('SHA2_256', '12345678x@X'), 1),
-(N'Nguyễn Như Sang', N'Nam', '1997-10-2', '647381962', N'Quận 3','0987165433', '2019-10-10', N'sangnguyen@gmail.com', HASHBYTES('SHA2_256', '12345678x@X'), 1),
-(N'Hồ Thị Mận', N'Nữ', '1997-1-20', '878436251', N'Quận 5','0986386291', '2019-12-10', N'manho@gmail.com', HASHBYTES('SHA2_256', '12345678x@X'), 1)
+VALUES (N'Hồ Minh Tuấn', N'Nam', '1997-1-26', '261541432', N'Quận Tân Bình','0833475600', '2019-10-16', 'tuanho@gmail.com', '8BFDDF77E9A5F1BBA409873BA255538D2357CC88', 1),
+(N'Nguyễn Như Sang', N'Nam', '1997-10-2', '647381962', N'Quận 3','0987165433', '2019-10-10', 'sangnguyen@gmail.com', '8BFDDF77E9A5F1BBA409873BA255538D2357CC88', 1),
+(N'Hồ Thị Mận', N'Nữ', '1997-1-20', '878436251', N'Quận 5','0986386291', '2019-12-10', 'manho@gmail.com', '8BFDDF77E9A5F1BBA409873BA255538D2357CC88', 1)
 END
 GO
 
@@ -65,8 +65,8 @@ GO
 IF NOT EXISTS (SELECT TOP 1 * FROM [NhanVien])
 BEGIN
 INSERT INTO [NhanVien] ([TenNV],[GioiTinh],[NgaySinh],[CMND],[DiaChi],[SDT],[ViTri],[Username],[Password],[TrangThai]) 
-VALUES (N'Admin', N'Nam', '1997-1-26', '261541432', N'Quận Tân Bình','0833475600',N'Admin', N'admin@gmail.com', HASHBYTES('SHA2_256', '12345678x@X'), 1),
-(N'Nguyễn Văn Bình', N'Nam', '1997-10-2', '647381962', N'Quận 3','0987165433',N'Thủ thư', N'thuthu1@gmail.com', HASHBYTES('SHA2_256', '12345678x@X'), 1)
+VALUES (N'Admin', N'Nam', '1997-1-26', '261541432', N'Quận Tân Bình','0833475600',N'Admin', 'admin@gmail.com', '8BFDDF77E9A5F1BBA409873BA255538D2357CC88', 1),
+(N'Nguyễn Văn Bình', N'Nam', '1997-10-2', '647381962', N'Quận 3','0987165433',N'Thủ thư', 'thuthu1@gmail.com', '8BFDDF77E9A5F1BBA409873BA255538D2357CC88', 1)
 END
 GO
 

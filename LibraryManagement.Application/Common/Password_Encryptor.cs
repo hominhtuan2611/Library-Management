@@ -7,22 +7,18 @@ namespace LibraryManagement.Application.Common
 {
     public class Password_Encryptor
     {
-        public static string HashSHA256(string rawData)
+        public static string HashSHA1(string value)
         {
-            // Create a SHA256
-            using (SHA256 sha256Hash = SHA256.Create())
-            {
-                // ComputeHash - returns byte array
-                byte[] bytes = sha256Hash.ComputeHash(Encoding.UTF8.GetBytes(rawData));
+            var SHA1hash = SHA1.Create();
+            var inputEncodingBytes = Encoding.ASCII.GetBytes(value);
+            var hashString = SHA1hash.ComputeHash(inputEncodingBytes);
 
-                // Convert byte array to a string
-                StringBuilder builder = new StringBuilder();
-                for (int i = 0; i < bytes.Length; i++)
-                {
-                    builder.Append(bytes[i].ToString("x2"));
-                }
-                return builder.ToString();
+            var stringBuilder = new StringBuilder();
+            for (var x = 0; x < hashString.Length; x++)
+            {
+                stringBuilder.Append(hashString[x].ToString("X2"));
             }
+            return stringBuilder.ToString();
         }
     }
 }

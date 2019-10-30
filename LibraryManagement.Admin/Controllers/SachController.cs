@@ -1,12 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Net.Http;
 using System.Threading.Tasks;
-using LibraryManagement.API.Models;
-using LibraryManagement.Application.Common;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.EntityFrameworkCore;
+using LibraryManagement.API.Models;
+using Microsoft.Extensions.Configuration;
+using System.Net.Http;
+using LibraryManagement.Application.Common;
 using Newtonsoft.Json;
 using X.PagedList;
 
@@ -14,7 +16,18 @@ namespace LibraryManagement.Admin.Controllers
 {
     public class SachController : Controller
     {
-        const string apiAddress = "https://localhost:44387";
+        private readonly LibraryDBContext _context;
+
+        public IConfiguration _configuration;
+
+        private dynamic apiAddress;
+
+        public SachController(LibraryDBContext context, IConfiguration configuration)
+        {
+            _context = context;
+            _configuration = configuration;
+            apiAddress = _configuration.GetSection("ApiAddress").GetSection("Url").Value;
+        }
 
         // GET: Sach
         public async Task<IActionResult> Index(string sortOrder, string currentFilter, string searchString, int? page)
@@ -99,72 +112,115 @@ namespace LibraryManagement.Admin.Controllers
         }
 
         // GET: Sach/Create
-        public ActionResult Create()
+        public IActionResult Create()
         {
+            ViewData["LoaiSach"] = new SelectList(_context.LoaiSach, "Id", "TenLoai");
             return View();
         }
 
         // POST: Sach/Create
+        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
+        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create(IFormCollection collection)
+        public async Task<IActionResult> Create([Bind("Id,TenSach,TacGia,NhaXuatBan,NamXuatBan,TongSoTrang,TomTat,LoaiSach,SoLuong,HinhAnh,TrangThai")] Sach sach)
         {
-            try
+            if (ModelState.IsValid)
             {
-                // TODO: Add insert logic here
-
+                _context.Add(sach);
+                await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            catch
-            {
-                return View();
-            }
+            ViewData["LoaiSach"] = new SelectList(_context.LoaiSach, "Id", "TenLoai", sach.LoaiSach);
+            return View(sach);
         }
 
         // GET: Sach/Edit/5
-        public ActionResult Edit(int id)
+        public async Task<IActionResult> Edit(string id)
         {
-            return View();
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var sach = await _context.Sach.FindAsync(id);
+            if (sach == null)
+            {
+                return NotFound();
+            }
+            ViewData["LoaiSach"] = new SelectList(_context.LoaiSach, "Id", "TenLoai", sach.LoaiSach);
+            return View(sach);
         }
 
         // POST: Sach/Edit/5
+        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
+        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit(int id, IFormCollection collection)
+        public async Task<IActionResult> Edit(string id, [Bind("Id,TenSach,TacGia,NhaXuatBan,NamXuatBan,TongSoTrang,TomTat,LoaiSach,SoLuong,HinhAnh,TrangThai")] Sach sach)
         {
-            try
+            if (id != sach.Id)
             {
-                // TODO: Add update logic here
+                return NotFound();
+            }
 
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    _context.Update(sach);
+                    await _context.SaveChangesAsync();
+                }
+                catch (DbUpdateConcurrencyException)
+                {
+                    if (!SachExists(sach.Id))
+                    {
+                        return NotFound();
+                    }
+                    else
+                    {
+                        throw;
+                    }
+                }
                 return RedirectToAction(nameof(Index));
             }
-            catch
-            {
-                return View();
-            }
+            ViewData["LoaiSach"] = new SelectList(_context.LoaiSach, "Id", "TenLoai", sach.LoaiSach);
+            return View(sach);
         }
 
         // GET: Sach/Delete/5
-        public ActionResult Delete(int id)
+        public async Task<IActionResult> Delete(string id)
         {
-            return View();
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var sach = await _context.Sach
+                .Include(s => s.LoaiSachNavigation)
+                .FirstOrDefaultAsync(m => m.Id == id);
+            if (sach == null)
+            {
+                return NotFound();
+            }
+
+            return View(sach);
         }
 
         // POST: Sach/Delete/5
-        [HttpPost]
+        [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        public ActionResult Delete(int id, IFormCollection collection)
+        public async Task<IActionResult> DeleteConfirmed(string id)
         {
-            try
-            {
-                // TODO: Add delete logic here
+            var sach = await _context.Sach.FindAsync(id);
+            _context.Sach.Remove(sach);
+            await _context.SaveChangesAsync();
+            return RedirectToAction(nameof(Index));
+        }
 
-                return RedirectToAction(nameof(Index));
-            }
-            catch
-            {
-                return View();
-            }
+        private bool SachExists(string id)
+        {
+            return _context.Sach.Any(e => e.Id == id);
         }
     }
 }

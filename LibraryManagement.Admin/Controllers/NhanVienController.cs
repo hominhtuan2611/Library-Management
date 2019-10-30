@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using LibraryManagement.API.Models;
 using X.PagedList;
+using LibraryManagement.Application.Common;
 
 namespace LibraryManagement.Admin.Controllers
 {
@@ -100,9 +101,15 @@ namespace LibraryManagement.Admin.Controllers
         {
             if (ModelState.IsValid)
             {
+                nhanVien.Password = Password_Encryptor.HashSHA1(nhanVien.Password);
                 nhanVien.TrangThai = true;
+
                 _context.Add(nhanVien);
                 await _context.SaveChangesAsync();
+
+                TempData["notice"] = "Successfully create";
+                TempData["nhanvien"] = nhanVien.TenNv;
+
                 return RedirectToAction(nameof(Index));
             }
             return View(nhanVien);
