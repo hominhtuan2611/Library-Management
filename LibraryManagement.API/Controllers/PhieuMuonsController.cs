@@ -24,14 +24,17 @@ namespace LibraryManagement.API.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<PhieuMuon>>> GetPhieuMuon()
         {
-            return await _context.PhieuMuon.ToListAsync();
+            return await _context.PhieuMuon.Include(c => c.MaDgNavigation).Include(c => c.MaNvNavigation).ToListAsync();
         }
 
         // GET: api/PhieuMuons/5
         [HttpGet("{id}")]
         public async Task<ActionResult<PhieuMuon>> GetPhieuMuon(int id)
         {
-            var phieuMuon = await _context.PhieuMuon.FindAsync(id);
+            var phieuMuon = await _context.PhieuMuon
+                .Include(c => c.MaDgNavigation)
+                .Include(c => c.MaNvNavigation)
+                .FirstOrDefaultAsync(m => m.Id == id);
 
             if (phieuMuon == null)
             {

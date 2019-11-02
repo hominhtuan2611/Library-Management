@@ -21,17 +21,20 @@ namespace LibraryManagement.API.Controllers
         }
 
         // GET: api/CtphieuMuons
-        [HttpGet]
-        public async Task<ActionResult<IEnumerable<CtphieuMuon>>> GetCtphieuMuon()
+        [HttpGet("{phieuMuonId}")]
+        public async Task<ActionResult<IEnumerable<CtphieuMuon>>> GetCtphieuMuon(int phieuMuonId)
         {
-            return await _context.CtphieuMuon.ToListAsync();
+            return await _context.CtphieuMuon.Include(c => c.BookNavigation).Include(c => c.PhieuMuonNavigation).Where(x => x.PhieuMuon == phieuMuonId).ToListAsync();
         }
 
         // GET: api/CtphieuMuons/5
-        [HttpGet("{id}")]
-        public async Task<ActionResult<CtphieuMuon>> GetCtphieuMuon(int id)
+        [HttpGet("Detail/{id}")]
+        public async Task<ActionResult<CtphieuMuon>> GetCtphieuMuonDetail(int id)
         {
-            var ctphieuMuon = await _context.CtphieuMuon.FindAsync(id);
+            var ctphieuMuon = await _context.CtphieuMuon
+                .Include(c => c.BookNavigation)
+                .Include(c => c.PhieuMuonNavigation)
+                .FirstOrDefaultAsync(m => m.Id == id);
 
             if (ctphieuMuon == null)
             {

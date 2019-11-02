@@ -31,7 +31,9 @@ namespace LibraryManagement.API.Controllers
         [HttpGet("{id}")]
         public async Task<ActionResult<Sach>> GetSach(string id)
         {
-            var sach = await _context.Sach.FindAsync(id);
+            var sach = await _context.Sach
+                .Include(a => a.LoaiSachNavigation)
+                .FirstOrDefaultAsync(m => m.Id == id);
 
             if (sach == null)
             {

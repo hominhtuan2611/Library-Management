@@ -20,13 +20,16 @@ namespace LibraryManagement.Admin.Controllers
 
         public IConfiguration _configuration;
 
-        private dynamic apiAddress;
+        private HttpClient _apiService;
+        private readonly string apiAddress;
 
         public SachController(LibraryDBContext context, IConfiguration configuration)
         {
             _context = context;
             _configuration = configuration;
+            
             apiAddress = _configuration.GetSection("ApiAddress").GetSection("Url").Value;
+            _apiService = ApiService.GetAPI(apiAddress);
         }
 
         // GET: Sach
@@ -38,7 +41,7 @@ namespace LibraryManagement.Admin.Controllers
 
             var list_sach = new List<Sach>();
 
-            HttpResponseMessage respond = await ApiService.GetAPI(apiAddress).GetAsync("/api/sach");
+            HttpResponseMessage respond = await _apiService.GetAsync("api/sach");
 
             if (respond.IsSuccessStatusCode)
             {
@@ -96,7 +99,7 @@ namespace LibraryManagement.Admin.Controllers
 
             Sach sach = null;
 
-            HttpResponseMessage respond = await ApiService.GetAPI(apiAddress).GetAsync($"/api/sach/{id}");
+            HttpResponseMessage respond = await _apiService.GetAsync($"api/sach/{id}");
 
             if (respond.IsSuccessStatusCode)
             {

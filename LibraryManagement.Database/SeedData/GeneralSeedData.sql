@@ -66,7 +66,8 @@ IF NOT EXISTS (SELECT TOP 1 * FROM [NhanVien])
 BEGIN
 INSERT INTO [NhanVien] ([TenNV],[GioiTinh],[NgaySinh],[CMND],[DiaChi],[SDT],[ViTri],[Username],[Password],[TrangThai]) 
 VALUES (N'Admin', N'Nam', '1997-1-26', '261541432', N'Quận Tân Bình','0833475600',N'Admin', 'admin@gmail.com', '8BFDDF77E9A5F1BBA409873BA255538D2357CC88', 1),
-(N'Nguyễn Văn Bình', N'Nam', '1997-10-2', '647381962', N'Quận 3','0987165433',N'Thủ thư', 'thuthu1@gmail.com', '8BFDDF77E9A5F1BBA409873BA255538D2357CC88', 1)
+(N'Nguyễn Văn Bình', N'Nam', '1997-10-2', '647381962', N'Quận 3','0987165433',N'Thủ thư', 'thuthu1@gmail.com', '8BFDDF77E9A5F1BBA409873BA255538D2357CC88', 1),
+(N'Trần Vĩnh Phúc', N'Nam', '1997-10-2', '123545345', N'Quận 5','0154564565',N'Thủ thư', 'vinhphuc@gmail.com', '8BFDDF77E9A5F1BBA409873BA255538D2357CC88', 1)
 END
 GO
 
@@ -95,16 +96,17 @@ GO
 IF NOT EXISTS (SELECT TOP 1 * FROM [PhieuNhap])
 BEGIN
 INSERT INTO [PhieuNhap] ([NgayNhap],[SoLuong],[NhaCungCap],[NhanVienNhap],[TrangThai]) 
-VALUES ('2018-12-24', 3, N'Nhà Sách Nhân Văn',1, 1),
-('2019-10-30', 3, N'Nhà Sách Phương Nam',2, 1)
+VALUES ('2018-12-24', 3, N'Nhà Sách Nhân Văn',2, 1),
+('2019-10-30', 5, N'Nhà Sách Phương Nam',2, 1)
 END
 GO
 
 --Insert table Chi Tiet Phieu Muon
 IF NOT EXISTS (SELECT TOP 1 * FROM [CTPhieuNhap])
 BEGIN
-INSERT INTO [CTPhieuNhap] ([PhieuNhap],[Book],[SoLuong]) 
-VALUES (1, '8215687358258',3),
-(2, '2448120945562',3)
+INSERT INTO [CTPhieuNhap] ([PhieuNhap],[Book],[SoLuong],[TinhTrangSach]) 
+VALUES (1, '8215687358258',3,N'Tốt'),
+(2, '8215687358258',2,N'Tốt'),
+(2, '2448120945562',3,N'Tốt')
 END
 GO

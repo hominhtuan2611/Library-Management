@@ -31,22 +31,9 @@ namespace LibraryManagement.API
             services.Configure<CookiePolicyOptions>(options =>
             {
                 // This lambda determines whether user consent for non-essential cookies is needed for a given request.
-
-                options.CheckConsentNeeded = context => false;      // *IMPORTANT: Set to false to use Session cookies
-
+                options.CheckConsentNeeded = context => true;
                 options.MinimumSameSitePolicy = SameSiteMode.None;
             });
-
-            //In-Memory Cache
-            services.AddDistributedMemoryCache();
-
-            services.AddSession(options =>
-            {
-                options.IdleTimeout = TimeSpan.FromMinutes(5);     //Session Timeout
-            });
-
-            // Add HttpContextAccessor
-            services.AddHttpContextAccessor();
 
             // Configure SQL Server connection
             string connString = Configuration.GetConnectionString("DefaultConnection");
@@ -76,12 +63,6 @@ namespace LibraryManagement.API
                 // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
                 app.UseHsts();
             }
-
-            app.UseStaticFiles();
-            app.UseCookiePolicy();
-
-            // *IMPORTANT: This session call MUST go before UseMvc()
-            app.UseSession();
 
             app.UseHttpsRedirection();
             app.UseMvc();

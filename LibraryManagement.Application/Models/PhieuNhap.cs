@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 namespace LibraryManagement.API.Models
 {
@@ -11,6 +12,7 @@ namespace LibraryManagement.API.Models
         }
 
         public int Id { get; set; }
+        [DisplayFormat(DataFormatString = "{0:d}", ApplyFormatInEditMode = true)]
         public DateTime NgayNhap { get; set; }
         public int? SoLuong { get; set; }
         public string NhaCungCap { get; set; }
