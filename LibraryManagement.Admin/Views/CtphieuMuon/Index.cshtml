@@ -1,0 +1,66 @@
+﻿@model IEnumerable<LibraryManagement.API.Models.CtphieuMuon>
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1>Index</h1>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.SoLuong)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.NgayMuon)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.NgayTra)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.TinhTrangSach)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.BookNavigation)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.PhieuMuonNavigation)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.SoLuong)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.NgayMuon)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.NgayTra)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.TinhTrangSach)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.BookNavigation.Id)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.PhieuMuonNavigation.Id)
+            </td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
+                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
+                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 
 namespace LibraryManagement.API.Models
@@ -24,7 +25,9 @@ namespace LibraryManagement.API.Models
         public bool? TrangThai { get; set; }
 
         public virtual LoaiSach LoaiSachNavigation { get; set; }
+        [JsonIgnore]
         public virtual ICollection<CtphieuMuon> CtphieuMuon { get; set; }
+        [JsonIgnore]
         public virtual ICollection<CtphieuNhap> CtphieuNhap { get; set; }
     }
 }

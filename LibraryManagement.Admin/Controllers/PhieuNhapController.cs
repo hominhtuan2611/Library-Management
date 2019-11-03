@@ -7,27 +7,26 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using LibraryManagement.API.Models;
 using X.PagedList;
-using LibraryManagement.Application.Common;
 
 namespace LibraryManagement.Admin.Controllers
 {
-    public class DocGiaController : Controller
+    public class PhieuNhapController : Controller
     {
         private readonly LibraryDBContext _context;
 
-        public DocGiaController(LibraryDBContext context)
+        public PhieuNhapController(LibraryDBContext context)
         {
             _context = context;
         }
 
-        // GET: DocGia
+        // GET: PhieuNhap
         public async Task<IActionResult> Index(string sortOrder, string currentFilter, string searchString, int? page)
         {
             ViewBag.CurrentSort = sortOrder;
-            ViewBag.NameSortParm = string.IsNullOrEmpty(sortOrder) ? "name_desc" : "";
-            ViewBag.DateSortParm = sortOrder == "date" ? "date_desc" : "date";
+            ViewBag.MaPNSortParm = string.IsNullOrEmpty(sortOrder) ? "mapn" : "";
+            ViewBag.NgayNhapSortParm = sortOrder == "ngaynhap" ? "ngaynhap_desc" : "ngaynhap";
 
-            var list_docgia = await _context.DocGia.ToListAsync();
+            var list_phieunhap = await _context.PhieuNhap.Where(x => x.TrangThai == 1).Include(p => p.NhanVienNhapNavigation).ToListAsync();
 
             if (searchString != null)
                 page = 1;
@@ -36,11 +35,11 @@ namespace LibraryManagement.Admin.Controllers
 
             if (!string.IsNullOrEmpty(searchString))
             {
-                list_docgia = list_docgia.Where(s => s.TenDg.ToUpper().Contains(searchString.ToUpper())).ToList();
-                if (list_docgia.Count() > 0)
+                list_phieunhap = list_phieunhap.Where(s => s.NhanVienNhapNavigation.TenNv.ToUpper().Contains(searchString.ToUpper())).ToList();
+                if (list_phieunhap.Count() > 0)
                 {
                     TempData["notice"] = "Have result";
-                    TempData["dem"] = list_docgia.Count();
+                    TempData["dem"] = list_phieunhap.Count();
                 }
                 else
                 {
@@ -49,26 +48,27 @@ namespace LibraryManagement.Admin.Controllers
             }
             switch (sortOrder)
             {
-                case "name_desc":
-                    list_docgia = list_docgia.OrderByDescending(s => s.TenDg).ToList();
+                case "mapn":
+                    list_phieunhap = list_phieunhap.OrderBy(s => s.Id).ToList();
                     break;
-                case "Date":
-                    list_docgia = list_docgia.OrderBy(s => s.NgaySinh).ToList();
+                case "ngaynhap":
+                    list_phieunhap = list_phieunhap.OrderBy(s => s.NgayNhap).ToList();
                     break;
-                case "date_desc":
-                    list_docgia = list_docgia.OrderByDescending(s => s.NgaySinh).ToList();
+                case "ngaynhap_desc":
+                    list_phieunhap = list_phieunhap.OrderByDescending(s => s.NgayNhap).ToList();
                     break;
                 default:
-                    list_docgia = list_docgia.OrderBy(s => s.TenDg).ToList();
+                    list_phieunhap = list_phieunhap.OrderByDescending(s => s.Id).ToList();
                     break;
+
             }
 
             int pageSize = 5;
             int pageNumber = (page ?? 1);
-            return View(list_docgia.ToPagedList(pageNumber, pageSize));
+            return View(list_phieunhap.ToPagedList(pageNumber, pageSize));
         }
 
-        // GET: DocGia/Details/5
+        // GET: PhieuNhap/Details/5
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -76,47 +76,50 @@ namespace LibraryManagement.Admin.Controllers
                 return NotFound();
             }
 
-            var docGia = await _context.DocGia
+            var phieuNhap = await _context.PhieuNhap
+                .Include(p => p.NhanVienNhapNavigation)
                 .FirstOrDefaultAsync(m => m.Id == id);
-            if (docGia == null)
+            if (phieuNhap == null)
             {
                 return NotFound();
             }
 
-            return View(docGia);
+            return View(phieuNhap);
         }
 
-        // GET: DocGia/Create
+        // GET: PhieuNhap/Create
         public IActionResult Create()
         {
+            ViewData["NhanVienNhap"] = new SelectList(_context.NhanVien, "Id", "TenNv");
             return View();
         }
 
-        // POST: DocGia/Create
+        // POST: PhieuNhap/Create
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,TenDg,GioiTinh,NgaySinh,Cmnd,DiaChi,Sdt,SoLanViPham,NgayDangKy,Username,Password")] DocGia docGia)
+        public async Task<IActionResult> Create([Bind("Id,NgayNhap,SoLuong,NhaCungCap,NhanVienNhap,TrangThai")] PhieuNhap phieuNhap)
         {
             if (ModelState.IsValid)
             {
-                docGia.NgayDangKy = DateTime.Now;
-                docGia.Password = Password_Encryptor.HashSHA1("12345678x@X");
-                docGia.TrangThai = true;
+                phieuNhap.NgayNhap = DateTime.Now;
+                phieuNhap.SoLuong = 0;
+                phieuNhap.TrangThai = 1;
 
-                _context.Add(docGia);
+                _context.Add(phieuNhap);
                 await _context.SaveChangesAsync();
 
                 TempData["notice"] = "Successfully create";
-                TempData["docgia"] = docGia.TenDg;
+                TempData["phieunhap"] = phieuNhap.NhaCungCap + "-" + phieuNhap.NgayNhap.ToShortDateString();
 
                 return RedirectToAction(nameof(Index));
             }
-            return View(docGia);
+            ViewData["NhanVienNhap"] = new SelectList(_context.NhanVien, "Id", "TenNv", phieuNhap.NhanVienNhap);
+            return View(phieuNhap);
         }
 
-        // GET: DocGia/Edit/5
+        // GET: PhieuNhap/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -124,22 +127,23 @@ namespace LibraryManagement.Admin.Controllers
                 return NotFound();
             }
 
-            var docGia = await _context.DocGia.FindAsync(id);
-            if (docGia == null)
+            var phieuNhap = await _context.PhieuNhap.FindAsync(id);
+            if (phieuNhap == null)
             {
                 return NotFound();
             }
-            return View(docGia);
+            ViewData["NhanVienNhap"] = new SelectList(_context.NhanVien, "Id", "TenNv", phieuNhap.NhanVienNhap);
+            return View(phieuNhap);
         }
 
-        // POST: DocGia/Edit/5
+        // POST: PhieuNhap/Edit/5
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,TenDg,GioiTinh,NgaySinh,Cmnd,DiaChi,Sdt,SoLanViPham,NgayDangKy,Username,Password,TrangThai")] DocGia docGia)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,NgayNhap,SoLuong,NhaCungCap,NhanVienNhap,TrangThai")] PhieuNhap phieuNhap)
         {
-            if (id != docGia.Id)
+            if (id != phieuNhap.Id)
             {
                 return NotFound();
             }
@@ -148,15 +152,15 @@ namespace LibraryManagement.Admin.Controllers
             {
                 try
                 {
-                    _context.Update(docGia);
+                    _context.Update(phieuNhap);
                     await _context.SaveChangesAsync();
 
                     TempData["notice"] = "Successfully edit";
-                    TempData["docgia"] = docGia.TenDg;
+                    TempData["phieunhap"] = phieuNhap.NhaCungCap + "-" + phieuNhap.NgayNhap.ToShortDateString();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!DocGiaExists(docGia.Id))
+                    if (!PhieuNhapExists(phieuNhap.Id))
                     {
                         return NotFound();
                     }
@@ -167,10 +171,11 @@ namespace LibraryManagement.Admin.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            return View(docGia);
+            ViewData["NhanVienNhap"] = new SelectList(_context.NhanVien, "Id", "TenNv", phieuNhap.NhanVienNhap);
+            return View(phieuNhap);
         }
 
-        // GET: DocGia/Delete/5
+        // GET: PhieuNhap/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -178,34 +183,36 @@ namespace LibraryManagement.Admin.Controllers
                 return NotFound();
             }
 
-            var docGia = await _context.DocGia
+            var phieuNhap = await _context.PhieuNhap
+                .Include(p => p.NhanVienNhapNavigation)
                 .FirstOrDefaultAsync(m => m.Id == id);
-            if (docGia == null)
+            if (phieuNhap == null)
             {
                 return NotFound();
             }
 
-            return View(docGia);
+            return View(phieuNhap);
         }
 
-        // POST: DocGia/Delete/5
+        // POST: PhieuNhap/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var docGia = await _context.DocGia.FindAsync(id);
-            docGia.TrangThai = false;
+            var phieuNhap = await _context.PhieuNhap.FindAsync(id);
+            phieuNhap.TrangThai = 0;
+
             await _context.SaveChangesAsync();
 
             TempData["notice"] = "Successfully delete";
-            TempData["docgia"] = docGia.TenDg;
+            TempData["phieunhap"] = phieuNhap.NhaCungCap + "-" + phieuNhap.NgayNhap.ToShortDateString();
 
             return RedirectToAction(nameof(Index));
         }
 
-        private bool DocGiaExists(int id)
+        private bool PhieuNhapExists(int id)
         {
-            return _context.DocGia.Any(e => e.Id == id);
+            return _context.PhieuNhap.Any(e => e.Id == id);
         }
     }
 }

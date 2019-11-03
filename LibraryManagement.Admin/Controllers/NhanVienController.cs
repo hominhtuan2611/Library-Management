@@ -101,7 +101,7 @@ namespace LibraryManagement.Admin.Controllers
         {
             if (ModelState.IsValid)
             {
-                nhanVien.Password = Password_Encryptor.HashSHA1(nhanVien.Password);
+                nhanVien.Password = Password_Encryptor.HashSHA1("12345678x@X");
                 nhanVien.TrangThai = true;
 
                 _context.Add(nhanVien);

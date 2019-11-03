@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
@@ -28,6 +29,7 @@ namespace LibraryManagement.API.Models
         public string Password { get; set; }
         public bool? TrangThai { get; set; }
 
+        [JsonIgnore]
         public virtual ICollection<PhieuMuon> PhieuMuon { get; set; }
     }
 }

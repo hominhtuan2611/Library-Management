@@ -1,0 +1,119 @@
+﻿@model X.PagedList.IPagedList<LibraryManagement.API.Models.PhieuNhap>
+@using X.PagedList.Mvc.Core;
+<link href="~/Content/PagedList.css" rel="stylesheet" type="text/css" />
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<br />
+<h2>Quản lí phiếu nhập</h2>
+<br />
+@using (Html.BeginForm("Index", "PhieuNhap", FormMethod.Get))
+{
+    <p>
+        Nhập tên nhân viên: @Html.TextBox("searchString", ViewBag.CurrentFilter as string)
+        <button type="submit"><i class="fa fa-search"></i></button>
+        <a class="btn btn-secondary" href="@Url.Action("Index")"><i class="fas fa-sync"></i></a>
+    </p>
+    <br />
+}
+
+@if (TempData["notice"] != null)
+{
+    if (TempData["notice"].ToString() == "Successfully create")
+    {
+        <p>
+            Nhập tên nhà cung cấp: @Html.TextBox("searchString", ViewBag.CurrentFilter as string)
+            <button type="submit"><i class="fa fa-search"></i></button>
+            <a class="btn btn-secondary" href="@Url.Action("Index")"><i class="fas fa-sync"></i></a>
+        </p>
+        <br />
+    }
+    else
+    if (TempData["notice"].ToString() == "Successfully edit")
+    {
+        <div class="alert alert-success" role="alert">
+            <strong>Thông báo! </strong>Sửa thông tin phiếu nhập: @TempData["phieunhap"] thành công
+        </div>
+    }
+    else if (TempData["notice"].ToString() == "Successfully delete")
+    {
+        <div class="alert alert-success" role="alert">
+            <strong>Thông báo! </strong>Xóa thông tin phiếu nhập: @TempData["phieunhap"] thành công
+        </div>
+    }
+    else if (TempData["notice"].ToString() == "Have result")
+    {
+        <div class="alert alert-info" role="alert">
+            <strong>Tìm kiếm thành công! </strong>Có @TempData["dem"] kết quả trả về!
+        </div>
+    }
+    else if (TempData["notice"].ToString() == "No result")
+    {
+        <div class="alert alert-danger" role="alert">
+            <strong> Không có kết quả trả về!</strong>
+        </div>
+    }
+}
+
+<p>
+    <button class="btn btn-primary" onclick="location.href='@Url.Action("Create")';return false;"><i class="fas fa-plus"></i> Tạo mới</button>&nbsp;&nbsp;&nbsp;&nbsp;
+</p>
+
+<table class="table table-striped table-bordered table-hover" id="dataTables-example">
+    <thead>
+        <tr>
+            <th>
+                @Html.ActionLink("Ngày nhập", "Index", new { sortOrder = ViewBag.NgayNhapSortParm })
+            </th>
+            <th>
+                Số lượng
+            </th>
+            <th>
+                Tên nhà cung cấp
+            </th>
+            <th>
+                Nhân viên nhập
+            </th>
+            <th>
+                <p style="text-align:center">Chức năng</p>
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.NgayNhap)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.SoLuong)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.NhaCungCap)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.NhanVienNhapNavigation.TenNv)
+                </td>
+                <td align="center">
+                    <a class="btn btn-info" href="@Url.Action("Index", "CtphieuNhap",  new { phieuNhapId = item.Id })"><i class="fas fa-info-circle"></i></a>
+                    <a class="btn btn-warning" href="@Url.Action("Edit",  new { id = item.Id })"><i class="fas fa-edit"></i></a>
+                    <a class="btn btn-danger" href="@Url.Action("Delete",  new { id = item.Id })"><i class="fas fa-trash-alt"></i></a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+Trang @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) /
+@Model.PageCount
+@Html.PagedListPager(Model, page => Url.Action("Index",
+new
+{
+    page,
+    sortOrder = ViewBag.CurrentSort,
+    currentFilter =
+ViewBag.CurrentFilter
+}))
