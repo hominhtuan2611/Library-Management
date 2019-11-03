@@ -102,16 +102,7 @@ namespace LibraryManagement.Admin.Controllers
 
             chitietphieunhap.PhieuNhap = phieuNhapId;
 
-            var list_sach = new List<Sach>();
-
-            HttpResponseMessage respond = await _apiService.GetAsync("api/sach");
-
-            if (respond.IsSuccessStatusCode)
-            {
-                var sachJsonString = await respond.Content.ReadAsStringAsync();
-
-                list_sach = JsonConvert.DeserializeObject<IEnumerable<Sach>>(sachJsonString).ToList();
-            }
+            var list_sach = await _apiService.GetAsync("api/sach").Result.Content.ReadAsAsync<List<Sach>>();
 
             Sach sach = list_sach.Where(x => x.TrangThai == true).FirstOrDefault();
 
@@ -128,16 +119,7 @@ namespace LibraryManagement.Admin.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("Id,PhieuNhap,Book,SoLuong,TinhTrangSach")] CtphieuNhap ctphieuNhap)
         {
-            var list_sach = new List<Sach>();
-
-            HttpResponseMessage respond = await _apiService.GetAsync("api/sach");
-
-            if (respond.IsSuccessStatusCode)
-            {
-                var sachJsonString = await respond.Content.ReadAsStringAsync();
-
-                list_sach = JsonConvert.DeserializeObject<IEnumerable<Sach>>(sachJsonString).ToList();
-            }
+            var list_sach = await _apiService.GetAsync("api/sach").Result.Content.ReadAsAsync<List<Sach>>();
 
             if (ModelState.IsValid)
             {
@@ -151,8 +133,7 @@ namespace LibraryManagement.Admin.Controllers
                     Sach up_sltsp = list_sach.SingleOrDefault(m => m.Id == ctphieuNhap.Book);
                     up_sltsp.SoLuong += ctphieuNhap.SoLuong;
 
-                    respond = await _apiService.PutAsJsonAsync($"api/sach/{up_sltsp.Id}", up_sltsp);
-
+                    HttpResponseMessage respond = await _apiService.PutAsJsonAsync($"api/sach/{up_sltsp.Id}", up_sltsp);
                     respond.EnsureSuccessStatusCode();
 
                     PhieuNhap uppn_soluong = _context.PhieuNhap.SingleOrDefault(m => m.Id == ctphieuNhap.PhieuNhap);
@@ -168,7 +149,7 @@ namespace LibraryManagement.Admin.Controllers
                     ViewBag.MaSP = new SelectList(list_sach.Where(s => s.TrangThai == true), "Id", "TenSach");
                     return RedirectToAction("Index", new { phieuNhapId = ctphieuNhap.PhieuNhap });
                 }
-                catch (Exception e)
+                catch (Exception)
                 {
                     TempData["masperror"] = ctphieuNhap.Book;
                     TempData["trungmasp"] = "trungmasp";
@@ -194,16 +175,7 @@ namespace LibraryManagement.Admin.Controllers
                 return NotFound();
             }
 
-            var list_sach = new List<Sach>();
-
-            HttpResponseMessage respond = await _apiService.GetAsync("api/sach");
-
-            if (respond.IsSuccessStatusCode)
-            {
-                var sachJsonString = await respond.Content.ReadAsStringAsync();
-
-                list_sach = JsonConvert.DeserializeObject<IEnumerable<Sach>>(sachJsonString).ToList();
-            }
+            var list_sach = await _apiService.GetAsync("api/sach").Result.Content.ReadAsAsync<List<Sach>>();
 
             ViewData["Book"] = new SelectList(list_sach, "Id", "TenSach", ctphieuNhap.Book);
             return View(ctphieuNhap);
@@ -216,16 +188,7 @@ namespace LibraryManagement.Admin.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("Id,PhieuNhap,Book,SoLuong,TinhTrangSach")] CtphieuNhap ctphieuNhap)
         {
-            var list_sach = new List<Sach>();
-
-            HttpResponseMessage respond = await _apiService.GetAsync("api/sach");
-
-            if (respond.IsSuccessStatusCode)
-            {
-                var sachJsonString = await respond.Content.ReadAsStringAsync();
-
-                list_sach = JsonConvert.DeserializeObject<IEnumerable<Sach>>(sachJsonString).ToList();
-            }
+            var list_sach = await _apiService.GetAsync("api/sach").Result.Content.ReadAsAsync<List<Sach>>();
 
             int slpn_cu = (_context.CtphieuNhap.Find(id)).SoLuong;
             ViewBag.SoLuongSPCu = slpn_cu;
@@ -248,8 +211,7 @@ namespace LibraryManagement.Admin.Controllers
                 Sach sach = list_sach.SingleOrDefault(m => m.Id == ctphieuNhap.Book);
                 sach.SoLuong = sach.SoLuong + (ctphieuNhap.SoLuong - slpn_cu);
 
-                respond = await _apiService.PutAsJsonAsync($"api/sach/{sach.Id}", sach);
-
+                HttpResponseMessage respond = await _apiService.PutAsJsonAsync($"api/sach/{sach.Id}", sach);
                 respond.EnsureSuccessStatusCode();
 
                 PhieuNhap pn = _context.PhieuNhap.SingleOrDefault(m => m.Id == ctphieuNhap.PhieuNhap);
@@ -296,21 +258,13 @@ namespace LibraryManagement.Admin.Controllers
             @TempData["ctpn"] = ctphieuNhap.PhieuNhap;
             @TempData["masp"] = ctphieuNhap.Book;
 
-            Sach sach = null;
-
-            HttpResponseMessage respond = await _apiService.GetAsync($"api/sach/{ctphieuNhap.Book}");
-
-            if (respond.IsSuccessStatusCode)
-            {
-                sach = await respond.Content.ReadAsAsync<Sach>();
-            }
+            Sach sach = await _apiService.GetAsync($"api/sach/{ctphieuNhap.Book}").Result.Content.ReadAsAsync<Sach>();
 
             sach.SoLuong -= sl;
 
             if (sach.SoLuong >= 0)
             {
-                respond = await _apiService.PutAsJsonAsync($"api/sach/{sach.Id}", sach);
-
+                HttpResponseMessage respond = await _apiService.PutAsJsonAsync($"api/sach/{sach.Id}", sach);
                 respond.EnsureSuccessStatusCode();
 
                 PhieuNhap pn = _context.PhieuNhap.SingleOrDefault(m => m.Id == ctphieuNhap.PhieuNhap);

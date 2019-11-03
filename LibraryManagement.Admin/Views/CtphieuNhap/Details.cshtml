@@ -10,22 +10,22 @@
 <div>
     <hr />
     <dl class="row">
-        <dt>
-            Mã sách
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.BookNavigation.Id)
         </dt>
-        <dd>
+        <dd class = "col-sm-10">
             @Html.DisplayFor(model => model.BookNavigation.Id)
         </dd>
-        <dt>
-            Tên sách
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.BookNavigation.TenSach)
         </dt>
-        <dd>
+        <dd class = "col-sm-10">
             @Html.DisplayFor(model => model.BookNavigation.TenSach)
         </dd>
-        <dt>
-            Số lượng nhập
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.SoLuong)
         </dt>
-        <dd>
+        <dd class = "col-sm-10">
             @Html.DisplayFor(model => model.SoLuong)
         </dd>
     </dl>

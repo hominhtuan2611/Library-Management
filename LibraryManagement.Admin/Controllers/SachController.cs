@@ -11,6 +11,8 @@ using System.Net.Http;
 using LibraryManagement.Application.Common;
 using Newtonsoft.Json;
 using X.PagedList;
+using Microsoft.AspNetCore.Hosting;
+using System.IO;
 
 namespace LibraryManagement.Admin.Controllers
 {
@@ -19,15 +21,17 @@ namespace LibraryManagement.Admin.Controllers
         private readonly LibraryDBContext _context;
 
         public IConfiguration _configuration;
+        private readonly IHostingEnvironment _appEnvironment;
 
         private HttpClient _apiService;
         private readonly string apiAddress;
 
-        public SachController(LibraryDBContext context, IConfiguration configuration)
+        public SachController(LibraryDBContext context, IConfiguration configuration, IHostingEnvironment appEnvironment)
         {
             _context = context;
             _configuration = configuration;
-            
+            _appEnvironment = appEnvironment;
+
             apiAddress = _configuration.GetSection("ApiAddress").GetSection("Url").Value;
             _apiService = ApiService.GetAPI(apiAddress);
         }
@@ -39,16 +43,7 @@ namespace LibraryManagement.Admin.Controllers
             ViewBag.TenSachSortParm = sortOrder == "tensach" ? "tensach_desc" : "tensach";
             ViewBag.SoLuongSortParm = sortOrder == "soluong" ? "soluong_desc" : "soluong";
 
-            var list_sach = new List<Sach>();
-
-            HttpResponseMessage respond = await _apiService.GetAsync("api/sach");
-
-            if (respond.IsSuccessStatusCode)
-            {
-                var sachJsonString = await respond.Content.ReadAsStringAsync();
-
-                list_sach = JsonConvert.DeserializeObject<IEnumerable<Sach>>(sachJsonString).ToList();
-            }
+            var list_sach = await _apiService.GetAsync("api/sach").Result.Content.ReadAsAsync<List<Sach>>();
 
             if (searchString != null)
                 page = 1;
@@ -82,6 +77,9 @@ namespace LibraryManagement.Admin.Controllers
                 case "soluong_desc":
                     list_sach = list_sach.OrderByDescending(s => s.SoLuong).ToList();
                     break;
+                default:
+                    list_sach = list_sach.OrderBy(s => s.LoaiSachNavigation.TenLoai).ToList();
+                    break;
             }
 
             int pageSize = 5;
@@ -97,14 +95,7 @@ namespace LibraryManagement.Admin.Controllers
                 return BadRequest();
             }
 
-            Sach sach = null;
-
-            HttpResponseMessage respond = await _apiService.GetAsync($"api/sach/{id}");
-
-            if (respond.IsSuccessStatusCode)
-            {
-                sach = await respond.Content.ReadAsAsync<Sach>();
-            }
+            var sach = await _apiService.GetAsync($"api/sach/{id}").Result.Content.ReadAsAsync<Sach>();
 
             if (sach == null)
             {
@@ -130,8 +121,54 @@ namespace LibraryManagement.Admin.Controllers
         {
             if (ModelState.IsValid)
             {
-                _context.Add(sach);
-                await _context.SaveChangesAsync();
+                sach.Id = Random_Generator.GenerateString(13);
+                while (await SachExistsAsync(sach.Id))
+                {
+                    sach.Id = Random_Generator.GenerateString(13);
+                }
+                sach.SoLuong = 0;
+                sach.TrangThai = true;
+
+                //Image being saved
+                string webRootPath = _appEnvironment.WebRootPath;
+                var files = HttpContext.Request.Form.Files;
+
+                if (files.Count != 0 && files[0].Length > 0)
+                {
+                    //Image has been uploaded to path specify in the images folder under wwwroot
+                    var uploads = Path.Combine(webRootPath, @"uploads\images");
+                    var extension = Path.GetExtension(files[0].FileName);
+
+                    using (var filestream = new FileStream(Path.Combine(uploads, sach.Id + extension), FileMode.Create))
+                    {
+                        files[0].CopyTo(filestream);
+                    }
+
+                    //Copy uploaded image to Client wwwroot
+                    var clientRootPath = webRootPath.Replace("LibraryManagement.Admin", "LibraryManagement.Web");
+
+                    var clientUploads = Path.Combine(clientRootPath, @"uploads\images");
+
+                    using (var filestream = new FileStream(Path.Combine(clientUploads, sach.Id + extension), FileMode.Create))
+                    {
+                        files[0].CopyTo(filestream);
+                    }
+
+                    //Rename the image uploaded using the folder path, it and the picture extension
+                    sach.HinhAnh = @"\" + @"uploads\images" + @"\" + sach.Id + extension;
+                }
+                else if (files.Count == 0)
+                {
+                    //When the user doesn't upload image, use the default image in the /images folder
+                    sach.HinhAnh = @"\" + @"uploads\images" + @"\" + "default_image.png";
+                }
+
+                HttpResponseMessage respond = await _apiService.PostAsJsonAsync("api/sach", sach);
+                respond.EnsureSuccessStatusCode();
+
+                TempData["notice"] = "Successfully create";
+                TempData["sach"] = sach.TenSach;
+
                 return RedirectToAction(nameof(Index));
             }
             ViewData["LoaiSach"] = new SelectList(_context.LoaiSach, "Id", "TenLoai", sach.LoaiSach);
@@ -146,7 +183,7 @@ namespace LibraryManagement.Admin.Controllers
                 return NotFound();
             }
 
-            var sach = await _context.Sach.FindAsync(id);
+            var sach = await _apiService.GetAsync($"api/sach/{id}").Result.Content.ReadAsAsync<Sach>();
             if (sach == null)
             {
                 return NotFound();
@@ -171,12 +208,44 @@ namespace LibraryManagement.Admin.Controllers
             {
                 try
                 {
-                    _context.Update(sach);
-                    await _context.SaveChangesAsync();
+                    //Image being saved
+                    string webRootPath = _appEnvironment.WebRootPath;
+                    var files = HttpContext.Request.Form.Files;
+
+                    if (files.Count != 0 && files[0].Length > 0)
+                    {
+                        //Image has been uploaded to path specify in the images folder under wwwroot
+                        var uploads = Path.Combine(webRootPath, @"uploads\images");
+                        var extension = Path.GetExtension(files[0].FileName);
+
+                        using (var filestream = new FileStream(Path.Combine(uploads, sach.Id + extension), FileMode.Create))
+                        {
+                            files[0].CopyTo(filestream);
+                        }
+
+                        //Copy uploaded image to Client wwwroot
+                        var clientRootPath = webRootPath.Replace("LibraryManagement.Admin", "LibraryManagement.Web");
+
+                        var clientUploads = Path.Combine(clientRootPath, @"uploads\images");
+
+                        using (var filestream = new FileStream(Path.Combine(clientUploads, sach.Id + extension), FileMode.Create))
+                        {
+                            files[0].CopyTo(filestream);
+                        }
+
+                        //Rename the image uploaded using the folder path, it and the picture extension
+                        sach.HinhAnh = @"\" + @"uploads\images" + @"\" + sach.Id + extension;
+                    }
+
+                    HttpResponseMessage respond = await _apiService.PutAsJsonAsync($"api/sach/{sach.Id}", sach);
+                    respond.EnsureSuccessStatusCode();
+
+                    TempData["notice"] = "Successfully edit";
+                    TempData["sach"] = sach.TenSach;
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!SachExists(sach.Id))
+                    if (!await SachExistsAsync(sach.Id))
                     {
                         return NotFound();
                     }
@@ -199,9 +268,7 @@ namespace LibraryManagement.Admin.Controllers
                 return NotFound();
             }
 
-            var sach = await _context.Sach
-                .Include(s => s.LoaiSachNavigation)
-                .FirstOrDefaultAsync(m => m.Id == id);
+            var sach = await _apiService.GetAsync($"api/sach/{id}").Result.Content.ReadAsAsync<Sach>();
             if (sach == null)
             {
                 return NotFound();
@@ -215,15 +282,24 @@ namespace LibraryManagement.Admin.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(string id)
         {
-            var sach = await _context.Sach.FindAsync(id);
-            _context.Sach.Remove(sach);
-            await _context.SaveChangesAsync();
+            var sach = await _apiService.GetAsync($"api/sach/{id}").Result.Content.ReadAsAsync<Sach>();
+
+            sach.TrangThai = false;
+
+            HttpResponseMessage respond = await _apiService.PutAsJsonAsync($"api/sach/{sach.Id}", sach);
+            respond.EnsureSuccessStatusCode();
+
+            TempData["notice"] = "Successfully delete";
+            TempData["sach"] = sach.TenSach;
+
             return RedirectToAction(nameof(Index));
         }
 
-        private bool SachExists(string id)
+        private async Task<bool> SachExistsAsync(string id)
         {
-            return _context.Sach.Any(e => e.Id == id);
+            var list_sach = await _apiService.GetAsync("api/sach").Result.Content.ReadAsAsync<List<Sach>>();
+
+            return list_sach.Any(e => e.Id == id);
         }
     }
 }

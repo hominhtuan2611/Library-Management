@@ -39,7 +39,7 @@ namespace LibraryManagement.Admin
 
             services.AddSession(options =>
             {
-                options.IdleTimeout = TimeSpan.FromMinutes(5);     //Session Timeout
+                options.IdleTimeout = TimeSpan.FromMinutes(30);     //Session Timeout
             });
 
             // Add HttpContextAccessor

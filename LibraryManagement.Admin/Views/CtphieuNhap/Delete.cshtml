@@ -24,7 +24,7 @@
             @Html.DisplayFor(model => model.TinhTrangSach)
         </dd>
         <dt class = "col-sm-2">
-            Tên sách
+            @Html.DisplayNameFor(model => model.BookNavigation.TenSach)
         </dt>
         <dd class = "col-sm-10">
             @Html.DisplayFor(model => model.BookNavigation.TenSach)
@@ -34,7 +34,7 @@
         </dt>
         <dd class = "col-sm-10">
             @Html.DisplayFor(model => model.PhieuNhapNavigation.Id)
-        </dd class>
+        </dd>
     </dl>
     
     <form asp-action="Delete">

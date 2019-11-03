@@ -90,7 +90,7 @@ namespace LibraryManagement.Admin.Controllers
         // GET: PhieuNhap/Create
         public IActionResult Create()
         {
-            ViewData["NhanVienNhap"] = new SelectList(_context.NhanVien, "Id", "TenNv");
+            ViewData["NhanVienNhap"] = new SelectList(_context.NhanVien.Where(x => x.ViTri != "Admin"), "Id", "TenNv");
             return View();
         }
 
@@ -115,7 +115,7 @@ namespace LibraryManagement.Admin.Controllers
 
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["NhanVienNhap"] = new SelectList(_context.NhanVien, "Id", "TenNv", phieuNhap.NhanVienNhap);
+            ViewData["NhanVienNhap"] = new SelectList(_context.NhanVien.Where(x => x.ViTri != "Admin"), "Id", "TenNv", phieuNhap.NhanVienNhap);
             return View(phieuNhap);
         }
 
@@ -132,7 +132,7 @@ namespace LibraryManagement.Admin.Controllers
             {
                 return NotFound();
             }
-            ViewData["NhanVienNhap"] = new SelectList(_context.NhanVien, "Id", "TenNv", phieuNhap.NhanVienNhap);
+            ViewData["NhanVienNhap"] = new SelectList(_context.NhanVien.Where(x => x.ViTri != "Admin"), "Id", "TenNv", phieuNhap.NhanVienNhap);
             return View(phieuNhap);
         }
 
@@ -171,7 +171,7 @@ namespace LibraryManagement.Admin.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["NhanVienNhap"] = new SelectList(_context.NhanVien, "Id", "TenNv", phieuNhap.NhanVienNhap);
+            ViewData["NhanVienNhap"] = new SelectList(_context.NhanVien.Where(x => x.ViTri != "Admin"), "Id", "TenNv", phieuNhap.NhanVienNhap);
             return View(phieuNhap);
         }
 

@@ -102,6 +102,7 @@ namespace LibraryManagement.Admin.Controllers
             if (ModelState.IsValid)
             {
                 docGia.NgayDangKy = DateTime.Now;
+                docGia.SoLanViPham = 0;
                 docGia.Password = Password_Encryptor.HashSHA1("12345678x@X");
                 docGia.TrangThai = true;
 
