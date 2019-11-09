@@ -1,4 +1,11 @@
-﻿<!DOCTYPE html>
+﻿@using LibraryManagement.Application.Common
+@using Microsoft.AspNetCore.Http
+
+@{
+    var session = Context.Session.GetString(CommonConstants.User_Session);
+}
+
+<!DOCTYPE html>
 <html lang="en">
 
 <head>
@@ -9,7 +16,7 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>Trang Admin</title>
+    <title>Phần mềm quản lý thư viện SMTP</title>
 
     <!-- Bootstrap Core CSS -->
 
@@ -33,7 +40,7 @@
         <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
         <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
     <![endif]-->
-    
+
     <script src="https://kit.fontawesome.com/3fc0dc3c11.js" crossorigin="anonymous"></script>
 </head>
 
@@ -202,7 +209,7 @@
                         <li>
                             <a href="#">
                                 <div>
-                                    <i class="fa fa-twitter fa-fw"></i> 3 New Followers
+                                    <i class="fab fa-twitter fa-fw"></i> 3 New Followers
                                     <span class="pull-right text-muted small">12 minutes ago</span>
                                 </div>
                             </a>
@@ -247,11 +254,11 @@
                 <!-- /.dropdown -->
                 <li class="dropdown">
                     <a class="dropdown-toggle" data-toggle="dropdown" href="#">
-                        <i class="fa fa-user fa-fw"></i> <i class="fa fa-caret-down"></i>
+                        <i class="fa fa-user fa-fw"></i> Chào @session <i class="fa fa-caret-down"></i>
                     </a>
                     <ul class="dropdown-menu dropdown-user">
                         <li>
-                            <a href="@Url.Action("Logout", "Home")"><i class="fa fa-sign-out fa-fw"></i> Đăng xuất</a>
+                            <a href="@Url.Action("Logout", "Home")"><i class="fas fa-sign-out-alt"></i> Đăng xuất</a>
                         </li>
                     </ul>
                     <!-- /.dropdown-user -->

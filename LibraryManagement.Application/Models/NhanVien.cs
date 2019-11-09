@@ -51,6 +51,7 @@ namespace LibraryManagement.API.Models
         public string Username { get; set; }
 
         [Display(Name = "Mật khẩu")]
+        [DataType(DataType.Password)]
         public string Password { get; set; }
 
         [Display(Name = "Trạng thái")]
