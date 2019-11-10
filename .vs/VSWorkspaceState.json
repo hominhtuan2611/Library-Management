@@ -1,9 +1,14 @@
 {
   "ExpandedNodes": [
     "",
-    "\\LibraryManagement.Database",
-    "\\LibraryManagement.Database\\Table"
+    "\\LibraryManagement.Admin",
+    "\\LibraryManagement.Web",
+    "\\LibraryManagement.Web\\Controllers",
+    "\\LibraryManagement.Web\\Views",
+    "\\LibraryManagement.Web\\Views\\Home",
+    "\\LibraryManagement.Web\\Views\\Product",
+    "\\LibraryManagement.Web\\Views\\Single"
   ],
-  "SelectedNode": "\\LibraryManagement.Database\\LibraryManagement.Database.sqlproj",
+  "SelectedNode": "\\LibraryManagement.Web\\Views\\Product\\Product1.cshtml",
   "PreviewInSolutionExplorer": false
 }
