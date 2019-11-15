@@ -7,16 +7,27 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using LibraryManagement.API.Models;
 using X.PagedList;
+using Microsoft.Extensions.Configuration;
+using LibraryManagement.Application.Common;
+using System.Net.Http;
 
 namespace LibraryManagement.Admin.Controllers
 {
     public class PhieuNhapController : Controller
     {
         private readonly LibraryDBContext _context;
+        public IConfiguration _configuration;
 
-        public PhieuNhapController(LibraryDBContext context)
+        private HttpClient _apiService;
+        private readonly string apiAddress;
+
+        public PhieuNhapController(LibraryDBContext context, IConfiguration configuration)
         {
             _context = context;
+            _configuration = configuration;
+
+            apiAddress = _configuration.GetSection("ApiAddress").GetSection("Url").Value;
+            _apiService = ApiService.GetAPI(apiAddress);
         }
 
         // GET: PhieuNhap
