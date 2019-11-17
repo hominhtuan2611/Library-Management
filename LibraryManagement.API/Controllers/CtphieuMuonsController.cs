@@ -20,14 +20,21 @@ namespace LibraryManagement.API.Controllers
             _context = context;
         }
 
-        // GET: api/CtphieuMuons
+        // GET: api/ctPhieuMuon
+        [HttpGet]
+        public async Task<ActionResult<IEnumerable<CtphieuMuon>>> GetCtphieuMuon()
+        {
+            return await _context.CtphieuMuon.Include(c => c.BookNavigation).Include(c => c.PhieuMuonNavigation).ToListAsync();
+        }
+
+        // GET: api/ctPhieuMuon/2
         [HttpGet("{phieuMuonId}")]
         public async Task<ActionResult<IEnumerable<CtphieuMuon>>> GetCtphieuMuon(int phieuMuonId)
         {
             return await _context.CtphieuMuon.Include(c => c.BookNavigation).Include(c => c.PhieuMuonNavigation).Where(x => x.PhieuMuon == phieuMuonId).ToListAsync();
         }
 
-        // GET: api/CtphieuMuons/5
+        // GET: api/ctPhieuMuon/Detail/5
         [HttpGet("Detail/{id}")]
         public async Task<ActionResult<CtphieuMuon>> GetCtphieuMuonDetail(int id)
         {
@@ -44,7 +51,7 @@ namespace LibraryManagement.API.Controllers
             return ctphieuMuon;
         }
 
-        // PUT: api/CtphieuMuons/5
+        // PUT: api/ctPhieuMuon/5
         [HttpPut("{id}")]
         public async Task<IActionResult> PutCtphieuMuon(int id, CtphieuMuon ctphieuMuon)
         {
@@ -74,7 +81,7 @@ namespace LibraryManagement.API.Controllers
             return NoContent();
         }
 
-        // POST: api/CtphieuMuons
+        // POST: api/ctPhieuMuon
         [HttpPost]
         public async Task<ActionResult<CtphieuMuon>> PostCtphieuMuon(CtphieuMuon ctphieuMuon)
         {
@@ -84,7 +91,7 @@ namespace LibraryManagement.API.Controllers
             return CreatedAtAction("GetCtphieuMuon", new { id = ctphieuMuon.Id }, ctphieuMuon);
         }
 
-        // DELETE: api/CtphieuMuons/5
+        // DELETE: api/ctPhieuMuon/5
         [HttpDelete("{id}")]
         public async Task<ActionResult<CtphieuMuon>> DeleteCtphieuMuon(int id)
         {

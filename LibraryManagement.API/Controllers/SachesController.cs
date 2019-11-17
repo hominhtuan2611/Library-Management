@@ -20,14 +20,14 @@ namespace LibraryManagement.API.Controllers
             _context = context;
         }
 
-        // GET: api/Saches
+        // GET: api/sach
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Sach>>> GetSach()
         {
             return await _context.Sach.Include(a => a.LoaiSachNavigation).Where(x => x.TrangThai == true).ToListAsync();
         }
 
-        // GET: api/Saches/5
+        // GET: api/sach/5
         [HttpGet("{id}")]
         public async Task<ActionResult<Sach>> GetSach(string id)
         {
@@ -43,7 +43,7 @@ namespace LibraryManagement.API.Controllers
             return sach;
         }
 
-        // PUT: api/Saches/5
+        // PUT: api/sach/5
         [HttpPut("{id}")]
         public async Task<IActionResult> PutSach(string id, Sach sach)
         {
@@ -73,7 +73,7 @@ namespace LibraryManagement.API.Controllers
             return NoContent();
         }
 
-        // POST: api/Saches
+        // POST: api/sach
         [HttpPost]
         public async Task<ActionResult<Sach>> PostSach(Sach sach)
         {
@@ -98,7 +98,7 @@ namespace LibraryManagement.API.Controllers
             return CreatedAtAction("GetSach", new { id = sach.Id }, sach);
         }
 
-        // DELETE: api/Saches/5
+        // DELETE: api/sach
         [HttpDelete("{id}")]
         public async Task<ActionResult<Sach>> DeleteSach(string id)
         {
