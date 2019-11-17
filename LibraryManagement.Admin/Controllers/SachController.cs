@@ -9,7 +9,6 @@ using LibraryManagement.API.Models;
 using Microsoft.Extensions.Configuration;
 using System.Net.Http;
 using LibraryManagement.Application.Common;
-using Newtonsoft.Json;
 using X.PagedList;
 using Microsoft.AspNetCore.Hosting;
 using System.IO;
