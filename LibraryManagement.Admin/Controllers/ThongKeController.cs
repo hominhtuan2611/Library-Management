@@ -62,7 +62,7 @@ namespace LibraryManagement.Admin.Controllers
 
             var list_chitietphieumuon = await _apiService.GetAsync("api/ctPhieuMuon").Result.Content.ReadAsAsync<List<CtphieuMuon>>();
 
-            var month = DateTime.Now.AddMonths(-1).Month;
+            var month = DateTime.Now.Month;
 
             var result = (from s in list_sach
                           join ctpm in list_chitietphieumuon on s.Id equals ctpm.Book
@@ -95,7 +95,7 @@ namespace LibraryManagement.Admin.Controllers
 
             var list_chitietphieumuon = await _apiService.GetAsync("api/ctPhieuMuon").Result.Content.ReadAsAsync<List<CtphieuMuon>>();
 
-            var month = DateTime.Now.AddMonths(-1).Month;
+            var month = DateTime.Now.Month;
 
             var result = (from s in list_sach
                           join ctpm in list_chitietphieumuon on s.Id equals ctpm.Book
