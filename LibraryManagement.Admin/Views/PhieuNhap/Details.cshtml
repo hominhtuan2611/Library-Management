@@ -1,0 +1,43 @@
+﻿@model LibraryManagement.API.Models.PhieuNhap
+
+@{
+    ViewData["Title"] = "Details";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1>Chi tiết</h1>
+
+<div>
+    <h4>Phiếu nhập</h4>
+    <hr />
+    <dl class="row">
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.NgayNhap)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.NgayNhap)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.SoLuong)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.SoLuong)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.NhaCungCap)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.NhaCungCap)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.NhanVienNhapNavigation)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.NhanVienNhapNavigation.TenNv)
+        </dd>
+    </dl>
+</div>
+<div>
+    <a class="btn btn-primary" asp-action="Edit" asp-route-id="@Model.Id">Sửa</a> |
+    <a class="btn btn-default" asp-action="Index">Trở về</a>
+</div>

@@ -8,6 +8,6 @@ namespace LibraryManagement.Application.Common
     {
         public const string User_Session = "User_Session";
 
-        public const string Cart_Session = "Cart_Session";
+        public const string Bookmark_Session = "Bookmark_Session";
     }
 }

@@ -1,0 +1,123 @@
+﻿@model X.PagedList.IPagedList<LibraryManagement.API.Models.CtphieuNhap>
+@using X.PagedList.Mvc.Core;
+<link href="~/Content/PagedList.css" rel="stylesheet" type="text/css" />
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<br />
+<h2>Thông tin chi tiết phiếu nhập hàng: @ViewBag.MaPN</h2>
+<h3><b>Tổng số lượng sách nhập:</b> <b style="color:red">@ViewBag.TongSoLuong</b></h3>
+<br />
+
+@if (TempData["notice"] != null)
+{
+    if (TempData["notice"].ToString() == "Successfully create")
+    {
+        <div class="alert alert-success" role="alert">
+            <strong>Thông báo! </strong>Thêm thông tin sách: @TempData["tensp"] với mã số <b style="color:red"> @TempData["masp"] </b> thành công
+        </div>
+    }
+    else if (TempData["notice"].ToString() == "Successfully edit")
+    {
+        <div class="alert alert-success" role="alert">
+            <strong>Thông báo! </strong>Sửa thông tin chi tiết phiếu nhập hàng: @TempData["ctpn"] với mã sách @TempData["masp"]  thành công
+        </div>
+    }
+    else
+    if (TempData["notice"].ToString() == "Successfully delete")
+    {
+        <div class="alert alert-success" role="alert">
+            <strong>Thông báo! </strong>Xóa thông tin chi tiết phiếu nhập hàng: @TempData["ctpn"] với mã sách @TempData["masp"] thành công
+        </div>
+    }
+    else if (TempData["notice"].ToString() == "Have result")
+    {
+        <div class="alert alert-info" role="alert">
+            <strong>Tìm kiếm thành công! </strong>Có @TempData["dem"] kết quả trả về!
+        </div>
+    }
+    else if (TempData["notice"].ToString() == "No result")
+    {
+        <div class="alert alert-danger" role="alert">
+            <strong> Không có kết quả trả về!</strong>
+        </div>
+    }
+    else if (TempData["ErrorSLTon"].ToString() == "errorslt")
+    {
+        <div class="alert alert-danger" role="alert">
+            <strong> Xóa thông tin chi tiết phiếu nhập hàng: @TempData["ctpn"] với mã sách @TempData["masp"] không thành công</strong>
+        </div>
+    }
+}
+
+
+<p>
+    <button class="btn btn-primary" onclick="location.href='@Url.Action("Create", new {  phieuNhapId = ViewBag.MaPN  })';return false;"><i class="fas fa-plus"></i> Tạo mới</button>&nbsp;&nbsp;&nbsp;&nbsp;
+</p>
+
+<table class="table table-striped table-bordered table-hover" id="dataTables-example">
+    <thead>
+        <tr>
+            <th>
+                Mã sách
+            </th>
+            <th>
+                Tên sách
+            </th>
+            <th>
+                Hình ảnh
+            </th>
+            <th>
+                @Html.ActionLink("Số lượng nhập", "Index", new { phieuNhapId = @ViewBag.MaPN, sortOrder = ViewBag.SoLuongSortParm })
+            </th>
+            <th>
+                <p style="text-align:center">Chức năng</p>
+            </th>
+        </tr>
+    </thead>
+
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Book)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.BookNavigation.TenSach)
+                </td>
+                <td>
+                    <img src=@Html.DisplayFor(modelItem => item.BookNavigation.HinhAnh) alt="Sample Image" height="50" width="50" />
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.SoLuong)
+                </td>
+                <td align="center">
+                    <a class="btn btn-info" href="@Url.Action("Details",  new { id = item.Id })"><i class="fas fa-info-circle"></i></a>
+                    <a class="btn btn-warning" href="@Url.Action("Edit",  new { id = item.Id })"><i class="fas fa-edit"></i></a>
+                    <a class="btn btn-danger" href="@Url.Action("Delete",  new { id = item.Id })"><i class="fas fa-trash-alt"></i></a>
+                </td>
+            </tr>
+        }
+    </tbody>
+
+</table>
+
+Trang @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) /
+@Model.PageCount
+@Html.PagedListPager(Model, page => Url.Action("Index",
+new
+{
+    phieuNhapId = ViewBag.MaPN,
+    page,
+    sortOrder = ViewBag.CurrentSort,
+    currentFilter = ViewBag.CurrentFilter
+}))
+
+<div>
+    <a class="btn btn-success" href="@Url.Action("Index", "PhieuNhap")">Trở về</a>
+</div>
+<br />

@@ -1,0 +1,54 @@
+﻿@model LibraryManagement.Admin.Models.Report.TongPhieuMuonModel
+
+@{
+    ViewData["Title"] = "TongPhieuMuon";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div id="columnchart"></div>
+
+
+<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+
+<script type="text/javascript">
+    // Load google charts
+    google.charts.load('current', { 'packages': ['corechart'] });
+    google.charts.setOnLoadCallback(drawChart);
+
+    // Draw the chart and set the chart values
+    function drawChart() {
+        var data = google.visualization.arrayToDataTable([
+
+            ['Tháng', 'Doanh thu'],
+            ["Tháng " + "@Model.Months[0]", { v: @Convert.ToInt32(Model.tongPhieuMuonTheoThang[0])}],
+            ["Tháng " + "@Model.Months[1]", { v: @Convert.ToInt32(Model.tongPhieuMuonTheoThang[1])}],
+            ["Tháng " + "@Model.Months[2]", { v: @Convert.ToInt32(Model.tongPhieuMuonTheoThang[2])}],
+            ["Tháng " + "@Model.Months[3]", { v: @Convert.ToInt32(Model.tongPhieuMuonTheoThang[3])}],
+            ["Tháng " + "@Model.Months[4]", { v: @Convert.ToInt32(Model.tongPhieuMuonTheoThang[4])}],
+            ["Tháng " + "@Model.Months[5]", { v: @Convert.ToInt32(Model.tongPhieuMuonTheoThang[5])}],
+            ["Tháng " + "@Model.Months[6]", { v: @Convert.ToInt32(Model.tongPhieuMuonTheoThang[6])}],
+            ["Tháng " + "@Model.Months[7]", { v: @Convert.ToInt32(Model.tongPhieuMuonTheoThang[7])}],
+            ["Tháng " + "@Model.Months[8]", { v: @Convert.ToInt32(Model.tongPhieuMuonTheoThang[8])}],
+            ["Tháng " + "@Model.Months[9]", { v: @Convert.ToInt32(Model.tongPhieuMuonTheoThang[9])}],
+            ["Tháng " + "@Model.Months[10]", { v: @Convert.ToInt32(Model.tongPhieuMuonTheoThang[10])}],
+            ["Tháng " + "@Model.Months[11]", { v: @Convert.ToInt32(Model.tongPhieuMuonTheoThang[11])}]
+
+        ],
+            false); // 'false' means that the first row contains labels, not data.
+
+
+
+
+
+        // Optional; add a title and set the width and height of the chart
+        var options = { 'title': 'Tổng phiếu mượn theo từng tháng', 'width': 1000, 'height': 400 };
+
+        // Display the chart inside the <div> element with id="piechart"
+
+
+        var chart3 = new google.visualization.ColumnChart(document.getElementById('columnchart'));
+
+
+        chart3.draw(data, options);
+    }
+</script>

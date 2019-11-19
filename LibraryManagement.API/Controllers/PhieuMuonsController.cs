@@ -20,18 +20,21 @@ namespace LibraryManagement.API.Controllers
             _context = context;
         }
 
-        // GET: api/PhieuMuons
+        // GET: api/PhieuMuon
         [HttpGet]
         public async Task<ActionResult<IEnumerable<PhieuMuon>>> GetPhieuMuon()
         {
-            return await _context.PhieuMuon.ToListAsync();
+            return await _context.PhieuMuon.Include(c => c.MaDgNavigation).Include(c => c.MaNvNavigation).ToListAsync();
         }
 
-        // GET: api/PhieuMuons/5
+        // GET: api/PhieuMuon/5
         [HttpGet("{id}")]
         public async Task<ActionResult<PhieuMuon>> GetPhieuMuon(int id)
         {
-            var phieuMuon = await _context.PhieuMuon.FindAsync(id);
+            var phieuMuon = await _context.PhieuMuon
+                .Include(c => c.MaDgNavigation)
+                .Include(c => c.MaNvNavigation)
+                .FirstOrDefaultAsync(m => m.Id == id);
 
             if (phieuMuon == null)
             {
@@ -41,7 +44,7 @@ namespace LibraryManagement.API.Controllers
             return phieuMuon;
         }
 
-        // PUT: api/PhieuMuons/5
+        // PUT: api/PhieuMuon/5
         [HttpPut("{id}")]
         public async Task<IActionResult> PutPhieuMuon(int id, PhieuMuon phieuMuon)
         {
@@ -71,7 +74,7 @@ namespace LibraryManagement.API.Controllers
             return NoContent();
         }
 
-        // POST: api/PhieuMuons
+        // POST: api/PhieuMuon
         [HttpPost]
         public async Task<ActionResult<PhieuMuon>> PostPhieuMuon(PhieuMuon phieuMuon)
         {
@@ -81,7 +84,7 @@ namespace LibraryManagement.API.Controllers
             return CreatedAtAction("GetPhieuMuon", new { id = phieuMuon.Id }, phieuMuon);
         }
 
-        // DELETE: api/PhieuMuons/5
+        // DELETE: api/PhieuMuon/5
         [HttpDelete("{id}")]
         public async Task<ActionResult<PhieuMuon>> DeletePhieuMuon(int id)
         {

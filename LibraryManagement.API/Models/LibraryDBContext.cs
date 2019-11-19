@@ -17,7 +17,7 @@ namespace LibraryManagement.API.Models
 
         public virtual DbSet<CtphieuMuon> CtphieuMuon { get; set; }
         public virtual DbSet<CtphieuNhap> CtphieuNhap { get; set; }
-        public virtual DbSet<KhachHang> KhachHang { get; set; }
+        public virtual DbSet<DocGia> DocGia { get; set; }
         public virtual DbSet<LoaiSach> LoaiSach { get; set; }
         public virtual DbSet<NhanVien> NhanVien { get; set; }
         public virtual DbSet<PhieuMuon> PhieuMuon { get; set; }
@@ -89,7 +89,7 @@ namespace LibraryManagement.API.Models
                     .HasConstraintName("FK_CTPhieuNhap_PhieuNhap");
             });
 
-            modelBuilder.Entity<KhachHang>(entity =>
+            modelBuilder.Entity<DocGia>(entity =>
             {
                 entity.Property(e => e.Cmnd)
                     .IsRequired()
@@ -114,9 +114,9 @@ namespace LibraryManagement.API.Models
 
                 entity.Property(e => e.SoLanViPham).HasDefaultValueSql("((0))");
 
-                entity.Property(e => e.TenKh)
+                entity.Property(e => e.TenDg)
                     .IsRequired()
-                    .HasColumnName("TenKH")
+                    .HasColumnName("TenDG")
                     .HasMaxLength(30);
 
                 entity.Property(e => e.TrangThai)
@@ -176,17 +176,17 @@ namespace LibraryManagement.API.Models
             {
                 entity.Property(e => e.HanTra).HasColumnType("date");
 
-                entity.Property(e => e.MaKh).HasColumnName("MaKH");
+                entity.Property(e => e.MaDg).HasColumnName("MaDG");
 
                 entity.Property(e => e.MaNv).HasColumnName("MaNV");
 
                 entity.Property(e => e.NgayMuon).HasColumnType("date");
 
-                entity.HasOne(d => d.MaKhNavigation)
+                entity.HasOne(d => d.MaDgNavigation)
                     .WithMany(p => p.PhieuMuon)
-                    .HasForeignKey(d => d.MaKh)
+                    .HasForeignKey(d => d.MaDg)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK_PhieuMuon_KhachHang");
+                    .HasConstraintName("FK_PhieuMuon_DocGia");
 
                 entity.HasOne(d => d.MaNvNavigation)
                     .WithMany(p => p.PhieuMuon)

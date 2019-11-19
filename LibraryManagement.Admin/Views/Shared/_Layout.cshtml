@@ -1,4 +1,11 @@
-﻿<!DOCTYPE html>
+﻿@using LibraryManagement.Application.Common
+@using Microsoft.AspNetCore.Http
+
+@{
+    var session = Context.Session.GetString(CommonConstants.User_Session);
+}
+
+<!DOCTYPE html>
 <html lang="en">
 
 <head>
@@ -9,7 +16,7 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>Trang Admin</title>
+    <title>Phần mềm quản lý thư viện SMTP</title>
 
     <!-- Bootstrap Core CSS -->
 
@@ -34,6 +41,7 @@
         <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
     <![endif]-->
 
+    <script src="https://kit.fontawesome.com/3fc0dc3c11.js" crossorigin="anonymous"></script>
 </head>
 
 <body>
@@ -201,7 +209,7 @@
                         <li>
                             <a href="#">
                                 <div>
-                                    <i class="fa fa-twitter fa-fw"></i> 3 New Followers
+                                    <i class="fab fa-twitter fa-fw"></i> 3 New Followers
                                     <span class="pull-right text-muted small">12 minutes ago</span>
                                 </div>
                             </a>
@@ -246,11 +254,11 @@
                 <!-- /.dropdown -->
                 <li class="dropdown">
                     <a class="dropdown-toggle" data-toggle="dropdown" href="#">
-                        <i class="fa fa-user fa-fw"></i> <i class="fa fa-caret-down"></i>
+                        <i class="fa fa-user fa-fw"></i> Chào @session <i class="fa fa-caret-down"></i>
                     </a>
                     <ul class="dropdown-menu dropdown-user">
                         <li>
-                            <a href="@Url.Action("Index", "Home")"><i class="fa fa-sign-out fa-fw"></i> Quay lại trang chủ</a>
+                            <a href="@Url.Action("Logout", "Home")"><i class="fas fa-sign-out-alt"></i> Đăng xuất</a>
                         </li>
                     </ul>
                     <!-- /.dropdown-user -->
@@ -281,7 +289,10 @@
                             <a href="#"><i class=" fa fa-table fa-fw"></i> Quản lí thông tin<span class="fa arrow"></span></a>
                             <ul class="nav nav-second-level">
                                 <li>
-                                    @Html.ActionLink("Khách hàng", "Index", "KhachHang")
+                                    @Html.ActionLink("Độc giả", "Index", "DocGia")
+                                </li>
+                                <li>
+                                    @Html.ActionLink("Nhân viên", "Index", "NhanVien")
                                 </li>
                                 <li>
                                     @Html.ActionLink("Sách", "Index", "Sach")
@@ -298,10 +309,13 @@
                             <a href="#"><i class="fa fa-bar-chart-o fa-fw"></i> Thống kê <span class="fa arrow"></span></a>
                             <ul class="nav nav-second-level">
                                 <li>
-                                    <a href="@Url.Action("thongkedoanhthu","ThongKe")">Doanh thu</a>
+                                    <a href="@Url.Action("TongPhieuMuon","ThongKe")">Tổng phiếu mượn</a>
                                 </li>
                                 <li>
-                                    <a href="@Url.Action("thongkesanpham","ThongKe")">Sách mượn nhiều</a>
+                                    <a href="@Url.Action("SachMuonNhieu","ThongKe")">Sách mượn nhiều</a>
+                                </li>
+                                <li>
+                                    <a href="@Url.Action("SachMuonIt","ThongKe")">Sách mượn ít</a>
                                 </li>
                             </ul>
                             <!-- /.nav-second-level -->

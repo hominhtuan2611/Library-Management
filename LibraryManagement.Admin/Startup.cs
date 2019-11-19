@@ -29,9 +29,21 @@ namespace LibraryManagement.Admin
             services.Configure<CookiePolicyOptions>(options =>
             {
                 // This lambda determines whether user consent for non-essential cookies is needed for a given request.
-                options.CheckConsentNeeded = context => true;
+                options.CheckConsentNeeded = context => false;      // *IMPORTANT: Set to false to use Session cookies
+
                 options.MinimumSameSitePolicy = SameSiteMode.None;
             });
+
+            //In-Memory Cache
+            services.AddDistributedMemoryCache();
+
+            services.AddSession(options =>
+            {
+                options.IdleTimeout = TimeSpan.FromMinutes(30);     //Session Timeout
+            });
+
+            // Add HttpContextAccessor
+            services.AddHttpContextAccessor();
 
             // Configure SQL Server connection
             string connString = Configuration.GetConnectionString("DefaultConnection");
@@ -68,6 +80,9 @@ namespace LibraryManagement.Admin
             app.UseHttpsRedirection();
             app.UseStaticFiles();
             app.UseCookiePolicy();
+
+            // *IMPORTANT: This session call MUST go before UseMvc()
+            app.UseSession();
 
             app.UseMvc(routes =>
             {

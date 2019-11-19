@@ -1,6 +1,7 @@
 ﻿using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 namespace LibraryManagement.API.Models
 {
@@ -12,6 +13,9 @@ namespace LibraryManagement.API.Models
         }
 
         public int Id { get; set; }
+
+        [StringLength(50)]
+        [Display(Name = "Thể loại")]
         public string TenLoai { get; set; }
 
         [JsonIgnore]
