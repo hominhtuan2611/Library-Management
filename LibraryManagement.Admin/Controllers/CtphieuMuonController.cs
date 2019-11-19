@@ -120,7 +120,6 @@ namespace LibraryManagement.Admin.Controllers
             {
                 
                 var PhieuMuon = _context.PhieuMuon.Where(p => p.Id == ctphieuMuon.PhieuMuon).FirstOrDefault();
-                ctphieuMuon.NgayMuon = PhieuMuon.NgayMuon;
                 _context.Add(ctphieuMuon);
                 PhieuMuon.TongSachMuon += ctphieuMuon.SoLuong;
                 await _context.SaveChangesAsync();
