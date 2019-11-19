@@ -9,6 +9,8 @@ using LibraryManagement.API.Models;
 using Microsoft.Extensions.Configuration;
 using System.Net.Http;
 using LibraryManagement.Application.Common;
+using System.Data.SqlClient;
+using X.PagedList;
 
 namespace LibraryManagement.Admin.Controllers
 {
@@ -31,10 +33,51 @@ namespace LibraryManagement.Admin.Controllers
         }
 
         // GET: PhieuMuon
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(string sortOrder, string currentFilter, string searchString, int? page)
         {
-            var libraryDBContext = _context.PhieuMuon.Include(p => p.MaDgNavigation).Include(p => p.MaNvNavigation);
-            return View(await libraryDBContext.ToListAsync());
+            ViewBag.CurrentSort = sortOrder;
+            ViewBag.MaPNSortParm = string.IsNullOrEmpty(sortOrder) ? "mapm" : "";
+            ViewBag.NgayMuonSortParm = sortOrder == "ngaymuon" ? "ngaymuon_desc" : "ngaymuon";
+            var list_phieumuon = await _context.PhieuMuon.Where(x => x.TrangThai == 1).Include(p => p.MaNvNavigation).Include(p => p.MaDgNavigation).ToListAsync();
+
+            if (searchString != null)
+                page = 1;
+            else searchString = currentFilter;
+            ViewBag.CurrentFilter = searchString;
+
+            if (!string.IsNullOrEmpty(searchString))
+            {
+                list_phieumuon = list_phieumuon.Where(s => s.MaNvNavigation.TenNv.ToUpper().Contains(searchString.ToUpper())).ToList();
+                if (list_phieumuon.Count() > 0)
+                {
+                    TempData["notice"] = "Have result";
+                    TempData["dem"] = list_phieumuon.Count();
+                }
+                else
+                {
+                    TempData["notice"] = "No result";
+                }
+            }
+            switch (sortOrder)
+            {
+                case "mapm":
+                    list_phieumuon = list_phieumuon.OrderBy(s => s.Id).ToList();
+                    break;
+                case "ngaynhap":
+                    list_phieumuon = list_phieumuon.OrderBy(s => s.NgayMuon).ToList();
+                    break;
+                case "ngaynhap_desc":
+                    list_phieumuon = list_phieumuon.OrderByDescending(s => s.NgayMuon).ToList();
+                    break;
+                default:
+                    list_phieumuon = list_phieumuon.OrderByDescending(s => s.Id).ToList();
+                    break;
+
+            }
+
+            int pageSize = 5;
+            int pageNumber = (page ?? 1);
+            return View(list_phieumuon.ToPagedList(pageNumber, pageSize));
         }
 
         // GET: PhieuMuon/Details/5
@@ -74,6 +117,9 @@ namespace LibraryManagement.Admin.Controllers
         {
             if (ModelState.IsValid)
             {
+                if(phieuMuon.TongSachMuon==null){
+                    phieuMuon.TongSachMuon = 0;
+                }
                 _context.Add(phieuMuon);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));

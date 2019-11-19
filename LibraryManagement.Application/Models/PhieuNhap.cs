@@ -14,7 +14,8 @@ namespace LibraryManagement.API.Models
         public int Id { get; set; }
 
         [DisplayFormat(DataFormatString = "{0:d}", ApplyFormatInEditMode = true)]
-        [Display(Name = "Ngày mượn")]
+        [DataType(DataType.Date)]
+        [Display(Name = "Ngày nhập")]
         public DateTime NgayNhap { get; set; }
 
         [Display(Name = "Số lượng nhập")]

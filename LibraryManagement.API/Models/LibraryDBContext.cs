@@ -46,9 +46,6 @@ namespace LibraryManagement.API.Models
                     .HasMaxLength(20)
                     .IsUnicode(false);
 
-                entity.Property(e => e.NgayMuon).HasColumnType("date");
-
-                entity.Property(e => e.NgayTra).HasColumnType("date");
 
                 entity.Property(e => e.TinhTrangSach).HasMaxLength(50);
 

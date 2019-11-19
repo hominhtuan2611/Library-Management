@@ -19,14 +19,6 @@ namespace LibraryManagement.API.Models
         [Display(Name = "Số lượng")]
         public int SoLuong { get; set; }
 
-        [DisplayFormat(DataFormatString = "{0:d}", ApplyFormatInEditMode = true)]
-        [Display(Name = "Ngày mượn")]
-        public DateTime? NgayMuon { get; set; }
-
-        [DisplayFormat(DataFormatString = "{0:d}", ApplyFormatInEditMode = true)]
-        [Display(Name = "Ngày trả")]
-        public DateTime? NgayTra { get; set; }
-
         [Display(Name = "Tình trạng sách")]
         public string TinhTrangSach { get; set; }
 
