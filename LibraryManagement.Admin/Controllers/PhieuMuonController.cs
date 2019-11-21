@@ -38,8 +38,8 @@ namespace LibraryManagement.Admin.Controllers
             ViewBag.CurrentSort = sortOrder;
             ViewBag.MaPNSortParm = string.IsNullOrEmpty(sortOrder) ? "mapm" : "";
             ViewBag.NgayMuonSortParm = sortOrder == "ngaymuon" ? "ngaymuon_desc" : "ngaymuon";
-            var list_phieumuon = await _context.PhieuMuon.Where(x => x.TrangThai == 1).Include(p => p.MaNvNavigation).Include(p => p.MaDgNavigation).ToListAsync();
-
+            var list_phieumuon = await _apiService.GetAsync("api/phieuMuon").Result.Content.ReadAsAsync<List<PhieuMuon>>();
+            list_phieumuon = list_phieumuon.Where(p => p.TrangThai != 0).ToList();
             if (searchString != null)
                 page = 1;
             else searchString = currentFilter;
@@ -88,10 +88,7 @@ namespace LibraryManagement.Admin.Controllers
                 return NotFound();
             }
 
-            var phieuMuon = await _context.PhieuMuon
-                .Include(p => p.MaDgNavigation)
-                .Include(p => p.MaNvNavigation)
-                .FirstOrDefaultAsync(m => m.Id == id);
+            var phieuMuon = await _apiService.GetAsync($"api/phieuMuon/{id}").Result.Content.ReadAsAsync<PhieuMuon>();
             if (phieuMuon == null)
             {
                 return NotFound();
@@ -103,8 +100,8 @@ namespace LibraryManagement.Admin.Controllers
         // GET: PhieuMuon/Create
         public IActionResult Create()
         {
-            ViewData["MaDg"] = new SelectList(_context.DocGia, "Id", "Cmnd");
-            ViewData["MaNv"] = new SelectList(_context.NhanVien, "Id", "Cmnd");
+            ViewData["MaDg"] = new SelectList(_context.DocGia, "Id", "TenDg");
+            ViewData["MaNv"] = new SelectList(_context.NhanVien, "Id", "TenNv");
             return View();
         }
 
@@ -113,19 +110,27 @@ namespace LibraryManagement.Admin.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,MaDg,MaNv,NgayMuon,TongSachMuon,HanTra,DaTra,TrangThai")] PhieuMuon phieuMuon)
+        public async Task<IActionResult> Create([Bind("Id,MaDg,MaNv,HanTra")] PhieuMuon phieuMuon)
         {
             if (ModelState.IsValid)
             {
-                if(phieuMuon.TongSachMuon==null){
-                    phieuMuon.TongSachMuon = 0;
+                phieuMuon.NgayMuon = DateTime.Now;
+                if (phieuMuon.NgayMuon < phieuMuon.HanTra)
+                { 
+                    if (phieuMuon.TongSachMuon == null)
+                    {
+                        phieuMuon.TongSachMuon = 0;
+                        phieuMuon.TrangThai = 1;
+                    }
+                    var respond = await _apiService.PostAsJsonAsync("api/phieuMuon", phieuMuon).Result.Content.ReadAsAsync<PhieuMuon>();
+                    TempData["notice"] = "Successfully create PhieuMuon";
+                    TempData["phieumuon"] = respond.MaDgNavigation.TenDg + "-" + respond.NgayMuon.ToShortDateString();
+                    return RedirectToAction("Index", "CtphieuMuon", new { phieuMuonId = respond.Id });
                 }
-                _context.Add(phieuMuon);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                TempData["notice"] = "Create Error";
             }
-            ViewData["MaDg"] = new SelectList(_context.DocGia, "Id", "Cmnd", phieuMuon.MaDg);
-            ViewData["MaNv"] = new SelectList(_context.NhanVien, "Id", "Cmnd", phieuMuon.MaNv);
+            ViewData["MaDg"] = new SelectList(_context.DocGia, "Id", "TenDg", phieuMuon.MaDg);
+            ViewData["MaNv"] = new SelectList(_context.NhanVien, "Id", "TenNv", phieuMuon.MaNv);
             return View(phieuMuon);
         }
 
@@ -137,13 +142,13 @@ namespace LibraryManagement.Admin.Controllers
                 return NotFound();
             }
 
-            var phieuMuon = await _context.PhieuMuon.FindAsync(id);
+            var phieuMuon = await _apiService.GetAsync($"api/phieuMuon/{id}").Result.Content.ReadAsAsync<PhieuMuon>();
             if (phieuMuon == null)
             {
                 return NotFound();
             }
-            ViewData["MaDg"] = new SelectList(_context.DocGia, "Id", "Cmnd", phieuMuon.MaDg);
-            ViewData["MaNv"] = new SelectList(_context.NhanVien, "Id", "Cmnd", phieuMuon.MaNv);
+            ViewData["MaDg"] = new SelectList(_context.DocGia, "Id", "TenDg", phieuMuon.MaDg);
+            ViewData["MaNv"] = new SelectList(_context.NhanVien, "Id", "TenNv", phieuMuon.MaNv);
             return View(phieuMuon);
         }
 
@@ -161,26 +166,27 @@ namespace LibraryManagement.Admin.Controllers
 
             if (ModelState.IsValid)
             {
-                try
+                if(phieuMuon.NgayMuon < phieuMuon.HanTra)
                 {
-                    _context.Update(phieuMuon);
-                    await _context.SaveChangesAsync();
-                }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!PhieuMuonExists(phieuMuon.Id))
+                    if(phieuMuon.DaTra)
                     {
-                        return NotFound();
+                        if (DateTime.Now < phieuMuon.HanTra)
+                            phieuMuon.TrangThai = 3;
+                        else
+                            phieuMuon.TrangThai = 4;
                     }
-                    else
+                    var respond = await _apiService.PutAsJsonAsync($"api/phieuMuon/{id}", phieuMuon).Result.Content.ReadAsAsync<PhieuMuon>();
+                    if (respond != null)
                     {
-                        throw;
+                        TempData["notice"] = "Successfully edit";
+                        TempData["phieumuon"] = respond.MaDgNavigation.TenDg + "-" + respond.NgayMuon.ToShortDateString();
+                        return RedirectToAction(nameof(Index));
                     }
                 }
-                return RedirectToAction(nameof(Index));
+                TempData["notice"] = "Edit Error";
             }
-            ViewData["MaDg"] = new SelectList(_context.DocGia, "Id", "Cmnd", phieuMuon.MaDg);
-            ViewData["MaNv"] = new SelectList(_context.NhanVien, "Id", "Cmnd", phieuMuon.MaNv);
+            ViewData["MaDg"] = new SelectList(_context.DocGia, "Id", "TenDg", phieuMuon.MaDg);
+            ViewData["MaNv"] = new SelectList(_context.NhanVien, "Id", "TenNv", phieuMuon.MaNv);
             return View(phieuMuon);
         }
 
@@ -192,10 +198,7 @@ namespace LibraryManagement.Admin.Controllers
                 return NotFound();
             }
 
-            var phieuMuon = await _context.PhieuMuon
-                .Include(p => p.MaDgNavigation)
-                .Include(p => p.MaNvNavigation)
-                .FirstOrDefaultAsync(m => m.Id == id);
+            var phieuMuon = await _apiService.GetAsync($"api/phieuMuon/{id}").Result.Content.ReadAsAsync<PhieuMuon>();
             if (phieuMuon == null)
             {
                 return NotFound();
@@ -209,15 +212,24 @@ namespace LibraryManagement.Admin.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var phieuMuon = await _context.PhieuMuon.FindAsync(id);
-            _context.PhieuMuon.Remove(phieuMuon);
-            await _context.SaveChangesAsync();
+            var phieuMuon = await _apiService.GetAsync($"api/phieuMuon/{id}").Result.Content.ReadAsAsync<PhieuMuon>();
+
+            phieuMuon.TrangThai = 0;
+            phieuMuon.MaDgNavigation = null;
+            phieuMuon.MaNvNavigation = null;
+
+            var respond = await _apiService.PutAsJsonAsync($"api/phieuMuon/{id}", phieuMuon).Result.Content.ReadAsAsync<PhieuMuon>();
+            TempData["notice"] = "Successfully delete";
+            TempData["phieumuon"] = respond.MaDgNavigation.TenDg + "-" + phieuMuon.NgayMuon.ToShortDateString();
+            
             return RedirectToAction(nameof(Index));
         }
 
-        private bool PhieuMuonExists(int id)
+        private async Task<bool> PhieuMuonExistsAsync(int id)
         {
-            return _context.PhieuMuon.Any(e => e.Id == id);
+            var list_phieuMuon = await _apiService.GetAsync("api/phieuMuon").Result.Content.ReadAsAsync<List<PhieuMuon>>();
+
+            return list_phieuMuon.Any(e => e.Id == id);
         }
     }
 }
