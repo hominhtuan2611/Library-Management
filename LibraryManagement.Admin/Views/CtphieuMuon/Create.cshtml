@@ -8,6 +8,15 @@
 <h1>Tạo mới</h1>
 
 <hr />
+@if (TempData["notice"] != null)
+{
+    if (TempData["notice"].ToString() == "Error create")
+    {
+<div class="alert alert-danger" role="alert">
+    Số lượng sách <b  style="color:red">@TempData["tensp"]</b>  với mã số <b style="color:red"> @TempData["masp"] </b> trong thư viện hiện không đủ!
+</div>
+    }
+}
 <div class="row">
     <div class="col-md-4">
         <form asp-action="Create">

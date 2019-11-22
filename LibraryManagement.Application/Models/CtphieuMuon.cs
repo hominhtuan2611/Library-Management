@@ -16,7 +16,7 @@ namespace LibraryManagement.API.Models
 
         [Range(1, 100, ErrorMessage = "Số lượng không hợp lệ")]
         [Required(ErrorMessage = "Vui lòng nhập vào số lượng sách")]
-        [Display(Name = "Số lượng")]
+        [Display(Name = "Số lượng mượn")]
         public int SoLuong { get; set; }
 
         [Display(Name = "Tình trạng sách")]

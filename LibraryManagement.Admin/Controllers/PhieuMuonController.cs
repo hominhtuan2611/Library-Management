@@ -166,9 +166,10 @@ namespace LibraryManagement.Admin.Controllers
 
             if (ModelState.IsValid)
             {
-                if(phieuMuon.NgayMuon < phieuMuon.HanTra)
+                if (phieuMuon.NgayMuon < phieuMuon.HanTra)
                 {
-                    if(phieuMuon.DaTra)
+                    var phieuMuon_cu = await _apiService.GetAsync($"api/phieuMuon/{id}").Result.Content.ReadAsAsync<PhieuMuon>();
+                    if (phieuMuon_cu.DaTra==false && phieuMuon.DaTra==true)
                     {
                         if (DateTime.Now < phieuMuon.HanTra)
                             phieuMuon.TrangThai = 3;

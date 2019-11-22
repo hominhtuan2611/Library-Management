@@ -9,8 +9,9 @@
 
 <br />
 <h2>Thông tin chi tiết phiếu mượn: @ViewBag.MaPM</h2>
-<h3><b>Ngày mượn:</b> <b style="color:red">@ViewBag.NgayMuon</b></h3>
-<h3><b>Tổng số lượng sách mượn:</b> <b style="color:red">@ViewBag.TongSoLuong</b></h3>
+<h4><b>Tên đọc giả:</b> <b>@ViewBag.TenDg</b></h4>
+<h4><b>Ngày mượn:</b> <b style="color:red">@ViewBag.NgayMuon</b></h4>
+<h4><b>Tổng số lượng sách mượn:</b> <b style="color:red">@ViewBag.TongSoLuong</b></h4>
 <br />
 
 @if (TempData["notice"] != null)
@@ -21,6 +22,14 @@
             <strong>Thông báo! </strong>Thêm thông tin sách: @TempData["tensp"] với mã số <b style="color:red"> @TempData["masp"] </b> thành công
         </div>
     }
+    else if (TempData["notice"].ToString() == "Successfully create PhieuMuon")
+    {
+        <div class="alert alert-success" role="alert">
+            <strong>Thông báo! </strong>Thêm phiếu mượn: @TempData["phieumuon"] thành công
+        </div>
+        <br />
+    }
+
     else if (TempData["notice"].ToString() == "Successfully edit")
     {
         <div class="alert alert-success" role="alert">
