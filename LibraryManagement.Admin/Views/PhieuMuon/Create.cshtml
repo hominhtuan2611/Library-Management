@@ -5,55 +5,39 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h1>Create</h1>
-
-<h4>PhieuMuon</h4>
+<h1>Tạo mới</h1>
 <hr />
+@if (TempData["notice"] != null)
+{
+    if (TempData["notice"].ToString() == "Create Error")
+    {
+        <div class="alert alert-danger" role="alert">
+            <strong> Tạo phiếu mượn không thành công!</strong>
+        </div>
+    }
+}
 <div class="row">
     <div class="col-md-4">
         <form asp-action="Create">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
-                <label asp-for="MaDg" class="control-label"></label>
-                <select asp-for="MaDg" class ="form-control" asp-items="ViewBag.MaDg"></select>
+                <label asp-for="MaDgNavigation.TenDg" class="control-label"></label>
+                <select asp-for="MaDg" class="form-control" asp-items="ViewBag.MaDg"></select>
             </div>
             <div class="form-group">
-                <label asp-for="MaNv" class="control-label"></label>
-                <select asp-for="MaNv" class ="form-control" asp-items="ViewBag.MaNv"></select>
-            </div>
-            <div class="form-group">
-                <label asp-for="NgayMuon" class="control-label"></label>
-                <input asp-for="NgayMuon" class="form-control" />
-                <span asp-validation-for="NgayMuon" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="TongSachMuon" class="control-label"></label>
-                <input asp-for="TongSachMuon" class="form-control" />
-                <span asp-validation-for="TongSachMuon" class="text-danger"></span>
+                <label asp-for="MaNvNavigation.TenNv" class="control-label"></label>
+                <select asp-for="MaNv" class="form-control" asp-items="ViewBag.MaNv"></select>
             </div>
             <div class="form-group">
                 <label asp-for="HanTra" class="control-label"></label>
                 <input asp-for="HanTra" class="form-control" />
                 <span asp-validation-for="HanTra" class="text-danger"></span>
             </div>
-            <div class="form-group form-check">
-                <label class="form-check-label">
-                    <input class="form-check-input" asp-for="DaTra" /> @Html.DisplayNameFor(model => model.DaTra)
-                </label>
-            </div>
             <div class="form-group">
-                <label asp-for="TrangThai" class="control-label"></label>
-                <input asp-for="TrangThai" class="form-control" />
-                <span asp-validation-for="TrangThai" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-primary" />
+                <input type="submit" value="Tạo mới" class="btn btn-primary" />
+                <a class="btn btn-success" asp-action="Index">Trở lại</a>
             </div>
         </form>
     </div>
-</div>
-
-<div>
-    <a class="btn btn-default" asp-action="Index">Trở lại</a>
 </div>
 

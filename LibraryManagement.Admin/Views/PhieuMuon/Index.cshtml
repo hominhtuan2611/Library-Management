@@ -1,4 +1,4 @@
-﻿@model X.PagedList.IPagedList<LibraryManagement.API.Models.PhieuMuon>
+@model X.PagedList.IPagedList<LibraryManagement.API.Models.PhieuMuon>
 @using X.PagedList.Mvc.Core;
 <link href="~/Content/PagedList.css" rel="stylesheet" type="text/css" />
 
@@ -25,24 +25,22 @@
 {
     if (TempData["notice"].ToString() == "Successfully create")
     {
-        <p>
-            Nhập tên đọc giả: @Html.TextBox("searchString", ViewBag.CurrentFilter as string)
-            <button type="submit"><i class="fa fa-search"></i></button>
-            <a class="btn btn-secondary" href="@Url.Action("Index")"><i class="fas fa-sync"></i></a>
-        </p>
+        <div class="alert alert-success" role="alert">
+            <strong>Thông báo! </strong>Thêm thông tin phiếu mượn: @TempData["phieumuon"] thành công
+        </div>
         <br />
     }
     else
     if (TempData["notice"].ToString() == "Successfully edit")
     {
         <div class="alert alert-success" role="alert">
-            <strong>Thông báo! </strong>Sửa thông tin phiếu mượn: @TempData["phieunhap"] thành công
+            <strong>Thông báo! </strong>Sửa thông tin phiếu mượn: @TempData["phieumuon"] thành công
         </div>
     }
     else if (TempData["notice"].ToString() == "Successfully delete")
     {
         <div class="alert alert-success" role="alert">
-            <strong>Thông báo! </strong>Xóa thông tin phiếu nhập: @TempData["phieunhap"] thành công
+            <strong>Thông báo! </strong>Xóa thông tin phiếu nhập: @TempData["phieumuon"] thành công
         </div>
     }
     else if (TempData["notice"].ToString() == "Have result")
@@ -79,6 +77,12 @@
                 Nhân viên tạo phiếu
             </th>
             <th>
+                Đã trả
+            </th>
+            <th>
+                Trạng thái
+            </th>
+            <th>
                 <p style="text-align:center">Chức năng</p>
             </th>
         </tr>
@@ -98,6 +102,29 @@
                 </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.MaNvNavigation.TenNv)
+                </td>
+                <td>
+                    @if (item.DaTra)
+                    {
+                        <a href="#" type="button" class="btn btn-success">Đã trả</a>
+                    }
+                    else
+                    {
+                        <a href="#" type="button" class="btn btn-secondary">Chưa Trả</a>
+                    }
+                </td>
+                <td>
+                    @switch (item.TrangThai)
+                    {
+                        case 1:<a href="#" type="button" class="btn btn-primary">Đã tạo</a>
+                            break;
+                        case 2: <a href="#" type="button" class="btn btn-warning">Cho mượn</a>
+                            break;
+                        case 3: <a href="#" type="button" class="btn btn-success">Trả đúng hạn</a>
+                            break;
+                        case 4: <a href="#" type="button" class="btn btn-danger">Trả quá hạn</a>
+                            break;
+                    }
                 </td>
                 <td align="center">
                     <a class="btn btn-info" href="@Url.Action("Index", "CtphieuMuon",  new { phieuMuonId = item.Id })"><i class="fas fa-info-circle"></i></a>

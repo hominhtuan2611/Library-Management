@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -35,13 +35,14 @@ namespace LibraryManagement.Admin.Controllers
         // GET: CtphieuMuon
         public async Task<IActionResult> Index(int phieuMuonId, string sortOrder, string currentFilter, string searchString, int? page)
         {
-            PhieuMuon phieuMuon = _context.PhieuMuon.Where(s => s.Id == phieuMuonId).FirstOrDefault();
+            PhieuMuon phieuMuon = await _apiService.GetAsync($"api/phieuMuon/{phieuMuonId}").Result.Content.ReadAsAsync<PhieuMuon>();
             ViewBag.TongSoLuong = phieuMuon.TongSachMuon;
-            ViewBag.NgayMuon = phieuMuon.NgayMuon;
+            ViewBag.TenDg = phieuMuon.MaDgNavigation.TenDg;
+            ViewBag.NgayMuon = phieuMuon.NgayMuon.ToShortDateString();
             ViewBag.CurrentSort = sortOrder;
             ViewBag.SoLuongSortParm = string.IsNullOrEmpty(sortOrder) ? "slsp_desc" : "";
 
-            var list_chitietphieumuon = await _context.CtphieuMuon.Where(x => x.PhieuMuon == phieuMuonId).Include(c => c.BookNavigation).Include(c => c.PhieuMuonNavigation).Where(x => x.PhieuMuon == phieuMuonId).ToListAsync();
+            var list_chitietphieumuon = await _apiService.GetAsync($"api/ctPhieuMuon/{phieuMuon.Id}").Result.Content.ReadAsAsync<List<CtphieuMuon>>();
 
             ViewBag.MaPM = phieuMuonId;
 
@@ -105,7 +106,6 @@ namespace LibraryManagement.Admin.Controllers
 
             chitietphieumuon.PhieuMuon = PhieuMuonId;
             ViewData["Book"] = new SelectList(_context.Sach, "Id", "TenSach");
-            ViewData["PhieuMuon"] = new SelectList(_context.PhieuMuon, "Id", "Id");
             return View(chitietphieumuon);
         }
 
@@ -119,14 +119,31 @@ namespace LibraryManagement.Admin.Controllers
             if (ModelState.IsValid)
             {
                 
-                var PhieuMuon = _context.PhieuMuon.Where(p => p.Id == ctphieuMuon.PhieuMuon).FirstOrDefault();
-                _context.Add(ctphieuMuon);
-                PhieuMuon.TongSachMuon += ctphieuMuon.SoLuong;
-                await _context.SaveChangesAsync();
-                return RedirectToAction("Index", new { phieuMuonId = ctphieuMuon.PhieuMuon });
+                var phieuMuon = await _apiService.GetAsync($"api/phieuMuon/{ctphieuMuon.PhieuMuon}").Result.Content.ReadAsAsync<PhieuMuon>();
+                var sach=  await _apiService.GetAsync($"api/sach/{ctphieuMuon.Book}").Result.Content.ReadAsAsync<Sach>();
+                if(sach.SoLuong >= ctphieuMuon.SoLuong)
+                {
+                    phieuMuon.TongSachMuon += ctphieuMuon.SoLuong;
+                    phieuMuon.MaDgNavigation = null;
+                    phieuMuon.MaNvNavigation = null;
+                    sach.SoLuong -= ctphieuMuon.SoLuong;
+
+                    CtphieuMuon new_ctPhieuMuon = await _apiService.PostAsJsonAsync("api/ctPhieuMuon", ctphieuMuon).Result.Content.ReadAsAsync<CtphieuMuon>();
+                    HttpResponseMessage respond_sach = await _apiService.PutAsJsonAsync($"api/sach/{sach.Id}", sach);
+                    respond_sach.EnsureSuccessStatusCode();
+                    HttpResponseMessage respond_phieuMuon = await _apiService.PutAsJsonAsync($"api/phieuMuon/{phieuMuon.Id}", phieuMuon);
+                    respond_phieuMuon.EnsureSuccessStatusCode();
+                   
+                    @TempData["notice"] = "Successfully create";
+                    @TempData["tensp"] = new_ctPhieuMuon.BookNavigation.TenSach;
+                    @TempData["masp"] = new_ctPhieuMuon.Book;
+                    return RedirectToAction("Index", new { phieuMuonId = ctphieuMuon.PhieuMuon });
+                }
+                @TempData["notice"] = "Error create";
+                @TempData["tensp"] = sach.TenSach;
+                @TempData["masp"] = sach.Id;
             }
-            ViewData["Book"] = new SelectList(_context.Sach, "Id", "Id", ctphieuMuon.Book);
-            ViewData["PhieuMuon"] = new SelectList(_context.PhieuMuon, "Id", "Id", ctphieuMuon.PhieuMuon);
+            ViewData["Book"] = new SelectList(_context.Sach, "Id", "TenSach", ctphieuMuon.Book);
             return View(ctphieuMuon);
         }
 
@@ -138,13 +155,12 @@ namespace LibraryManagement.Admin.Controllers
                 return NotFound();
             }
 
-            var ctphieuMuon = await _context.CtphieuMuon.FindAsync(id);
+            var ctphieuMuon = await _apiService.GetAsync($"api/ctPhieuMuon/Detail/{id}").Result.Content.ReadAsAsync<CtphieuMuon>();
             if (ctphieuMuon == null)
             {
                 return NotFound();
             }
             ViewData["Book"] = new SelectList(_context.Sach, "Id", "TenSach", ctphieuMuon.Book);
-            ViewData["PhieuMuon"] = new SelectList(_context.PhieuMuon, "Id", "Id", ctphieuMuon.PhieuMuon);
             return View(ctphieuMuon);
         }
 
@@ -155,7 +171,8 @@ namespace LibraryManagement.Admin.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("Id,PhieuMuon,Book,SoLuong,NgayMuon,NgayTra,TinhTrangSach")] CtphieuMuon ctphieuMuon)
         {
-            int slpm_cu = _context.CtphieuMuon.Find(id).SoLuong;
+            var ctPhieMuon_cu = await _apiService.GetAsync($"api/ctPhieuMuon/Detail/{id}").Result.Content.ReadAsAsync<CtphieuMuon>();
+            int slpm_cu = ctPhieMuon_cu.SoLuong;
             ViewBag.SoLuongSPCu = slpm_cu;
             if (id != ctphieuMuon.Id)
             {
@@ -163,23 +180,30 @@ namespace LibraryManagement.Admin.Controllers
             }
 
             if (ModelState.IsValid)
-            {            
-                var entity = _context.CtphieuMuon.Where(c => c.Id == ctphieuMuon.Id).AsQueryable().FirstOrDefault();
-                _context.Entry(entity).CurrentValues.SetValues(ctphieuMuon);
+            {
+                Sach sach = await _apiService.GetAsync($"api/sach/{ctphieuMuon.Book}").Result.Content.ReadAsAsync<Sach>();
+                int slSachThem= ctphieuMuon.SoLuong - slpm_cu;
+                if(sach.SoLuong>slSachThem)
+                {
+                    CtphieuMuon entity = await _apiService.PutAsJsonAsync($"api/ctPhieuMuon/{id}", ctphieuMuon).Result.Content.ReadAsAsync<CtphieuMuon>();
+                    sach.SoLuong = sach.SoLuong - slSachThem;
+                    PhieuMuon phieuMuon = await _apiService.GetAsync($"api/phieuMuon/{ctphieuMuon.PhieuMuon}").Result.Content.ReadAsAsync<PhieuMuon>();
+                    phieuMuon.TongSachMuon = phieuMuon.TongSachMuon + slSachThem;
+                    phieuMuon.MaDgNavigation = null;
+                    phieuMuon.MaNvNavigation = null;
+                    HttpResponseMessage respond_sach = await _apiService.PutAsJsonAsync($"api/sach/{sach.Id}", sach);
+                    respond_sach.EnsureSuccessStatusCode();
+                    HttpResponseMessage respond_phieuMuon = await _apiService.PutAsJsonAsync($"api/phieuMuon/{phieuMuon.Id}", phieuMuon);
+                    respond_phieuMuon.EnsureSuccessStatusCode();
 
-                @TempData["notice"] = "Successfully edit";
-                @TempData["ctpm"] = ctphieuMuon.PhieuMuon;
-                @TempData["masp"] = ctphieuMuon.Book;
-
-                Sach sach = _context.Sach.Where(m => m.Id == ctphieuMuon.Book).FirstOrDefault();
-                sach.SoLuong = sach.SoLuong + (ctphieuMuon.SoLuong - slpm_cu);
-
-                PhieuMuon pm = _context.PhieuMuon.SingleOrDefault(m => m.Id == ctphieuMuon.PhieuMuon);
-                pm.TongSachMuon = pm.TongSachMuon + (ctphieuMuon.SoLuong - slpm_cu);
-                _context.Entry(pm).State = EntityState.Modified;
-                await _context.SaveChangesAsync();
-
-                return RedirectToAction("Index", new { phieuMuonId = ctphieuMuon.PhieuMuon });
+                    @TempData["notice"] = "Successfully edit";
+                    @TempData["masp"] = entity.Book;
+                    @TempData["tensp"] = entity.BookNavigation.TenSach;
+                    return RedirectToAction("Index", new { phieuMuonId = ctphieuMuon.PhieuMuon });
+                }
+                @TempData["notice"] = "Error edit";
+                @TempData["tesp"] = ctPhieMuon_cu.BookNavigation.TenSach;
+                @TempData["masp"] = ctPhieMuon_cu.Book;
             }
             ViewData["Book"] = new SelectList(_context.Sach, "Id", "Id", ctphieuMuon.Book);
             ViewData["PhieuMuon"] = new SelectList(_context.PhieuMuon, "Id", "Id", ctphieuMuon.PhieuMuon);
@@ -194,10 +218,7 @@ namespace LibraryManagement.Admin.Controllers
                 return NotFound();
             }
 
-            var ctphieuMuon = await _context.CtphieuMuon
-                .Include(c => c.BookNavigation)
-                .Include(c => c.PhieuMuonNavigation)
-                .FirstOrDefaultAsync(m => m.Id == id);
+            var ctphieuMuon = await _apiService.GetAsync($"api/ctPhieuMuon/Detail/{id}").Result.Content.ReadAsAsync<CtphieuMuon>();
             if (ctphieuMuon == null)
             {
                 return NotFound();
@@ -212,14 +233,30 @@ namespace LibraryManagement.Admin.Controllers
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             var ctphieuMuon = await _context.CtphieuMuon.FindAsync(id);
-            _context.CtphieuMuon.Remove(ctphieuMuon);
-            await _context.SaveChangesAsync();
+            var ctphieuMuon = await _apiService.GetAsync($"api/ctPhieuMuon/Detail/{id}").Result.Content.ReadAsAsync<CtphieuMuon>();
+            var phieuMuon = await _apiService.GetAsync($"api/phieuMuon/{ctphieuMuon.PhieuMuon}").Result.Content.ReadAsAsync<PhieuMuon>();
+            phieuMuon.TongSachMuon -= ctphieuMuon.SoLuong;
+            Sach sach = await _apiService.GetAsync($"api/sach/{ctphieuMuon.Book}").Result.Content.ReadAsAsync<Sach>();
+            sach.SoLuong = sach.SoLuong + ctphieuMuon.SoLuong;
+            phieuMuon.MaNvNavigation = null;
+            phieuMuon.MaDgNavigation = null;
+            ctphieuMuon.BookNavigation = null;
+            ctphieuMuon.PhieuMuonNavigation = null;
+
+            HttpResponseMessage respond = await _apiService.DeleteAsync($"api/ctPhieuMuon/{id}");
+            respond.EnsureSuccessStatusCode();
+            HttpResponseMessage respond_phieuMuon = await _apiService.PutAsJsonAsync($"api/phieuMuon/{phieuMuon.Id}", phieuMuon);
+            respond_phieuMuon.EnsureSuccessStatusCode();
+            HttpResponseMessage respond_sach = await _apiService.PutAsJsonAsync($"api/sach/{sach.Id}", sach);
+            respond_sach.EnsureSuccessStatusCode();
+
             return RedirectToAction("Index", new { phieuMuonId = ctphieuMuon.PhieuMuon }); ;
         }
 
-        private bool CtphieuMuonExists(int id)
+        private async Task<bool> CtphieuMuonExists(int id)
         {
-            return _context.CtphieuMuon.Any(e => e.Id == id);
+            var list_ctPhieuMuon = await _apiService.GetAsync($"api/ctPhieuMuon/{id}").Result.Content.ReadAsAsync<List<CtphieuMuon>>();
+            return list_ctPhieuMuon.Any(e => e.Id == id);
         }
     }
 }

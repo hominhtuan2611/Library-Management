@@ -46,7 +46,7 @@ namespace LibraryManagement.API.Controllers
 
         // PUT: api/PhieuMuon/5
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutPhieuMuon(int id, PhieuMuon phieuMuon)
+        public async Task<ActionResult<PhieuMuon>> PutPhieuMuon(int id, PhieuMuon phieuMuon)
         {
             if (id != phieuMuon.Id)
             {
@@ -70,8 +70,11 @@ namespace LibraryManagement.API.Controllers
                     throw;
                 }
             }
-
-            return NoContent();
+            var new_phieuMuon = await _context.PhieuMuon
+                            .Include(c => c.MaDgNavigation)
+                            .Include(c => c.MaNvNavigation)
+                            .FirstOrDefaultAsync(m => m.Id == phieuMuon.Id);
+            return new_phieuMuon;
         }
 
         // POST: api/PhieuMuon
@@ -81,7 +84,11 @@ namespace LibraryManagement.API.Controllers
             _context.PhieuMuon.Add(phieuMuon);
             await _context.SaveChangesAsync();
 
-            return CreatedAtAction("GetPhieuMuon", new { id = phieuMuon.Id }, phieuMuon);
+            var new_phieuMuon = await _context.PhieuMuon
+                .Include(c => c.MaDgNavigation)
+                .Include(c => c.MaNvNavigation)
+                .FirstOrDefaultAsync(m => m.Id == phieuMuon.Id);
+            return new_phieuMuon;
         }
 
         // DELETE: api/PhieuMuon/5
