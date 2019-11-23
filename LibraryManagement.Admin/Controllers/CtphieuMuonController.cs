@@ -232,7 +232,6 @@ namespace LibraryManagement.Admin.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var ctphieuMuon = await _context.CtphieuMuon.FindAsync(id);
             var ctphieuMuon = await _apiService.GetAsync($"api/ctPhieuMuon/Detail/{id}").Result.Content.ReadAsAsync<CtphieuMuon>();
             var phieuMuon = await _apiService.GetAsync($"api/phieuMuon/{ctphieuMuon.PhieuMuon}").Result.Content.ReadAsAsync<PhieuMuon>();
             phieuMuon.TongSachMuon -= ctphieuMuon.SoLuong;

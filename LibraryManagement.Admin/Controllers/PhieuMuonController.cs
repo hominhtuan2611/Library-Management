@@ -9,8 +9,8 @@ using LibraryManagement.API.Models;
 using Microsoft.Extensions.Configuration;
 using System.Net.Http;
 using LibraryManagement.Application.Common;
-using System.Data.SqlClient;
 using X.PagedList;
+using Microsoft.AspNetCore.Hosting;
 
 namespace LibraryManagement.Admin.Controllers
 {
@@ -19,14 +19,16 @@ namespace LibraryManagement.Admin.Controllers
         private readonly LibraryDBContext _context;
 
         public IConfiguration _configuration;
+        private readonly IHostingEnvironment _appEnvironment;
 
         private HttpClient _apiService;
         private readonly string apiAddress;
 
-        public PhieuMuonController(LibraryDBContext context, IConfiguration configuration)
+        public PhieuMuonController(LibraryDBContext context, IConfiguration configuration, IHostingEnvironment appEnvironment)
         {
             _context = context;
             _configuration = configuration;
+            _appEnvironment = appEnvironment;
 
             apiAddress = _configuration.GetSection("ApiAddress").GetSection("Url").Value;
             _apiService = ApiService.GetAPI(apiAddress);
@@ -47,7 +49,7 @@ namespace LibraryManagement.Admin.Controllers
 
             if (!string.IsNullOrEmpty(searchString))
             {
-                list_phieumuon = list_phieumuon.Where(s => s.MaNvNavigation.TenNv.ToUpper().Contains(searchString.ToUpper())).ToList();
+                list_phieumuon = list_phieumuon.Where(s => s.MaDgNavigation.TenDg.ToUpper().Contains(searchString.ToUpper())).ToList();
                 if (list_phieumuon.Count() > 0)
                 {
                     TempData["notice"] = "Have result";
@@ -70,9 +72,17 @@ namespace LibraryManagement.Admin.Controllers
                     list_phieumuon = list_phieumuon.OrderByDescending(s => s.NgayMuon).ToList();
                     break;
                 default:
-                    list_phieumuon = list_phieumuon.OrderByDescending(s => s.Id).ToList();
+                    list_phieumuon = list_phieumuon.OrderByDescending(s => s.NgayMuon).ToList();
                     break;
 
+            }
+
+            var expired = list_phieumuon.Where(x => x.TrangThai == 4 && x.DaTra == false).Count();
+
+            if (expired > 0)
+            {
+                TempData["expireNotice"] = "Has Expired";
+                TempData["expired"] = expired;
             }
 
             int pageSize = 5;
@@ -231,6 +241,27 @@ namespace LibraryManagement.Admin.Controllers
             var list_phieuMuon = await _apiService.GetAsync("api/phieuMuon").Result.Content.ReadAsAsync<List<PhieuMuon>>();
 
             return list_phieuMuon.Any(e => e.Id == id);
+        }
+
+        public IActionResult SendExpiryWarningEmail(string tenDocGia, string ngayMuon, string email)
+        {
+            string webRoot = _appEnvironment.WebRootPath.ToString();
+
+            string file = webRoot + "\\templates\\borrow_expiry_warning.html";
+
+            string content = System.IO.File.ReadAllText(file);
+
+            content = content.Replace("{{NgayMuon}}", ngayMuon);
+            content = content.Replace("{{TenDocGgia}}", tenDocGia);
+
+            var toEmail = email;
+
+            new EmailHelper().SendEmail(toEmail, "Đến hạn trả sách", content);
+
+            TempData["notice"] = "Successfully send email";
+            TempData["docgia"] = tenDocGia;
+
+            return RedirectToAction(nameof(Index));
         }
     }
 }
