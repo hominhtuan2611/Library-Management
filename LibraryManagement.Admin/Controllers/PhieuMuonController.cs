@@ -77,7 +77,7 @@ namespace LibraryManagement.Admin.Controllers
 
             }
 
-            var expired = list_phieumuon.Where(x => x.TrangThai == 4 && x.DaTra == false).Count();
+            var expired = list_phieumuon.Where(x => x.HanTra < DateTime.Now && x.DaTra == false).Count();
 
             if (expired > 0)
             {
