@@ -101,7 +101,7 @@ namespace LibraryManagement.Admin.Controllers
         public IActionResult Create()
         {
             ViewData["MaDg"] = new SelectList(_context.DocGia, "Id", "TenDg");
-            ViewData["MaNv"] = new SelectList(_context.NhanVien, "Id", "TenNv");
+            ViewData["MaNv"] = new SelectList(_context.NhanVien.Where(p => p.ViTri != "Admin"), "Id", "TenNv");
             return View();
         }
 
@@ -130,7 +130,7 @@ namespace LibraryManagement.Admin.Controllers
                 TempData["notice"] = "Create Error";
             }
             ViewData["MaDg"] = new SelectList(_context.DocGia, "Id", "TenDg", phieuMuon.MaDg);
-            ViewData["MaNv"] = new SelectList(_context.NhanVien, "Id", "TenNv", phieuMuon.MaNv);
+            ViewData["MaNv"] = new SelectList(_context.NhanVien.Where(p => p.ViTri != "Admin"), "Id", "TenNv", phieuMuon.MaNv);
             return View(phieuMuon);
         }
 
@@ -148,7 +148,7 @@ namespace LibraryManagement.Admin.Controllers
                 return NotFound();
             }
             ViewData["MaDg"] = new SelectList(_context.DocGia, "Id", "TenDg", phieuMuon.MaDg);
-            ViewData["MaNv"] = new SelectList(_context.NhanVien, "Id", "TenNv", phieuMuon.MaNv);
+            ViewData["MaNv"] = new SelectList(_context.NhanVien.Where(p=>p.ViTri!="Admin"), "Id", "TenNv", phieuMuon.MaNv);
             return View(phieuMuon);
         }
 
@@ -175,19 +175,35 @@ namespace LibraryManagement.Admin.Controllers
                             phieuMuon.TrangThai = 3;
                         else
                             phieuMuon.TrangThai = 4;
+
+                        var list_ctphieumuon = await _apiService.GetAsync($"api/ctPhieuMuon/{phieuMuon.Id}").Result.Content.ReadAsAsync<List<CtphieuMuon>>();
+                        foreach(CtphieuMuon item in list_ctphieumuon)
+                        {
+                            var sach = await _apiService.GetAsync($"api/sach/{item.Book}").Result.Content.ReadAsAsync<Sach>();
+                            sach.SoLuong += item.SoLuong;
+                            sach.LoaiSachNavigation = null;
+                            HttpResponseMessage respond_sach = await _apiService.PutAsJsonAsync($"api/sach/{sach.Id}", sach);
+                            respond_sach.EnsureSuccessStatusCode();
+
+                        }
                     }
                     var respond = await _apiService.PutAsJsonAsync($"api/phieuMuon/{id}", phieuMuon).Result.Content.ReadAsAsync<PhieuMuon>();
                     if (respond != null)
                     {
                         TempData["notice"] = "Successfully edit";
-                        TempData["phieumuon"] = respond.MaDgNavigation.TenDg + "-" + respond.NgayMuon.ToShortDateString();
+                        TempData["phieumuon"] = respond.MaDgNavigation.TenDg + " - " + respond.NgayMuon.ToShortDateString();
+                        if(respond.TrangThai==4)
+                        {
+                            TempData["notice"] = "Return late";
+                            TempData["phieumuon"] = respond.MaDgNavigation.TenDg + " - " + respond.NgayMuon.ToShortDateString();
+                        }
                         return RedirectToAction(nameof(Index));
                     }
                 }
                 TempData["notice"] = "Edit Error";
             }
             ViewData["MaDg"] = new SelectList(_context.DocGia, "Id", "TenDg", phieuMuon.MaDg);
-            ViewData["MaNv"] = new SelectList(_context.NhanVien, "Id", "TenNv", phieuMuon.MaNv);
+            ViewData["MaNv"] = new SelectList(_context.NhanVien.Where(p => p.ViTri != "Admin"), "Id", "TenNv", phieuMuon.MaNv);
             return View(phieuMuon);
         }
 

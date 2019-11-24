@@ -55,6 +55,12 @@
             <strong> Không có kết quả trả về!</strong>
         </div>
     }
+    else if (TempData["notice"].ToString() == "Return late")
+    {
+        <div class="alert alert-danger" role="alert">
+            <strong> Phiếu mượn: @TempData["phieumuon"] đã trả quá hạn! Đề nghị xử phạt</strong>
+        </div>
+    }
 }
 
 <p>

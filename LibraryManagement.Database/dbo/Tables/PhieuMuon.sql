@@ -2,7 +2,7 @@
 (
 	[Id] INT NOT NULL PRIMARY KEY IDENTITY, 
     [MaDG] INT NOT NULL, 
-	[MaNV] INT NOT NULL, 
+	[MaNV] INT NULL, 
     [NgayMuon] DATE NOT NULL, 
     [TongSachMuon] INT NULL, 
 	[HanTra] DATE NOT NULL, 

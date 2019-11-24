@@ -36,9 +36,9 @@ namespace LibraryManagement.Admin.Controllers
         public async Task<IActionResult> Index(int phieuMuonId, string sortOrder, string currentFilter, string searchString, int? page)
         {
             PhieuMuon phieuMuon = await _apiService.GetAsync($"api/phieuMuon/{phieuMuonId}").Result.Content.ReadAsAsync<PhieuMuon>();
-            ViewBag.TongSoLuong = phieuMuon.TongSachMuon;
-            ViewBag.TenDg = phieuMuon.MaDgNavigation.TenDg;
+            ViewData["phieuMuon"] = phieuMuon;
             ViewBag.NgayMuon = phieuMuon.NgayMuon.ToShortDateString();
+            ViewBag.HanTra = phieuMuon.HanTra.ToShortDateString();
             ViewBag.CurrentSort = sortOrder;
             ViewBag.SoLuongSortParm = string.IsNullOrEmpty(sortOrder) ? "slsp_desc" : "";
 
@@ -232,7 +232,6 @@ namespace LibraryManagement.Admin.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var ctphieuMuon = await _context.CtphieuMuon.FindAsync(id);
             var ctphieuMuon = await _apiService.GetAsync($"api/ctPhieuMuon/Detail/{id}").Result.Content.ReadAsAsync<CtphieuMuon>();
             var phieuMuon = await _apiService.GetAsync($"api/phieuMuon/{ctphieuMuon.PhieuMuon}").Result.Content.ReadAsAsync<PhieuMuon>();
             phieuMuon.TongSachMuon -= ctphieuMuon.SoLuong;
