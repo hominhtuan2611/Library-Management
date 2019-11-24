@@ -125,6 +125,7 @@ namespace LibraryManagement.Admin.Controllers
         {
             ViewBag.CurrentSort = sortOrder;
             ViewBag.TenSachSortParm = sortOrder == "tensach" ? "tensach_desc" : "tensach";
+            ViewBag.LoaiSachSortParm = sortOrder == "loaisach" ? "loaisach_desc" : "loaisach";
             ViewBag.SoLuongSortParm = sortOrder == "soluong" ? "soluong_desc" : "soluong";
 
             var list_phieumuon = await _apiService.GetAsync("api/phieumuon").Result.Content.ReadAsAsync<List<PhieuMuon>>();
@@ -168,6 +169,12 @@ namespace LibraryManagement.Admin.Controllers
                 case "tensach_desc":
                     result = result.OrderByDescending(s => s.TenSach).ToList();
                     break;
+                case "loaisach":
+                    list_sach = list_sach.OrderBy(s => s.LoaiSachNavigation.TenLoai).ToList();
+                    break;
+                case "loaisach_desc":
+                    list_sach = list_sach.OrderByDescending(s => s.LoaiSachNavigation.TenLoai).ToList();
+                    break;
                 case "soluong":
                     result = result.OrderBy(s => s.SoLuong).ToList();
                     break;
@@ -175,7 +182,7 @@ namespace LibraryManagement.Admin.Controllers
                     result = result.OrderByDescending(s => s.SoLuong).ToList();
                     break;
                 default:
-                    result = result.OrderBy(s => s.LoaiSachNavigation.TenLoai).ToList();
+                    result = result.OrderBy(s => s.Id).ToList();
                     break;
             }
 
@@ -188,6 +195,7 @@ namespace LibraryManagement.Admin.Controllers
         {
             ViewBag.CurrentSort = sortOrder;
             ViewBag.TenSachSortParm = sortOrder == "tensach" ? "tensach_desc" : "tensach";
+            ViewBag.LoaiSachSortParm = sortOrder == "loaisach" ? "loaisach_desc" : "loaisach";
             ViewBag.SoLuongSortParm = sortOrder == "soluong" ? "soluong_desc" : "soluong";
 
             var list_sach = await _apiService.GetAsync("api/sach").Result.Content.ReadAsAsync<List<Sach>>();
@@ -230,6 +238,12 @@ namespace LibraryManagement.Admin.Controllers
                 case "tensach_desc":
                     sachNotBorrow = sachNotBorrow.OrderByDescending(s => s.TenSach).ToList();
                     break;
+                case "loaisach":
+                    list_sach = list_sach.OrderBy(s => s.LoaiSachNavigation.TenLoai).ToList();
+                    break;
+                case "loaisach_desc":
+                    list_sach = list_sach.OrderByDescending(s => s.LoaiSachNavigation.TenLoai).ToList();
+                    break;
                 case "soluong":
                     sachNotBorrow = sachNotBorrow.OrderBy(s => s.SoLuong).ToList();
                     break;
@@ -237,13 +251,63 @@ namespace LibraryManagement.Admin.Controllers
                     sachNotBorrow = sachNotBorrow.OrderByDescending(s => s.SoLuong).ToList();
                     break;
                 default:
-                    sachNotBorrow = sachNotBorrow.OrderBy(s => s.LoaiSachNavigation.TenLoai).ToList();
+                    sachNotBorrow = sachNotBorrow.OrderBy(s => s.Id).ToList();
                     break;
             }
 
             int pageSize = 5;
             int pageNumber = (page ?? 1);
             return View(sachNotBorrow.ToPagedList(pageNumber, pageSize));
+        }
+
+        public async Task<IActionResult> Details(string id)
+        {
+            if (id == null)
+            {
+                return BadRequest();
+            }
+
+            var sach = await _apiService.GetAsync($"api/sach/{id}").Result.Content.ReadAsAsync<Sach>();
+
+            if (sach == null)
+            {
+                return NotFound();
+            }
+
+            return View(sach);
+        }
+
+        public async Task<IActionResult> Delete(string id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var sach = await _apiService.GetAsync($"api/sach/{id}").Result.Content.ReadAsAsync<Sach>();
+            if (sach == null)
+            {
+                return NotFound();
+            }
+
+            return View(sach);
+        }
+
+        [HttpPost, ActionName("Delete")]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> DeleteConfirmed(string id)
+        {
+            var sach = await _apiService.GetAsync($"api/sach/{id}").Result.Content.ReadAsAsync<Sach>();
+
+            sach.TrangThai = false;
+
+            HttpResponseMessage respond = await _apiService.PutAsJsonAsync($"api/sach/{sach.Id}", sach);
+            respond.EnsureSuccessStatusCode();
+
+            TempData["notice"] = "Successfully delete";
+            TempData["sach"] = sach.TenSach;
+
+            return RedirectToAction(nameof(SachKhongMuonTrongNam));
         }
     }
 }

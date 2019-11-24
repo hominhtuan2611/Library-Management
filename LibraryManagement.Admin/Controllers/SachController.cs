@@ -40,6 +40,7 @@ namespace LibraryManagement.Admin.Controllers
         {
             ViewBag.CurrentSort = sortOrder;
             ViewBag.TenSachSortParm = sortOrder == "tensach" ? "tensach_desc" : "tensach";
+            ViewBag.LoaiSachSortParm = sortOrder == "loaisach" ? "loaisach_desc" : "loaisach";
             ViewBag.SoLuongSortParm = sortOrder == "soluong" ? "soluong_desc" : "soluong";
 
             var list_sach = await _apiService.GetAsync("api/sach").Result.Content.ReadAsAsync<List<Sach>>();
@@ -70,6 +71,12 @@ namespace LibraryManagement.Admin.Controllers
                 case "tensach_desc":
                     list_sach = list_sach.OrderByDescending(s => s.TenSach).ToList();
                     break;
+                case "loaisach":
+                    list_sach = list_sach.OrderBy(s => s.LoaiSachNavigation.TenLoai).ToList();
+                    break;
+                case "loaisach_desc":
+                    list_sach = list_sach.OrderByDescending(s => s.LoaiSachNavigation.TenLoai).ToList();
+                    break;
                 case "soluong":
                     list_sach = list_sach.OrderBy(s => s.SoLuong).ToList();
                     break;
@@ -77,7 +84,7 @@ namespace LibraryManagement.Admin.Controllers
                     list_sach = list_sach.OrderByDescending(s => s.SoLuong).ToList();
                     break;
                 default:
-                    list_sach = list_sach.OrderBy(s => s.LoaiSachNavigation.TenLoai).ToList();
+                    list_sach = list_sach.OrderBy(s => s.Id).ToList();
                     break;
             }
 

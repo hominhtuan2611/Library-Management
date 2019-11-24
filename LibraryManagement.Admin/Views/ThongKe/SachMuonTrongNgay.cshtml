@@ -50,7 +50,7 @@
                 Tác giả
             </th>
             <th width="10%">
-                Loại sách
+                @Html.ActionLink("Loại Sách", "SachMuonTrongNgay", new { sortOrder = ViewBag.LoaiSachSortParm })
             </th>
             <th width="15%">
                 Nhà xuất bản
@@ -94,7 +94,7 @@
                 </td>
 
                 <td align="center">
-                    <a class="btn btn-info" href="@Url.Action("Details", "Sach",  new { id = item.Id })"><i class="fas fa-info-circle"></i></a>
+                    <a class="btn btn-info" href="@Url.Action("Details", "ThongKe",  new { id = item.Id })"><i class="fas fa-info-circle"></i></a>
                 </td>
             </tr>
         }
