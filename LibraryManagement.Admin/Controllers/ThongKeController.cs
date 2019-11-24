@@ -8,6 +8,7 @@ using LibraryManagement.API.Models;
 using LibraryManagement.Application.Common;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
+using X.PagedList;
 
 namespace LibraryManagement.Admin.Controllers
 {
@@ -118,6 +119,195 @@ namespace LibraryManagement.Admin.Controllers
 
 
             return View(result);
+        }
+
+        public async Task<IActionResult> SachMuonTrongNgay(string sortOrder, string currentFilter, string searchString, int? page)
+        {
+            ViewBag.CurrentSort = sortOrder;
+            ViewBag.TenSachSortParm = sortOrder == "tensach" ? "tensach_desc" : "tensach";
+            ViewBag.LoaiSachSortParm = sortOrder == "loaisach" ? "loaisach_desc" : "loaisach";
+            ViewBag.SoLuongSortParm = sortOrder == "soluong" ? "soluong_desc" : "soluong";
+
+            var list_phieumuon = await _apiService.GetAsync("api/phieumuon").Result.Content.ReadAsAsync<List<PhieuMuon>>();
+
+            var list_sach = await _apiService.GetAsync("api/sach").Result.Content.ReadAsAsync<List<Sach>>();
+
+            var list_chitietphieumuon = await _apiService.GetAsync("api/ctPhieuMuon").Result.Content.ReadAsAsync<List<CtphieuMuon>>();
+
+            var result = (from s in list_sach
+                          join ctpm in list_chitietphieumuon on s.Id equals ctpm.Book
+                          join pm in list_phieumuon on ctpm.PhieuMuon equals pm.Id
+
+                          where ctpm.PhieuMuon == pm.Id && ctpm.Book == s.Id
+                          && pm.NgayMuon.Day == DateTime.Now.Day
+
+                          select s).ToList();
+
+            if (searchString != null)
+                page = 1;
+            else searchString = currentFilter;
+            ViewBag.CurrentFilter = searchString;
+
+            if (!string.IsNullOrEmpty(searchString))
+            {
+                result = result.Where(s => s.TenSach.ToUpper().Contains(searchString.ToUpper())).ToList();
+                if (result.Count() > 0)
+                {
+                    TempData["notice"] = "Have result";
+                    TempData["dem"] = result.Count();
+                }
+                else
+                {
+                    TempData["notice"] = "No result";
+                }
+            }
+            switch (sortOrder)
+            {
+                case "tensach":
+                    result = result.OrderBy(s => s.TenSach).ToList();
+                    break;
+                case "tensach_desc":
+                    result = result.OrderByDescending(s => s.TenSach).ToList();
+                    break;
+                case "loaisach":
+                    list_sach = list_sach.OrderBy(s => s.LoaiSachNavigation.TenLoai).ToList();
+                    break;
+                case "loaisach_desc":
+                    list_sach = list_sach.OrderByDescending(s => s.LoaiSachNavigation.TenLoai).ToList();
+                    break;
+                case "soluong":
+                    result = result.OrderBy(s => s.SoLuong).ToList();
+                    break;
+                case "soluong_desc":
+                    result = result.OrderByDescending(s => s.SoLuong).ToList();
+                    break;
+                default:
+                    result = result.OrderBy(s => s.Id).ToList();
+                    break;
+            }
+
+            int pageSize = 5;
+            int pageNumber = (page ?? 1);
+            return View(result.ToPagedList(pageNumber, pageSize));
+        }
+
+        public async Task<IActionResult> SachKhongMuonTrongNam(string sortOrder, string currentFilter, string searchString, int? page)
+        {
+            ViewBag.CurrentSort = sortOrder;
+            ViewBag.TenSachSortParm = sortOrder == "tensach" ? "tensach_desc" : "tensach";
+            ViewBag.LoaiSachSortParm = sortOrder == "loaisach" ? "loaisach_desc" : "loaisach";
+            ViewBag.SoLuongSortParm = sortOrder == "soluong" ? "soluong_desc" : "soluong";
+
+            var list_sach = await _apiService.GetAsync("api/sach").Result.Content.ReadAsAsync<List<Sach>>();
+
+            var list_chitietphieumuon = await _apiService.GetAsync("api/ctPhieuMuon").Result.Content.ReadAsAsync<List<CtphieuMuon>>();
+
+            var sachNotBorrow = new List<Sach>();
+
+            foreach (var sach in list_sach)
+            {
+                if (list_chitietphieumuon.FirstOrDefault(x => x.Book == sach.Id) == null)
+                {
+                    sachNotBorrow.Add(sach);
+                }
+            }
+
+            if (searchString != null)
+                page = 1;
+            else searchString = currentFilter;
+            ViewBag.CurrentFilter = searchString;
+
+            if (!string.IsNullOrEmpty(searchString))
+            {
+                sachNotBorrow = sachNotBorrow.Where(s => s.TenSach.ToUpper().Contains(searchString.ToUpper())).ToList();
+                if (sachNotBorrow.Count() > 0)
+                {
+                    TempData["notice"] = "Have result";
+                    TempData["dem"] = sachNotBorrow.Count();
+                }
+                else
+                {
+                    TempData["notice"] = "No result";
+                }
+            }
+            switch (sortOrder)
+            {
+                case "tensach":
+                    sachNotBorrow = sachNotBorrow.OrderBy(s => s.TenSach).ToList();
+                    break;
+                case "tensach_desc":
+                    sachNotBorrow = sachNotBorrow.OrderByDescending(s => s.TenSach).ToList();
+                    break;
+                case "loaisach":
+                    list_sach = list_sach.OrderBy(s => s.LoaiSachNavigation.TenLoai).ToList();
+                    break;
+                case "loaisach_desc":
+                    list_sach = list_sach.OrderByDescending(s => s.LoaiSachNavigation.TenLoai).ToList();
+                    break;
+                case "soluong":
+                    sachNotBorrow = sachNotBorrow.OrderBy(s => s.SoLuong).ToList();
+                    break;
+                case "soluong_desc":
+                    sachNotBorrow = sachNotBorrow.OrderByDescending(s => s.SoLuong).ToList();
+                    break;
+                default:
+                    sachNotBorrow = sachNotBorrow.OrderBy(s => s.Id).ToList();
+                    break;
+            }
+
+            int pageSize = 5;
+            int pageNumber = (page ?? 1);
+            return View(sachNotBorrow.ToPagedList(pageNumber, pageSize));
+        }
+
+        public async Task<IActionResult> Details(string id)
+        {
+            if (id == null)
+            {
+                return BadRequest();
+            }
+
+            var sach = await _apiService.GetAsync($"api/sach/{id}").Result.Content.ReadAsAsync<Sach>();
+
+            if (sach == null)
+            {
+                return NotFound();
+            }
+
+            return View(sach);
+        }
+
+        public async Task<IActionResult> Delete(string id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var sach = await _apiService.GetAsync($"api/sach/{id}").Result.Content.ReadAsAsync<Sach>();
+            if (sach == null)
+            {
+                return NotFound();
+            }
+
+            return View(sach);
+        }
+
+        [HttpPost, ActionName("Delete")]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> DeleteConfirmed(string id)
+        {
+            var sach = await _apiService.GetAsync($"api/sach/{id}").Result.Content.ReadAsAsync<Sach>();
+
+            sach.TrangThai = false;
+
+            HttpResponseMessage respond = await _apiService.PutAsJsonAsync($"api/sach/{sach.Id}", sach);
+            respond.EnsureSuccessStatusCode();
+
+            TempData["notice"] = "Successfully delete";
+            TempData["sach"] = sach.TenSach;
+
+            return RedirectToAction(nameof(SachKhongMuonTrongNam));
         }
     }
 }

@@ -14,11 +14,18 @@
 @using (Html.BeginForm("Index", "PhieuMuon", FormMethod.Get))
 {
     <p>
-        Nhập tên nhân viên: @Html.TextBox("searchString", ViewBag.CurrentFilter as string)
+        Nhập tên độc giả: @Html.TextBox("searchString", ViewBag.CurrentFilter as string)
         <button type="submit"><i class="fa fa-search"></i></button>
-        <a class="btn btn-secondary" href="@Url.Action("Index")"><i class="fas fa-sync"></i></a>
+        <a class="btn btn-link" href="@Url.Action("Index")"><i class="fas fa-sync"></i></a>
     </p>
     <br />
+}
+
+@if (TempData["expireNotice"].ToString() == "Has Expired")
+{
+    <div class="alert alert-danger" role="alert">
+        <strong> Có @TempData["expired"].ToString() phiếu mượn đã quá hạn!</strong>
+    </div>
 }
 
 @if (TempData["notice"] != null)
@@ -41,6 +48,12 @@
     {
         <div class="alert alert-success" role="alert">
             <strong>Thông báo! </strong>Xóa thông tin phiếu nhập: @TempData["phieumuon"] thành công
+        </div>
+    }
+    else if (TempData["notice"].ToString() == "Successfully send email")
+    {
+        <div class="alert alert-success" role="alert">
+            <strong>Thông báo! </strong>Đã gửi email nhắc nhở đến độc giả @TempData["docgia"]!
         </div>
     }
     else if (TempData["notice"].ToString() == "Have result")
@@ -74,10 +87,10 @@
                 @Html.ActionLink("Ngày mượn", "Index", new { sortOrder = ViewBag.NgayMuonSortParm })
             </th>
             <th>
-                Số lượng
+                Hạn trả
             </th>
             <th>
-                Tên nhà đọc giả
+                Tên độc giả
             </th>
             <th>
                 Nhân viên tạo phiếu
@@ -101,7 +114,7 @@
                     @Html.DisplayFor(modelItem => item.NgayMuon)
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.TongSachMuon)
+                    @Html.DisplayFor(modelItem => item.HanTra)
                 </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.MaDgNavigation.TenDg)
@@ -117,6 +130,10 @@
                     else
                     {
                         <a href="#" type="button" class="btn btn-secondary">Chưa Trả</a>
+                        if (item.TrangThai == 4)
+                        {
+                            <a class="btn btn-warning" href="@Url.Action("SendExpiryWarningEmail",  new { tenDocGia = item.MaDgNavigation.TenDg, ngayMuon = item.NgayMuon.ToShortDateString(), email = item.MaDgNavigation.Username })"><i class="fas fa-envelope"></i></a>
+                        }
                     }
                 </td>
                 <td>
@@ -128,7 +145,7 @@
                             break;
                         case 3: <a href="#" type="button" class="btn btn-success">Trả đúng hạn</a>
                             break;
-                        case 4: <a href="#" type="button" class="btn btn-danger">Trả quá hạn</a>
+                        case 4: <a href="#" type="button" class="btn btn-danger">Quá hạn</a>
                             break;
                     }
                 </td>

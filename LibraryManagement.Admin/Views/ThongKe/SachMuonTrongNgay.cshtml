@@ -4,46 +4,26 @@
 <link href="/Content/PagedList.css" rel="stylesheet" type="text/css" />
 
 @{
-    ViewData["Title"] = "Quản lí Sách";
+    ViewData["Title"] = "Sách mượn trong ngày";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
 <br />
-<h2>Quản lí sách</h2>
+<h2>Sách mượn trong ngày @DateTime.Now.ToShortDateString()</h2>
 <br />
-@using (Html.BeginForm("Index", "SanPham", FormMethod.Get))
+@using (Html.BeginForm("SachMuonTrongNgay", "ThongKe", FormMethod.Get))
 {
     <p>
         Nhập tên sách: @Html.TextBox("searchString", ViewBag.CurrentFilter as string)
         <button type="submit"><i class="fa fa-search"></i></button>
-        <a class="btn btn-link" href="@Url.Action("Index")"><i class="fas fa-sync"></i></a>
+        <a class="btn btn-link" href="@Url.Action("SachMuonTrongNgay")"><i class="fas fa-sync"></i></a>
     </p>
     <br />
 }
 
 @if (TempData["notice"] != null)
 {
-    if (TempData["notice"].ToString() == "Successfully create")
-    {
-        <div class="alert alert-success" role="alert">
-            <strong>Thông báo! </strong>Thêm sách: @TempData["sach"] thành công
-        </div>
-    }
-    else
-    if (TempData["notice"].ToString() == "Successfully edit")
-    {
-        <div class="alert alert-success" role="alert">
-            <strong>Thông báo! </strong>Sửa thông tin sách: @TempData["sach"] thành công
-        </div>
-    }
-    else
-    if (TempData["notice"].ToString() == "Successfully delete")
-    {
-        <div class="alert alert-success" role="alert">
-            <strong>Thông báo! </strong>Xóa sách: @TempData["sach"] thành công
-        </div>
-    }
-    else if (TempData["notice"].ToString() == "Have result")
+    if (TempData["notice"].ToString() == "Have result")
     {
         <div class="alert alert-info" role="alert">
             <strong>Tìm kiếm thành công! </strong>Có @TempData["dem"] kết quả trả về!
@@ -57,10 +37,6 @@
     }
 }
 
-<p>
-    <button class="btn btn-primary" onclick="location.href='@Url.Action("Create")';return false;"><i class="fas fa-plus"></i> Tạo mới</button>&nbsp;&nbsp;&nbsp;&nbsp;
-</p>
-
 <table class="table table-striped table-bordered table-hover" id="dataTables-example">
     <thead>
         <tr>
@@ -68,13 +44,13 @@
                 Mã Sách
             </th>
             <th width="20%">
-                @Html.ActionLink("Tên Sách", "Index", new { sortOrder = ViewBag.TenSachSortParm })
+                @Html.ActionLink("Tên Sách", "SachMuonTrongNgay", new { sortOrder = ViewBag.TenSachSortParm })
             </th>
             <th width="8%">
                 Tác giả
             </th>
             <th width="10%">
-                @Html.ActionLink("Loại Sách", "Index", new { sortOrder = ViewBag.LoaiSachSortParm })
+                @Html.ActionLink("Loại Sách", "SachMuonTrongNgay", new { sortOrder = ViewBag.LoaiSachSortParm })
             </th>
             <th width="15%">
                 Nhà xuất bản
@@ -83,7 +59,7 @@
                 Năm xuất bản
             </th>
             <th width="8%">
-                @Html.ActionLink("Số lượng", "Index", new { sortOrder = ViewBag.SoLuongSortParm })
+                @Html.ActionLink("Số lượng", "SachMuonTrongNgay", new { sortOrder = ViewBag.SoLuongSortParm })
             </th>
             <th>
                 <p style="text-align:center">Chức năng</p>
@@ -118,9 +94,7 @@
                 </td>
 
                 <td align="center">
-                    <a class="btn btn-info" href="@Url.Action("Details",  new { id = item.Id })"><i class="fas fa-info-circle"></i></a>
-                    <a class="btn btn-warning" href="@Url.Action("Edit",  new { id = item.Id })"><i class="fas fa-edit"></i></a>
-                    <a class="btn btn-danger" href="@Url.Action("Delete",  new { id = item.Id })"><i class="fas fa-trash-alt"></i></a>
+                    <a class="btn btn-info" href="@Url.Action("Details", "ThongKe",  new { id = item.Id })"><i class="fas fa-info-circle"></i></a>
                 </td>
             </tr>
         }
@@ -129,7 +103,7 @@
 Trang @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) /
 @Model.PageCount
 
-@Html.PagedListPager(Model, page => Url.Action("Index",
+@Html.PagedListPager(Model, page => Url.Action("SachMuonTrongNgay",
 new
 {
     page,
