@@ -87,10 +87,7 @@ namespace LibraryManagement.Admin.Controllers
                 return NotFound();
             }
 
-            var ctphieuMuon = await _context.CtphieuMuon
-                .Include(c => c.BookNavigation)
-                .Include(c => c.PhieuMuonNavigation)
-                .FirstOrDefaultAsync(m => m.Id == id);
+            var ctphieuMuon = await _apiService.GetAsync($"api/ctPhieuMuon/Detail/{id}").Result.Content.ReadAsAsync<CtphieuMuon>();
             if (ctphieuMuon == null)
             {
                 return NotFound();
