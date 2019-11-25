@@ -21,7 +21,7 @@
     <br />
 }
 
-@if (TempData["expireNotice"].ToString() == "Has Expired")
+@if (TempData["expireNotice"]!=null && TempData["expireNotice"].ToString() == "Has Expired")
 {
     <div class="alert alert-danger" role="alert">
         <strong> Có @TempData["expired"].ToString() phiếu mượn đã quá hạn!</strong>
@@ -66,6 +66,12 @@
     {
         <div class="alert alert-danger" role="alert">
             <strong> Không có kết quả trả về!</strong>
+        </div>
+    }
+    else if (TempData["notice"].ToString() == "Return late")
+    {
+        <div class="alert alert-danger" role="alert">
+            <strong> Phiếu mượn: @TempData["phieumuon"] đã trả quá hạn! Đề nghị xử phạt</strong>
         </div>
     }
 }
@@ -124,23 +130,30 @@
                     else
                     {
                         <a href="#" type="button" class="btn btn-secondary">Chưa Trả</a>
-                        if (item.TrangThai == 4)
+                        if (item.HanTra<DateTime.Now)
                         {
                             <a class="btn btn-warning" href="@Url.Action("SendExpiryWarningEmail",  new { tenDocGia = item.MaDgNavigation.TenDg, ngayMuon = item.NgayMuon.ToShortDateString(), email = item.MaDgNavigation.Username })"><i class="fas fa-envelope"></i></a>
                         }
                     }
                 </td>
                 <td>
-                    @switch (item.TrangThai)
+                    @if (item.HanTra < DateTime.Now && item.DaTra == false)
                     {
-                        case 1:<a href="#" type="button" class="btn btn-primary">Đã tạo</a>
-                            break;
-                        case 2: <a href="#" type="button" class="btn btn-warning">Cho mượn</a>
-                            break;
-                        case 3: <a href="#" type="button" class="btn btn-success">Trả đúng hạn</a>
-                            break;
-                        case 4: <a href="#" type="button" class="btn btn-danger">Quá hạn</a>
-                            break;
+                    <a href="#" type="button" class="btn btn-danger">Quá hạn</a>
+                    }
+                    else
+                    {
+                        switch (item.TrangThai)
+                        {
+                            case 1:<a href="#" type="button" class="btn btn-primary">Đã tạo</a>
+                                break;
+                            case 2: <a href="#" type="button" class="btn btn-warning">Cho mượn</a>
+                                break;
+                            case 3: <a href="#" type="button" class="btn btn-success">Trả đúng hạn</a>
+                                break;
+                            case 4: <a href="#" type="button" class="btn btn-danger">Trả quá hạn</a>
+                                break;
+                        }
                     }
                 </td>
                 <td align="center">

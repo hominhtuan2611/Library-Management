@@ -8,10 +8,32 @@
 }
 
 <br />
-<h2>Thông tin chi tiết phiếu mượn: @ViewBag.MaPM</h2>
-<h4><b>Tên đọc giả:</b> <b>@ViewBag.TenDg</b></h4>
-<h4><b>Ngày mượn:</b> <b style="color:red">@ViewBag.NgayMuon</b></h4>
-<h4><b>Tổng số lượng sách mượn:</b> <b style="color:red">@ViewBag.TongSoLuong</b></h4>
+
+<h2>Thông tin chi tiết phiếu mượn: @ViewBag.phieuMuon.Id</h2>
+<div class="row">
+    <div class="col-sm-6">
+        <h4><b>Tên đọc giả:</b> <b>@ViewBag.phieuMuon.MaDgNavigation.TenDg</b></h4>
+        <h4><b>Ngày mượn:</b> <b style="color:red">@ViewBag.NgayMuon</b></h4>
+        <h4><b>Tổng số lượng sách mượn:</b> <b style="color:red">@ViewBag.phieuMuon.TongSachMuon</b></h4>
+    </div>
+    <div class="col-sm-6">
+        <h4><b>Tên nhân viên:</b> <b>@ViewBag.phieuMuon.MaNvNavigation.TenNv</b></h4>
+        <h4><b>Ngày Trả:</b> <b style="color:red">@ViewBag.HanTra</b></h4>
+        <h4><b>Trạng Thái</b> <b style="color:red">
+      @switch (ViewBag.phieuMuon.TrangThai)
+        {
+            case 1:<a href="#" type="button" class="btn btn-primary">Đã tạo</a>
+                break;
+            case 2: <a href="#" type="button" class="btn btn-warning">Cho mượn</a>
+                break;
+            case 3: <a href="#" type="button" class="btn btn-success">Trả đúng hạn</a>
+                break;
+            case 4: <a href="#" type="button" class="btn btn-danger">Trả quá hạn</a>
+                break;
+        }
+</b></h4>
+    </div>
+</div>
 <br />
 
 @if (TempData["notice"] != null)
