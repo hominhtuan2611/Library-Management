@@ -5,51 +5,38 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h1>Details</h1>
+<h1>Thông tin chi tiết sách mượn</h1>
 
 <div>
-    <h4>CtphieuMuon</h4>
     <hr />
     <dl class="row">
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.SoLuong)
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.BookNavigation.Id)
         </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.SoLuong)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.NgayMuon)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.NgayMuon)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.NgayTra)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.NgayTra)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.TinhTrangSach)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.TinhTrangSach)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.BookNavigation)
-        </dt>
-        <dd class = "col-sm-10">
+        <dd class="col-sm-10">
             @Html.DisplayFor(model => model.BookNavigation.Id)
         </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.PhieuMuonNavigation)
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.BookNavigation.TenSach)
         </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.PhieuMuonNavigation.Id)
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.BookNavigation.TenSach)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.SoLuong)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.SoLuong)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.TinhTrangSach)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.TinhTrangSach)
         </dd>
     </dl>
 </div>
 <div>
-    <a asp-action="Edit" asp-route-id="@Model.Id">Edit</a> |
-    <a asp-action="Index">Back to List</a>
+    <a class="btn btn-primary"asp-action="Edit" asp-route-id="@Model.Id">Sửa</a> |
+    <a class="btn btn-default" href="@Url.Action("Index", new {  phieuMuonId = Model.PhieuMuon  })">Trở lại</a>
 </div>

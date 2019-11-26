@@ -16,16 +16,8 @@ namespace LibraryManagement.API.Models
 
         [Range(1, 100, ErrorMessage = "Số lượng không hợp lệ")]
         [Required(ErrorMessage = "Vui lòng nhập vào số lượng sách")]
-        [Display(Name = "Số lượng")]
+        [Display(Name = "Số lượng mượn")]
         public int SoLuong { get; set; }
-
-        [DisplayFormat(DataFormatString = "{0:d}", ApplyFormatInEditMode = true)]
-        [Display(Name = "Ngày mượn")]
-        public DateTime? NgayMuon { get; set; }
-
-        [DisplayFormat(DataFormatString = "{0:d}", ApplyFormatInEditMode = true)]
-        [Display(Name = "Ngày trả")]
-        public DateTime? NgayTra { get; set; }
 
         [Display(Name = "Tình trạng sách")]
         public string TinhTrangSach { get; set; }

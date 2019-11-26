@@ -15,7 +15,7 @@ namespace LibraryManagement.API.Models
         public int Id { get; set; }
 
         [StringLength(30), MinLength(5, ErrorMessage = "Tên tối thiểu chứa 5 kí tự"), MaxLength(40, ErrorMessage = "Tên vượt quá độ dài cho phép"), Required(ErrorMessage = "Vui lòng nhập tên")]
-        [Display(Name = "Họ tên")]
+        [Display(Name = "Họ tên đọc giả")]
         public string TenDg { get; set; }
 
         [StringLength(10)]

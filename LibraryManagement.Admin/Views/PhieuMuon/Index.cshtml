@@ -1,72 +1,177 @@
-﻿@model IEnumerable<LibraryManagement.API.Models.PhieuMuon>
+@model X.PagedList.IPagedList<LibraryManagement.API.Models.PhieuMuon>
+@using X.PagedList.Mvc.Core;
+<link href="~/Content/PagedList.css" rel="stylesheet" type="text/css" />
 
 @{
     ViewData["Title"] = "Index";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h1>Index</h1>
+
+<br />
+<h2>Quản lí phiếu mượn</h2>
+<br />
+@using (Html.BeginForm("Index", "PhieuMuon", FormMethod.Get))
+{
+    <p>
+        Nhập tên độc giả: @Html.TextBox("searchString", ViewBag.CurrentFilter as string)
+        <button type="submit"><i class="fa fa-search"></i></button>
+        <a class="btn btn-link" href="@Url.Action("Index")"><i class="fas fa-sync"></i></a>
+    </p>
+    <br />
+}
+
+@if (TempData["expireNotice"]!=null && TempData["expireNotice"].ToString() == "Has Expired")
+{
+    <div class="alert alert-danger" role="alert">
+        <strong> Có @TempData["expired"].ToString() phiếu mượn đã quá hạn!</strong>
+    </div>
+}
+
+@if (TempData["notice"] != null)
+{
+    if (TempData["notice"].ToString() == "Successfully create")
+    {
+        <div class="alert alert-success" role="alert">
+            <strong>Thông báo! </strong>Thêm thông tin phiếu mượn: @TempData["phieumuon"] thành công
+        </div>
+        <br />
+    }
+    else
+    if (TempData["notice"].ToString() == "Successfully edit")
+    {
+        <div class="alert alert-success" role="alert">
+            <strong>Thông báo! </strong>Sửa thông tin phiếu mượn: @TempData["phieumuon"] thành công
+        </div>
+    }
+    else if (TempData["notice"].ToString() == "Successfully delete")
+    {
+        <div class="alert alert-success" role="alert">
+            <strong>Thông báo! </strong>Xóa thông tin phiếu nhập: @TempData["phieumuon"] thành công
+        </div>
+    }
+    else if (TempData["notice"].ToString() == "Successfully send email")
+    {
+        <div class="alert alert-success" role="alert">
+            <strong>Thông báo! </strong>Đã gửi email nhắc nhở đến độc giả @TempData["docgia"]!
+        </div>
+    }
+    else if (TempData["notice"].ToString() == "Have result")
+    {
+        <div class="alert alert-info" role="alert">
+            <strong>Tìm kiếm thành công! </strong>Có @TempData["dem"] kết quả trả về!
+        </div>
+    }
+    else if (TempData["notice"].ToString() == "No result")
+    {
+        <div class="alert alert-danger" role="alert">
+            <strong> Không có kết quả trả về!</strong>
+        </div>
+    }
+    else if (TempData["notice"].ToString() == "Return late")
+    {
+        <div class="alert alert-danger" role="alert">
+            <strong> Phiếu mượn: @TempData["phieumuon"] đã trả quá hạn! Đề nghị xử phạt</strong>
+        </div>
+    }
+}
 
 <p>
-    <a asp-action="Create">Create New</a>
+    <button class="btn btn-primary" onclick="location.href='@Url.Action("Create")';return false;"><i class="fas fa-plus"></i> Tạo mới</button>&nbsp;&nbsp;&nbsp;&nbsp;
 </p>
-<table class="table">
+
+<table class="table table-striped table-bordered table-hover" id="dataTables-example">
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.NgayMuon)
+                @Html.ActionLink("Ngày mượn", "Index", new { sortOrder = ViewBag.NgayMuonSortParm })
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.TongSachMuon)
+                Hạn trả
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.HanTra)
+                Tên độc giả
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.DaTra)
+                Nhân viên tạo phiếu
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.TrangThai)
+                Đã trả
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.MaDgNavigation)
+                Trạng thái
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.MaNvNavigation)
+                <p style="text-align:center">Chức năng</p>
             </th>
-            <th></th>
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.NgayMuon)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.TongSachMuon)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.HanTra)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.DaTra)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.TrangThai)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.MaDgNavigation.Cmnd)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.MaNvNavigation.Cmnd)
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
-            </td>
-        </tr>
-}
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.NgayMuon)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.HanTra)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.MaDgNavigation.TenDg)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.MaNvNavigation.TenNv)
+                </td>
+                <td>
+                    @if (item.DaTra)
+                    {
+                        <a href="#" type="button" class="btn btn-success">Đã trả</a>
+                    }
+                    else
+                    {
+                        <a href="#" type="button" class="btn btn-secondary">Chưa Trả</a>
+                        if (item.HanTra<DateTime.Now)
+                        {
+                            <a class="btn btn-warning" href="@Url.Action("SendExpiryWarningEmail",  new { tenDocGia = item.MaDgNavigation.TenDg, ngayMuon = item.NgayMuon.ToShortDateString(), email = item.MaDgNavigation.Username })"><i class="fas fa-envelope"></i></a>
+                        }
+                    }
+                </td>
+                <td>
+                    @if (item.HanTra < DateTime.Now && item.DaTra == false)
+                    {
+                    <a href="#" type="button" class="btn btn-danger">Quá hạn</a>
+                    }
+                    else
+                    {
+                        switch (item.TrangThai)
+                        {
+                            case 1:<a href="#" type="button" class="btn btn-primary">Đã tạo</a>
+                                break;
+                            case 2: <a href="#" type="button" class="btn btn-warning">Cho mượn</a>
+                                break;
+                            case 3: <a href="#" type="button" class="btn btn-success">Trả đúng hạn</a>
+                                break;
+                            case 4: <a href="#" type="button" class="btn btn-danger">Trả quá hạn</a>
+                                break;
+                        }
+                    }
+                </td>
+                <td align="center">
+                    <a class="btn btn-info" href="@Url.Action("Index", "CtphieuMuon",  new { phieuMuonId = item.Id })"><i class="fas fa-info-circle"></i></a>
+                    <a class="btn btn-warning" href="@Url.Action("Edit",  new { id = item.Id })"><i class="fas fa-edit"></i></a>
+                    <a class="btn btn-danger" href="@Url.Action("Delete",  new { id = item.Id })"><i class="fas fa-trash-alt"></i></a>
+                </td>
+            </tr>
+        }
     </tbody>
 </table>
+Trang @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) /
+@Model.PageCount
+@Html.PagedListPager(Model, page => Url.Action("Index",
+new
+{
+    page,
+    sortOrder = ViewBag.CurrentSort,
+    currentFilter =
+ViewBag.CurrentFilter
+}))

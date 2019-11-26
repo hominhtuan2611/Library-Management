@@ -53,7 +53,7 @@ namespace LibraryManagement.API.Controllers
 
         // PUT: api/ctPhieuMuon/5
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutCtphieuMuon(int id, CtphieuMuon ctphieuMuon)
+        public async Task<ActionResult<CtphieuMuon>> PutCtphieuMuon(int id, CtphieuMuon ctphieuMuon)
         {
             if (id != ctphieuMuon.Id)
             {
@@ -77,8 +77,11 @@ namespace LibraryManagement.API.Controllers
                     throw;
                 }
             }
-
-            return NoContent();
+            var new_ctphieuMuon = await _context.CtphieuMuon
+                                       .Include(c => c.BookNavigation)
+                                       .Include(c => c.PhieuMuonNavigation)
+                                       .FirstOrDefaultAsync(m => m.Id == ctphieuMuon.Id);
+            return new_ctphieuMuon;
         }
 
         // POST: api/ctPhieuMuon
@@ -87,8 +90,11 @@ namespace LibraryManagement.API.Controllers
         {
             _context.CtphieuMuon.Add(ctphieuMuon);
             await _context.SaveChangesAsync();
-
-            return CreatedAtAction("GetCtphieuMuon", new { id = ctphieuMuon.Id }, ctphieuMuon);
+            var new_ctphieuMuon = await _context.CtphieuMuon
+                            .Include(c => c.BookNavigation)
+                            .Include(c => c.PhieuMuonNavigation)
+                            .FirstOrDefaultAsync(m => m.Id == ctphieuMuon.Id);
+            return new_ctphieuMuon;
         }
 
         // DELETE: api/ctPhieuMuon/5

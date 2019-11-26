@@ -1,0 +1,81 @@
+﻿@model LibraryManagement.API.Models.Sach
+
+@{
+    ViewData["Title"] = "Delete";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1>Xóa</h1>
+
+<h3>Bạn muốn xóa sách này?</h3>
+<div>
+    <hr />
+    <dl class="row">
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Id)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Id)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.TenSach)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.TenSach)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.TacGia)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.TacGia)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.LoaiSachNavigation.TenLoai)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.LoaiSachNavigation.TenLoai)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.NhaXuatBan)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.NhaXuatBan)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.NamXuatBan)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.NamXuatBan)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.TongSoTrang)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.TongSoTrang)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.TomTat)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.TomTat)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.SoLuong)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.SoLuong)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.HinhAnh)
+        </dt>
+        <dd class="col-sm-10">
+            <img src=@Html.DisplayFor(model => model.HinhAnh) height="175" width="175" />
+        </dd>
+    </dl>
+
+    <form asp-action="Delete">
+        <input type="hidden" asp-for="Id" />
+        <input type="submit" value="Xóa" class="btn btn-danger" /> |
+        <a class="btn btn-default" asp-action="SachKhongMuonTrongNam">Trở về</a>
+    </form>
+</div>

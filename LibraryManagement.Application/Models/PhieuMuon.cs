@@ -19,6 +19,7 @@ namespace LibraryManagement.API.Models
         public int MaNv { get; set; }
 
         [DisplayFormat(DataFormatString = "{0:d}", ApplyFormatInEditMode = true)]
+        [DataType(DataType.Date)]
         [Display(Name = "Ngày mượn")]
         public DateTime NgayMuon { get; set; }
 
@@ -26,6 +27,7 @@ namespace LibraryManagement.API.Models
         public int? TongSachMuon { get; set; }
 
         [DisplayFormat(DataFormatString = "{0:d}", ApplyFormatInEditMode = true)]
+        [DataType(DataType.Date)]
         [Display(Name = "Hạn phải trả")]
         public DateTime HanTra { get; set; }
 
