@@ -1,0 +1,38 @@
+﻿
+
+@{
+    ViewData["Title"] = "login";
+}
+
+<div class="login py-sm-5 py-4">
+    <div class="container py-xl-4 py-lg-2">
+        <div class="modal-content">
+            <div class="modal-header">
+                <center>
+                    <h5 class="modal-title text-center">Đăng nhập</h5>
+                </center>
+            </div>
+            <div class="modal-body">
+                <form action="CheckLogin" method="post">
+                    <div class="form-group">
+                        <label class="col-form-label">Họ tên</label>
+                        <input type="text" class="form-control" placeholder=" " name="Name" required="">
+                    </div>
+                    <div class="form-group">
+                        <label class="col-form-label">Mật khẩu</label>
+                        <input type="password" class="form-control" placeholder=" " name="Password" required="">
+                    </div>
+                    <div class="right-w3l">
+                        <input type="submit" class="form-control" value="Đăng nhập">
+                    </div>
+                    <div class="sub-w3l">
+                        <div class="custom-control custom-checkbox mr-sm-2">
+                            <input type="checkbox" class="custom-control-input" id="customControlAutosizing">
+                            <label class="custom-control-label" for="customControlAutosizing">Ghi nhớ đăng nhập?</label>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

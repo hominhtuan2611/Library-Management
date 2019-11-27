@@ -1,0 +1,291 @@
+﻿
+
+
+@{
+    @model X.PagedList.IPagedList<LibraryManagement.API.Models.Sach>
+    @using X.PagedList.Mvc.Core;
+    ViewData["Title"] = "Product";
+}
+
+<div class="ads-grid py-sm-5 py-4">
+    <div class="container py-xl-4 py-lg-2">
+        <!-- tittle heading -->
+        @*<h3 class="tittle-w3l text-center mb-lg-5 mb-sm-4 mb-3">
+                <span>M</span>obiles
+                <span>&</span>
+                <span>C</span>omputers
+            </h3>*@
+        <!-- //tittle heading -->
+        <div class="row">
+            <!-- product left -->
+            <div class="agileinfo-ads-display col-lg-12">
+                <div class="wrapper">
+                    <!-- first section -->
+                    <div class="product-sec1 px-sm-4 px-3 py-sm-5  py-3 mb-4">
+                        <div class="row">
+                            @for (var i = 0; i < 3; i++)
+                            {
+                                <div class="col-md-4 product-men">
+                                    <div class="men-pro-item simpleCart_shelfItem">
+                                        <div class="men-thumb-item text-center">
+                                            <img src="~/images/m1.jpg" alt="">
+                                            <div class="men-cart-pro">
+                                                <div class="inner-men-cart-pro">
+                                                    <a class="nav-link text-dark link-product-add-cart" asp-area="" asp-controller="Single" asp-action="Single"> Quick View</a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="item-info-product text-center border-top mt-4">
+                                            <h4 class="pt-1">
+                                                <a href="./Single/single/@Html.DisplayFor(modelItem => modelItem[i].Id)">@Html.DisplayFor(modelItem => modelItem[i].TenSach)</a>
+                                            </h4>
+                                            <div class="info-product-price my-2">
+                                                <span class="item_price">200.000đ</span>
+                                                <del>280.000đ</del>
+                                            </div>
+                                            <div class="snipcart-details top_brand_home_details item_add single-item hvr-outline-out">
+                                                <form action="#" method="post">
+                                                    <fieldset>
+                                                        <input type="hidden" name="cmd" value="_cart" />
+                                                        <input type="hidden" name="add" value="1" />
+                                                        <input type="hidden" name="business" value=" " />
+                                                        <input type="hidden" name="item_name" value="nha gia kim" />
+                                                        <input type="hidden" name="amount" value="200.000" />
+                                                        <input type="hidden" name="discount_amount" value="1.00" />
+                                                        <input type="hidden" name="currency_code" value="vnd" />
+                                                        <input type="hidden" name="return" value=" " />
+                                                        <input type="hidden" name="cancel_return" value=" " />
+                                                        <input type="submit" name="submit" value="Đăng ký mượn sách" class="button btn" />
+                                                    </fieldset>
+                                                </form>
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                </div>
+                            }
+                        </div>
+                    </div>
+                    <!-- second section -->
+                    <div class="product-sec1 px-sm-4 px-3 py-sm-5  py-3 mb-4">
+                        <div class="row">
+                            @for (var i = 3; i < 6; i++)
+                            {
+                                <div class="col-md-4 product-men">
+                                    <div class="men-pro-item simpleCart_shelfItem">
+                                        <div class="men-thumb-item text-center">
+                                            <img src="~/images/mk1.jpg" alt="">
+                                            <div class="men-cart-pro">
+                                                <div class="inner-men-cart-pro">
+                                                    <a class="nav-link text-dark link-product-add-cart" asp-area="" asp-controller="Single" asp-action="Single">Quick View</a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="item-info-product text-center border-top mt-4">
+                                            <h4 class="pt-1">
+                                                <a href="single.html">@Html.DisplayFor(modelItem => modelItem[i].TenSach)</a>
+                                            </h4>
+                                            <div class="info-product-price my-2">
+                                                <span class="item_price">$300.00</span>
+                                                <del>$320.00</del>
+                                            </div>
+                                            <span class="product-new-top">New</span>
+                                            <div class="snipcart-details top_brand_home_details item_add single-item hvr-outline-out">
+                                                <form action="#" method="post">
+                                                    <fieldset>
+                                                        <input type="hidden" name="cmd" value="_cart" />
+                                                        <input type="hidden" name="add" value="1" />
+                                                        <input type="hidden" name="business" value=" " />
+                                                        <input type="hidden" name="item_name" value="Infinix Hot S3" />
+                                                        <input type="hidden" name="amount" value="300.00" />
+                                                        <input type="hidden" name="discount_amount" value="1.00" />
+                                                        <input type="hidden" name="currency_code" value="USD" />
+                                                        <input type="hidden" name="return" value=" " />
+                                                        <input type="hidden" name="cancel_return" value=" " />
+                                                        <input type="submit" name="submit" value="Đăng ký mượn sách" class="button btn" />
+                                                    </fieldset>
+                                                </form>
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                </div>
+                            }
+                        </div>
+                    </div>
+                    <!-- //second section -->
+                    <!-- 3rd section -->
+                    <div class="product-sec1 px-sm-4 px-3 py-sm-5  py-3 mt-4">
+                        <div class="row">
+                            @for (var i = 6; i < 9; i++)
+                            {
+                                <div class="col-md-4 product-men">
+                                    <div class="men-pro-item simpleCart_shelfItem">
+                                        <div class="men-thumb-item text-center">
+                                            <img src="~/images/mk4.jpg" alt="" class="img-fluid">
+                                            <div class="men-cart-pro">
+                                                <div class="inner-men-cart-pro">
+                                                    <a class="nav-link text-dark link-product-add-cart" asp-area="" asp-controller="Single" asp-action="Single(@Html.DisplayFor(modelItem => modelItem[i].Id))">Quick View</a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="item-info-product text-center border-top mt-4">
+                                            <h4 class="pt-1">
+                                                <a>href="./Single/single?@Html.DisplayFor(modelItem => modelItem[i].Id)"@Html.DisplayFor(modelItem => modelItem[i].TenSach)</a>
+                                            </h4>
+                                            <div class="info-product-price my-2">
+                                                <span class="item_price">$252.00</span>
+                                                <del>$260.00</del>
+                                            </div>
+                                            <div class="snipcart-details top_brand_home_details item_add single-item hvr-outline-out">
+                                                <form action="#" method="post">
+                                                    <fieldset>
+                                                        <input type="hidden" name="cmd" value="_cart" />
+                                                        <input type="hidden" name="add" value="1" />
+                                                        <input type="hidden" name="business" value=" " />
+                                                        <input type="hidden" name="item_name" value="Dell Vostro Laptop" />
+                                                        <input type="hidden" name="amount" value="252.00" />
+                                                        <input type="hidden" name="discount_amount" value="1.00" />
+                                                        <input type="hidden" name="currency_code" value="USD" />
+                                                        <input type="hidden" name="return" value=" " />
+                                                        <input type="hidden" name="cancel_return" value=" " />
+                                                        <input type="submit" name="submit" value="Đăng ký mượn sách" class="button btn" />
+                                                    </fieldset>
+                                                </form>
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                </div>
+                            }
+                        </div>
+                    </div>
+                    <!-- //3rd section -->
+                    <!-- fourth section -->
+                    <div class="product-sec1 px-sm-4 px-3 py-sm-5  py-3 mt-4">
+                        <div class="row">
+                            <div class="col-md-4 product-men">
+                                <div class="men-pro-item simpleCart_shelfItem">
+                                    <div class="men-thumb-item text-center">
+                                        <img src="~/images/mk7.jpg" alt="" class="img-fluid">
+                                        <div class="men-cart-pro">
+                                            <div class="inner-men-cart-pro">
+                                                <a class="nav-link text-dark link-product-add-cart" asp-area="" asp-controller="Single" asp-action="Single">Quick View</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <span class="product-new-top">New</span>
+                                    <div class="item-info-product text-center border-top mt-4">
+                                        <h4 class="pt-1">
+                                            <a href="single.html">Lược sử loài người</a>
+                                        </h4>
+                                        <div class="info-product-price my-2">
+                                            <span class="item_price">$100.00</span>
+                                            <del>$200.00</del>
+                                        </div>
+                                        <div class="snipcart-details top_brand_home_details item_add single-item hvr-outline-out">
+                                            <form action="#" method="post">
+                                                <fieldset>
+                                                    <input type="hidden" name="cmd" value="_cart" />
+                                                    <input type="hidden" name="add" value="1" />
+                                                    <input type="hidden" name="business" value=" " />
+                                                    <input type="hidden" name="item_name" value="Intex Power Bank" />
+                                                    <input type="hidden" name="amount" value="100.00" />
+                                                    <input type="hidden" name="discount_amount" value="1.00" />
+                                                    <input type="hidden" name="currency_code" value="USD" />
+                                                    <input type="hidden" name="return" value=" " />
+                                                    <input type="hidden" name="cancel_return" value=" " />
+                                                    <input type="submit" name="submit" value="Đăng ký mượn sách" class="button btn" />
+                                                </fieldset>
+                                            </form>
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-4 product-men mt-md-0 mt-5 mt-5">
+                                <div class="men-pro-item simpleCart_shelfItem">
+                                    <div class="men-thumb-item text-center">
+                                        <img src="~/images/mk8.jpg" alt="" class="img-fluid">
+                                        <div class="men-cart-pro">
+                                            <div class="inner-men-cart-pro">
+                                                <a class="nav-link text-dark link-product-add-cart" asp-area="" asp-controller="Single" asp-action="Single">Quick View</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <span class="product-new-top">New</span>
+                                    <div class="item-info-product text-center border-top mt-4">
+                                        <h4 class="pt-1">
+                                            <a href="single.html">Công phá toán 3</a>
+                                        </h4>
+                                        <div class="info-product-price my-2">
+                                            <span class="item_price">$243.00</span>
+                                            <del>$250.00</del>
+                                        </div>
+                                        <div class="snipcart-details top_brand_home_details item_add single-item hvr-outline-out">
+                                            <form action="#" method="post">
+                                                <fieldset>
+                                                    <input type="hidden" name="cmd" value="_cart" />
+                                                    <input type="hidden" name="add" value="1" />
+                                                    <input type="hidden" name="business" value=" " />
+                                                    <input type="hidden" name="item_name" value="HP Wireless Printer" />
+                                                    <input type="hidden" name="amount" value="243.00" />
+                                                    <input type="hidden" name="discount_amount" value="1.00" />
+                                                    <input type="hidden" name="currency_code" value="USD" />
+                                                    <input type="hidden" name="return" value=" " />
+                                                    <input type="hidden" name="cancel_return" value=" " />
+                                                    <input type="submit" name="submit" value="Đăng ký mượn sách" class="button btn" />
+                                                </fieldset>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-4 product-men mt-md-0 mt-5 mt-5">
+                                <div class="men-pro-item simpleCart_shelfItem">
+                                    <div class="men-thumb-item text-center">
+                                        <img src="~/images/mk9.jpg" alt="" class="img-fluid">
+                                        <div class="men-cart-pro">
+                                            <div class="inner-men-cart-pro">
+                                                <a class="nav-link text-dark link-product-add-cart" asp-area="" asp-controller="Single" asp-action="Single">Quick View</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="item-info-product text-center border-top mt-4">
+                                        <h4 class="pt-1">
+                                            <a href="single.html">Tôi đi tìm tôi</a>
+                                        </h4>
+                                        <div class="info-product-price my-2">
+                                            <span class="item_price">$320.00</span>
+                                            <del>$350.00</del>
+                                        </div>
+                                        <div class="snipcart-details top_brand_home_details item_add single-item hvr-outline-out">
+                                            <form action="#" method="post">
+                                                <fieldset>
+                                                    <input type="hidden" name="cmd" value="_cart" />
+                                                    <input type="hidden" name="add" value="1" />
+                                                    <input type="hidden" name="business" value=" " />
+                                                    <input type="hidden" name="item_name" value="Alcatel Tablet" />
+                                                    <input type="hidden" name="amount" value="320.00" />
+                                                    <input type="hidden" name="discount_amount" value="1.00" />
+                                                    <input type="hidden" name="currency_code" value="USD" />
+                                                    <input type="hidden" name="return" value=" " />
+                                                    <input type="hidden" name="cancel_return" value=" " />
+                                                    <input type="submit" name="submit" value="Đăng ký mượn sách" class="button btn" />
+                                                </fieldset>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- //fourth section -->
+                </div>
+            </div>
+            <!-- //product left -->
+            <!-- //product right -->
+        </div>
+    </div>
+</div>
+<!-- //top products -->

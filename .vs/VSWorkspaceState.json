@@ -1,9 +1,22 @@
 {
   "ExpandedNodes": [
     "",
+<<<<<<< Updated upstream
     "\\LibraryManagement.Database",
     "\\LibraryManagement.Database\\Table"
   ],
   "SelectedNode": "\\LibraryManagement.Database\\LibraryManagement.Database.sqlproj",
+=======
+    "\\LibraryManagement.Admin",
+    "\\LibraryManagement.Admin\\Views",
+    "\\LibraryManagement.Admin\\Views\\Sach",
+    "\\LibraryManagement.Web",
+    "\\LibraryManagement.Web\\Views",
+    "\\LibraryManagement.Web\\Views\\Shared",
+    "\\LibraryManagement.Web\\Views\\Single",
+    "\\LibraryManagement.Web\\wwwroot",
+    "\\LibraryManagement.Web\\wwwroot\\js"
+  ],
+>>>>>>> Stashed changes
   "PreviewInSolutionExplorer": false
 }

@@ -1,0 +1,72 @@
+﻿@model Tuple<List<LibraryManagement.API.Models.LoaiSach>, List<LibraryManagement.API.Models.Sach>, LibraryManagement.API.Models.Sach>
+@using X.PagedList.Mvc.Core;
+
+
+@{
+
+    ViewData["Title"] = "View";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="ads-grid py-sm-5 py-4">
+    <div class="container py-xl-4 py-lg-2">
+        <!-- tittle heading -->
+        @*<h3 class="tittle-w3l text-center mb-lg-5 mb-sm-4 mb-3">
+                <span>M</span>obiles
+                <span>&</span>
+                <span>C</span>omputers
+            </h3>*@
+        <!-- //tittle heading -->
+        <div class="row">
+            <!-- product left -->
+            <div class="agileinfo-ads-display col-lg-12">
+                <div class="wrapper">
+                    <!-- first section -->
+                    <div class="product-sec1 px-sm-4 px-3 py-sm-5  py-3 mb-4">
+                        <div class="row">
+                            @for (var i = 0; i < Model.Item2.Count(); i++)
+                            {
+                                <div class="col-md-4 product-men">
+                                    <div class="men-pro-item simpleCart_shelfItem">
+                                        <div class="men-thumb-item text-center">
+                                            <img src="~/images/m1.jpg" alt="">
+                                            <div class="men-cart-pro">
+                                                <div class="inner-men-cart-pro">
+                                                    <a class="nav-link text-dark link-product-add-cart"href="/Single/single/@Html.DisplayFor(modelItem => modelItem.Item2[i].Id)"> Quick View</a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="item-info-product text-center border-top mt-4">
+                                            <h4 class="pt-1">
+                                                <a href="/Single/single/@Html.DisplayFor(modelItem => modelItem.Item2[i].Id)">@Html.DisplayFor(modelItem => modelItem.Item2[i].TenSach)</a>
+                                            </h4>
+                                            <div class="info-product-price my-2">
+                                                <span class="item_price">200.000đ</span>
+                                                <del>280.000đ</del>
+                                            </div>
+                                            <div class="snipcart-details top_brand_home_details item_add single-item hvr-outline-out">
+                                                <form action="/Product/addcart" method="get">
+                                                    <fieldset>
+                                                        <input type="hidden" name="idloai" value="@Html.DisplayFor(modelItem => modelItem.Item2[i].LoaiSach)" />
+                                                        <input type="hidden" name="idsach" value="@Html.DisplayFor(modelItem => modelItem.Item2[i].Id)" />
+                                                        <input type="hidden" name="sl" value="1" />
+                                                        <input type="submit" name="submit" value="Đăng ký mượn sách" class="button btn" />
+                                                    </fieldset>
+                                                </form>
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                </div>
+                            }
+                        </div>
+                    </div>
+                    <!-- second section -->
+                   
+                    <!-- //3rd section -->
+            <!-- //product left -->
+            <!-- //product right -->
+        </div>
+    </div>
+</div>
+<!-- //top products -->

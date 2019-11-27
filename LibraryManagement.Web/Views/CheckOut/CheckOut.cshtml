@@ -1,0 +1,196 @@
+﻿@using Microsoft.AspNetCore.Http
+@using LibraryManagement.Application.Common
+
+@{
+    var session = Context.Session.GetString(CommonConstants.Docgia_Session);
+    var ss_lsSach = Context.Session.GetObject<List<SessionSach>>("dssach");
+}
+
+@{
+    ViewData["Title"] = "CheckOut";
+}
+
+<!-- checkout page -->
+<div class="privacy py-sm-5 py-4">
+    <div class="container py-xl-4 py-lg-2">
+        <!-- tittle heading -->
+        <h3 class="tittle-w3l text-center mb-lg-5 mb-sm-4 mb-3">
+            <span>Sách mượn</span>
+        </h3>
+        <!-- //tittle heading -->
+        <div class="checkout-right">
+            <h4 class="mb-sm-4 mb-3">
+                Tổng số sách bạn sẽ mượn:
+                <span>3 quyển</span>
+            </h4>
+            <div class="table-responsive">
+                <table class="timetable_sub">
+                    <thead>
+                        <tr>
+                            <th>STT</th>
+                            <th>Sách</th>
+                            <th>Số lượng</th>
+                            <th>Tên sách</th>
+
+                            <th>Xóa</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @for (var i = 0; i < ss_lsSach.Count; i++)
+                        {
+                            <tr class="rem1" data-id="@ss_lsSach[i].sach.Id">
+                                <td class="invert">1</td>
+                                <td class="invert-image">
+                                    <a href="single.html">
+                                        <img src="../images/a.jpg" alt=" " class="img-responsive">
+                                    </a>
+                                </td>
+                                <td class="invert">
+                                    <div class="quantity">
+                                        <div class="quantity-select">
+                                            <div class="entry value-minus">&nbsp;</div>
+                                            <div class="entry value">
+                                                <span>@ss_lsSach[i].soluong</span>
+                                                @*<input type="hidden" class="form-control" placeholder=" " name="Name" value="@ss_lsSach[i].sach.Id">
+                                                <input type="text" class="form-control" placeholder=" " name="Name" value="@ss_lsSach[i].soluong">*@
+                                            </div>
+                                            <div class="entry value-plus active">&nbsp;</div>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td class="invert">@ss_lsSach[i].sach.TenSach</td>
+                                <td class="invert">
+                                    <div class="rem">
+                                        <div class="close1"> </div>
+                                    </div>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div class="checkout-left">
+            <button class="submit check_out btn" id="dangky">Đăng ký mượn</button>
+        </div>
+    </div>
+
+</div>
+<!-- //checkout page -->
+<script src="~/js/minicart.js"></script>
+
+<script>
+    Console.log(document.getElementById('<%= ss_lsSach[0].sach.TenSach%>').value)
+</script>
+
+<script>
+    $('#dangky').click(function () {
+
+        danhsach = []
+        rows = $('.timetable_sub tbody tr');
+        for (var i = 0; i < rows.length; i++) {
+            var row = $(rows[i]);
+            var product_id = row.attr('data-id');
+            var qty = row.find('.quantity .value').text()
+            danhsach[i] = qty
+        }
+
+        data = danhsach
+
+        $.ajax({
+            url: "/checkout/muonsach",
+            data: "{ 'name': '" + "randel" + "' }",
+            type: "POST",
+            contentType:"application/json; charset=utf-8",
+            dataType: "json",
+            success: function (response) {
+                if (response) {
+                    alert('Muon thanh cong!')
+                }
+            }
+        })
+    });
+</script>
+
+<script>
+    $('.value-plus').on('click', function () {
+        var divUpd = $(this).parent().find('.value'),
+            newVal = parseInt(divUpd.text(), 10) + 1;
+        divUpd.text(newVal);
+    });
+
+    $('.value-minus').on('click', function () {
+        var divUpd = $(this).parent().find('.value'),
+            newVal = parseInt(divUpd.text(), 10) - 1;
+        if (newVal >= 1) divUpd.text(newVal);
+    });
+</script>
+<!--quantity-->
+<script>
+    $(document).ready(function (c) {
+        $('.close1').on('click', function (c) {
+            $('.rem1').fadeOut('slow', function (c) {
+                $('.rem1').remove();
+            });
+        });
+    });
+</script>
+<script>
+    $(document).ready(function (c) {
+        $('.close2').on('click', function (c) {
+            $('.rem2').fadeOut('slow', function (c) {
+                $('.rem2').remove();
+            });
+        });
+    });
+</script>
+<script>
+    $(document).ready(function (c) {
+        $('.close3').on('click', function (c) {
+            $('.rem3').fadeOut('slow', function (c) {
+                $('.rem3').remove();
+            });
+        });
+    });
+</script>
+<!-- //quantity -->
+<!-- smoothscroll -->
+<script src="js/SmoothScroll.min.js"></script>
+<!-- //smoothscroll -->
+<!-- start-smooth-scrolling -->
+<script src="js/move-top.js"></script>
+<script src="js/easing.js"></script>
+<script>
+    jQuery(document).ready(function ($) {
+        $(".scroll").click(function (event) {
+            event.preventDefault();
+
+            $('html,body').animate({
+                scrollTop: $(this.hash).offset().top
+            }, 1000);
+        });
+    });
+</script>
+<!-- //end-smooth-scrolling -->
+<!-- smooth-scrolling-of-move-up -->
+<script>
+    $(document).ready(function () {
+        /*
+        var defaults = {
+            containerID: 'toTop', // fading element id
+            containerHoverID: 'toTopHover', // fading element hover id
+            scrollSpeed: 1200,
+            easingType: 'linear'
+        };
+        */
+        $().UItoTop({
+            easingType: 'easeOutQuart'
+        });
+
+    });
+</script>
+<!-- //smooth-scrolling-of-move-up -->
+<!-- for bootstrap working -->
+<script src="js/bootstrap.js"></script>
+<!-- //for bootstrap working -->
+<!-- //js-files -->
