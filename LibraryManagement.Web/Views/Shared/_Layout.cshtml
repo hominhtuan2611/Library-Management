@@ -4,11 +4,6 @@
 @using X.PagedList.Mvc.Core;
 
 
-@{
-    var session = Context.Session.GetObject<int>(CommonConstants.Docgia_Session);
-    var ss_lsSach = Context.Session.GetObject<List<SessionSach>>("dssach");
-}
-
 <!--
 Author: W3layouts
 Author URL: http://w3layouts.com
@@ -56,20 +51,6 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 
 <body>
     <header>
-        @*<nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
-            <div class="container">
-                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">LibraryManagement.Web</a>
-                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
-                        aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>*@
-                @*<div class="collapse navbar-collapse" id="navbarSupportedContent">
-                    <ul class="navbar-nav ml-auto text-center mr-xl-5">
-                        <li class="nav-item active mr-lg-2 mb-lg-0 mb-2">
-                            <a class="nav-link" href="./Home/Index">
-                                Trang chủ
-                                <span class="sr-only">(current)</span>
-                            </a>*@
     <!-- top-header -->
     <div class="agile-main-top">
         <div class="container-fluid">
@@ -151,7 +132,7 @@ License URL: http://creativecommons.org/licenses/by/3.0/
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <ul class="navbar-nav ml-auto text-center mr-xl-5">
                         <li class="nav-item active mr-lg-2 mb-lg-0 mb-2">
-                            <a class="nav-link" href="./Home/Index">
+                            <a class="nav-link" href="~/Home/Index">
                                 Trang chủ
                                 <span class="sr-only">(current)</span>
                             </a>

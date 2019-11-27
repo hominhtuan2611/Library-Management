@@ -3,7 +3,7 @@
 
 @{
     var session = Context.Session.GetString(CommonConstants.Docgia_Session);
-    var ss_lsSach = Context.Session.GetObject<List<SessionSach>>("dssach");
+    var ss_lsSach =  Context.Session.GetObject<List<SessionSach>>("dssach");
 }
 
 @{
@@ -19,10 +19,6 @@
         </h3>
         <!-- //tittle heading -->
         <div class="checkout-right">
-            <h4 class="mb-sm-4 mb-3">
-                Tổng số sách bạn sẽ mượn:
-                <span>3 quyển</span>
-            </h4>
             <div class="table-responsive">
                 <table class="timetable_sub">
                     <thead>

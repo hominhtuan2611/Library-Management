@@ -8,6 +8,7 @@ using LibraryManagement.API.Models;
 using LibraryManagement.Application.Common;
 using Microsoft.Extensions.Configuration;
 using Newtonsoft.Json;
+using LibraryManagement.Web.Models;
 
 namespace LibraryManagement.Web.Controllers
 {
@@ -28,7 +29,17 @@ namespace LibraryManagement.Web.Controllers
         }
         public async Task<IActionResult> CheckOut()
         {
-            return View();
+            var loaisach = await _apiService.GetAsync("api/Loaisach").Result.Content.ReadAsAsync<List<LoaiSach>>();
+            var list_sach = new List<Sach>();
+            var sach = new Sach();
+            var tuple = new Tuple<List<LibraryManagement.API.Models.LoaiSach>, List<LibraryManagement.API.Models.Sach>, LibraryManagement.API.Models.Sach>(loaisach, list_sach, sach);
+            var LS_Sach = HttpContext.Session.GetObject<List<SessionSach>>("dssach");
+            if ( LS_Sach == null)
+            {
+                var ss_lsSach = new List<SessionSach>();
+                HttpContext.Session.SetObject("dssach", ss_lsSach);
+            }
+            return View(tuple);
         }
         public async Task<IActionResult> muonsach()
         {
