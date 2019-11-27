@@ -1,14 +1,22 @@
 {
   "ExpandedNodes": [
     "",
-    "\\LibraryManagement.Admin",
-    "\\LibraryManagement.Web",
-    "\\LibraryManagement.Web\\Controllers",
-    "\\LibraryManagement.Web\\Views",
-    "\\LibraryManagement.Web\\Views\\Home",
-    "\\LibraryManagement.Web\\Views\\Product",
-    "\\LibraryManagement.Web\\Views\\Single"
+<<<<<<< Updated upstream
+    "\\LibraryManagement.Database",
+    "\\LibraryManagement.Database\\Table"
   ],
-  "SelectedNode": "\\LibraryManagement.Web\\Views\\Product\\Product1.cshtml",
+  "SelectedNode": "\\LibraryManagement.Database\\LibraryManagement.Database.sqlproj",
+=======
+    "\\LibraryManagement.Admin",
+    "\\LibraryManagement.Admin\\Views",
+    "\\LibraryManagement.Admin\\Views\\Sach",
+    "\\LibraryManagement.Web",
+    "\\LibraryManagement.Web\\Views",
+    "\\LibraryManagement.Web\\Views\\Shared",
+    "\\LibraryManagement.Web\\Views\\Single",
+    "\\LibraryManagement.Web\\wwwroot",
+    "\\LibraryManagement.Web\\wwwroot\\js"
+  ],
+>>>>>>> Stashed changes
   "PreviewInSolutionExplorer": false
 }

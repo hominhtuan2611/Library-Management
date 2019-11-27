@@ -1,0 +1,42 @@
+﻿
+@model List<LibraryManagement.API.Models.LoaiSach>
+@using X.PagedList.Mvc.Core;
+@{
+    ViewData["Title"] = "Loaisach";
+}
+@section loaisach
+{
+    <li class="nav-item dropdown mr-lg-2 mb-lg-0 mb-2">
+        <a class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            Loại Sách
+        </a>
+        <div class="dropdown-menu">
+            <div class="agile_inner_drop_nav_info p-4">
+                <h5 class="mb-3">Sách tiếng Việt</h5>
+                <div class="row">
+                    <div class="col-sm-6 multi-gd-img">
+                        <ul class="multi-column-dropdown">
+                            @for (var i = 0; i < Model.Count() / 2; i++)
+                            {
+                                <li>
+                                    <a class="nav-link text-dark" asp-area="" asp-controller="Product" asp-action="Product2" asp-route-id="@Html.DisplayFor(modelItem => modelItem[i].Id)">@Html.DisplayFor(modelItem => modelItem[i].TenLoai)</a>
+                                </li>
+                            }
+                        </ul>
+                    </div>
+                    <div class="col-sm-6 multi-gd-img">
+                        <ul class="multi-column-dropdown">
+                            @for (var i = Model.Count() / 2; i < Model.Count(); i++)
+                            {
+                                <li>
+                                    <a class="nav-link text-dark" asp-area="" asp-controller="Product" asp-action="Product1">@Html.DisplayFor(modelItem => modelItem[i].TenLoai)</a>
+                                </li>
+                            }
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </li>
+
+}

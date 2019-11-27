@@ -92,7 +92,7 @@ label {
 
 .header-right ul li {
     display: inline-block;
-    width: 19%;
+    width: 40%;
     font-size: 13px;
     letter-spacing: 1px;
 }
@@ -113,8 +113,16 @@ label {
 }
 
 .modal-content {
-    border: 10px solid rgba(244, 92, 93, 0.82);
+    border: 1px solid rgba(244, 92, 93, 0.82);
 }
+.login {
+    margin-left: 36%;
+    width: 500px;
+}
+
+.login input {
+    margin: 0;
+    }
 
 label.col-form-label {
     letter-spacing: 1px;
@@ -155,7 +163,7 @@ p.dont-do a {
 .right-w3l input[type="submit"] {
     cursor: pointer;
     letter-spacing: 1px;
-    padding: 10px 0;
+    padding: 0;
     background: #0879c9;
     color: #fff;
     margin: 2vw 0 1.5vw;
@@ -1583,7 +1591,7 @@ td.invert-image a img {
     width: 28px;
     height: 28px;
     position: absolute;
-    right: 15px;
+    right: -2px;
     top: -13px;
     -webkit-transition: color 0.2s ease-in-out;
     -moz-transition: color 0.2s ease-in-out;

@@ -1,4 +1,11 @@
-﻿
+﻿@using Microsoft.AspNetCore.Http
+@using LibraryManagement.Application.Common
+
+@{
+    var session = Context.Session.GetString(CommonConstants.Docgia_Session);
+    var ss_lsSach = Context.Session.GetObject<List<SessionSach>>("dssach");
+}
+
 @{
     ViewData["Title"] = "CheckOut";
 }
@@ -20,144 +27,170 @@
                 <table class="timetable_sub">
                     <thead>
                         <tr>
-                            <th>SL No.</th>
-                            <th>Product</th>
-                            <th>Quality</th>
-                            <th>Product Name</th>
+                            <th>STT</th>
+                            <th>Sách</th>
+                            <th>Số lượng</th>
+                            <th>Tên sách</th>
 
-                            <th>Price</th>
-                            <th>Remove</th>
+                            <th>Xóa</th>
                         </tr>
                     </thead>
                     <tbody>
-                        <tr class="rem1">
-                            <td class="invert">1</td>
-                            <td class="invert-image">
-                                <a href="single.html">
-                                    <img src="../images/a.jpg" alt=" " class="img-responsive">
-                                </a>
-                            </td>
-                            <td class="invert">
-                                <div class="quantity">
-                                    <div class="quantity-select">
-                                        <div class="entry value-minus">&nbsp;</div>
-                                        <div class="entry value">
-                                            <span>1</span>
+                        @for (var i = 0; i < ss_lsSach.Count; i++)
+                        {
+                            <tr class="rem1" data-id="@ss_lsSach[i].sach.Id">
+                                <td class="invert">1</td>
+                                <td class="invert-image">
+                                    <a href="single.html">
+                                        <img src="../images/a.jpg" alt=" " class="img-responsive">
+                                    </a>
+                                </td>
+                                <td class="invert">
+                                    <div class="quantity">
+                                        <div class="quantity-select">
+                                            <div class="entry value-minus">&nbsp;</div>
+                                            <div class="entry value">
+                                                <span>@ss_lsSach[i].soluong</span>
+                                                @*<input type="hidden" class="form-control" placeholder=" " name="Name" value="@ss_lsSach[i].sach.Id">
+                                                <input type="text" class="form-control" placeholder=" " name="Name" value="@ss_lsSach[i].soluong">*@
+                                            </div>
+                                            <div class="entry value-plus active">&nbsp;</div>
                                         </div>
-                                        <div class="entry value-plus active">&nbsp;</div>
                                     </div>
-                                </div>
-                            </td>
-                            <td class="invert">Back Cover</td>
-                            <td class="invert">$259</td>
-                            <td class="invert">
-                                <div class="rem">
-                                    <div class="close1"> </div>
-                                </div>
-                            </td>
-                        </tr>
-                        <tr class="rem2">
-                            <td class="invert">2</td>
-                            <td class="invert-image">
-                                <a href="single2.html">
-                                    <img src="../images/a4.jpg" alt=" " class="img-responsive">
-                                </a>
-                            </td>
-                            <td class="invert">
-                                <div class="quantity">
-                                    <div class="quantity-select">
-                                        <div class="entry value-minus">&nbsp;</div>
-                                        <div class="entry value">
-                                            <span>1</span>
-                                        </div>
-                                        <div class="entry value-plus active">&nbsp;</div>
+                                </td>
+                                <td class="invert">@ss_lsSach[i].sach.TenSach</td>
+                                <td class="invert">
+                                    <div class="rem">
+                                        <div class="close1"> </div>
                                     </div>
-                                </div>
-                            </td>
-                            <td class="invert">Cordless Trimmer</td>
-                            <td class="invert">$1,999</td>
-                            <td class="invert">
-                                <div class="rem">
-                                    <div class="close2"> </div>
-                                </div>
-                            </td>
-                        </tr>
-                        <tr class="rem3">
-                            <td class="invert">3</td>
-                            <td class="invert-image">
-                                <a href="single.html">
-                                    <img src="../images/a3.jpg" alt=" " class="img-responsive">
-                                </a>
-                            </td>
-                            <td class="invert">
-                                <div class="quantity">
-                                    <div class="quantity-select">
-                                        <div class="entry value-minus">&nbsp;</div>
-                                        <div class="entry value">
-                                            <span>1</span>
-                                        </div>
-                                        <div class="entry value-plus active">&nbsp;</div>
-                                    </div>
-                                </div>
-                            </td>
-                            <td class="invert">Nikon Camera</td>
-                            <td class="invert">$37,490</td>
-                            <td class="invert">
-                                <div class="rem">
-                                    <div class="close3"> </div>
-                                </div>
-                            </td>
-                        </tr>
+                                </td>
+                            </tr>
+                        }
                     </tbody>
                 </table>
             </div>
         </div>
         <div class="checkout-left">
-            <div class="address_form_agile mt-sm-5 mt-4">
-                <h4 class="mb-sm-4 mb-3">Thông tin người mượn</h4>
-                <form action="../CheckOut/checkout" method="post" class="creditly-card-form agileinfo_form">
-                    <div class="creditly-wrapper wthree, w3_agileits_wrapper">
-                        <div class="information-wrapper">
-                            <div class="first-row">
-                                <div class="controls form-group">
-                                    <input class="billing-address-name form-control" type="text" name="name" placeholder="Họ và tên" required="">
-                                </div>
-                                <div class="w3_agileits_card_number_grids">
-                                    <div class="w3_agileits_card_number_grid_left form-group">
-                                        <div class="controls">
-                                            <input type="text" class="form-control" placeholder="Số điện thoại" name="number" required="">
-                                        </div>
-                                    </div>
-                                    <div class="w3_agileits_card_number_grid_right form-group">
-                                        <div class="controls">
-                                            <input type="text" class="form-control" placeholder="địa chỉ" name="landmark" required="">
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="controls form-group">
-                                    <input type="text" class="form-control" placeholder="thành phố" name="city" required="">
-                                </div>
-                                <div class="controls form-group">
-                                    <select class="option-w3ls">
-                                        <option>loại địa chỉ</option>
-                                        <option>Văn phòng</option>
-                                        <option>Nhà</option>
-
-                                    </select>
-                                </div>
-                            </div>
-                            <button class="submit check_out btn">Cập nhật thông tin mượn sách</button>
-                        </div>
-                    </div>
-                </form>
-                @*<div class="checkout-right-basket">
-                    <a href="payment.html">
-                        Make a Payment
-                        <span class="far fa-hand-point-right"></span>
-                    </a>
-                </div>*@
-            </div>
+            <button class="submit check_out btn" id="dangky">Đăng ký mượn</button>
         </div>
     </div>
+
 </div>
 <!-- //checkout page -->
+<script src="~/js/minicart.js"></script>
+
+<script>
+    Console.log(document.getElementById('<%= ss_lsSach[0].sach.TenSach%>').value)
+</script>
+
+<script>
+    $('#dangky').click(function () {
+
+        danhsach = []
+        rows = $('.timetable_sub tbody tr');
+        for (var i = 0; i < rows.length; i++) {
+            var row = $(rows[i]);
+            var product_id = row.attr('data-id');
+            var qty = row.find('.quantity .value').text()
+            danhsach[i] = qty
+        }
+
+        data = danhsach
+
+        $.ajax({
+            url: "/checkout/muonsach",
+            data: "{ 'name': '" + "randel" + "' }",
+            type: "POST",
+            contentType:"application/json; charset=utf-8",
+            dataType: "json",
+            success: function (response) {
+                if (response) {
+                    alert('Muon thanh cong!')
+                }
+            }
+        })
+    });
+</script>
+
+<script>
+    $('.value-plus').on('click', function () {
+        var divUpd = $(this).parent().find('.value'),
+            newVal = parseInt(divUpd.text(), 10) + 1;
+        divUpd.text(newVal);
+    });
+
+    $('.value-minus').on('click', function () {
+        var divUpd = $(this).parent().find('.value'),
+            newVal = parseInt(divUpd.text(), 10) - 1;
+        if (newVal >= 1) divUpd.text(newVal);
+    });
+</script>
+<!--quantity-->
+<script>
+    $(document).ready(function (c) {
+        $('.close1').on('click', function (c) {
+            $('.rem1').fadeOut('slow', function (c) {
+                $('.rem1').remove();
+            });
+        });
+    });
+</script>
+<script>
+    $(document).ready(function (c) {
+        $('.close2').on('click', function (c) {
+            $('.rem2').fadeOut('slow', function (c) {
+                $('.rem2').remove();
+            });
+        });
+    });
+</script>
+<script>
+    $(document).ready(function (c) {
+        $('.close3').on('click', function (c) {
+            $('.rem3').fadeOut('slow', function (c) {
+                $('.rem3').remove();
+            });
+        });
+    });
+</script>
+<!-- //quantity -->
+<!-- smoothscroll -->
+<script src="js/SmoothScroll.min.js"></script>
+<!-- //smoothscroll -->
+<!-- start-smooth-scrolling -->
+<script src="js/move-top.js"></script>
+<script src="js/easing.js"></script>
+<script>
+    jQuery(document).ready(function ($) {
+        $(".scroll").click(function (event) {
+            event.preventDefault();
+
+            $('html,body').animate({
+                scrollTop: $(this.hash).offset().top
+            }, 1000);
+        });
+    });
+</script>
+<!-- //end-smooth-scrolling -->
+<!-- smooth-scrolling-of-move-up -->
+<script>
+    $(document).ready(function () {
+        /*
+        var defaults = {
+            containerID: 'toTop', // fading element id
+            containerHoverID: 'toTopHover', // fading element hover id
+            scrollSpeed: 1200,
+            easingType: 'linear'
+        };
+        */
+        $().UItoTop({
+            easingType: 'easeOutQuart'
+        });
+
+    });
+</script>
+<!-- //smooth-scrolling-of-move-up -->
+<!-- for bootstrap working -->
+<script src="js/bootstrap.js"></script>
+<!-- //for bootstrap working -->
+<!-- //js-files -->

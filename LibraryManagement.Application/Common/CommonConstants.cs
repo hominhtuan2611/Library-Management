@@ -9,5 +9,7 @@ namespace LibraryManagement.Application.Common
         public const string User_Session = "User_Session";
 
         public const string Bookmark_Session = "Bookmark_Session";
+
+        public const string Docgia_Session = "Docgia_Session";
     }
 }
