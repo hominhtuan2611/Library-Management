@@ -17,17 +17,14 @@ namespace LibraryManagement.Admin.Controllers
 {
     public class SachController : Controller
     {
-        private readonly LibraryDBContext _context;
-
         public IConfiguration _configuration;
         private readonly IHostingEnvironment _appEnvironment;
 
         private HttpClient _apiService;
         private readonly string apiAddress;
 
-        public SachController(LibraryDBContext context, IConfiguration configuration, IHostingEnvironment appEnvironment)
+        public SachController(IConfiguration configuration, IHostingEnvironment appEnvironment)
         {
-            _context = context;
             _configuration = configuration;
             _appEnvironment = appEnvironment;
 
@@ -112,9 +109,10 @@ namespace LibraryManagement.Admin.Controllers
         }
 
         // GET: Sach/Create
-        public IActionResult Create()
+        public async Task<IActionResult> Create()
         {
-            ViewData["LoaiSach"] = new SelectList(_context.LoaiSach, "Id", "TenLoai");
+            var list_loaisach = await _apiService.GetAsync("api/loaisach").Result.Content.ReadAsAsync<List<LoaiSach>>();
+            ViewData["LoaiSach"] = new SelectList(list_loaisach, "Id", "TenLoai");
             return View();
         }
 
@@ -177,7 +175,8 @@ namespace LibraryManagement.Admin.Controllers
 
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["LoaiSach"] = new SelectList(_context.LoaiSach, "Id", "TenLoai", sach.LoaiSach);
+            var list_loaisach = await _apiService.GetAsync("api/loaisach").Result.Content.ReadAsAsync<List<LoaiSach>>();
+            ViewData["LoaiSach"] = new SelectList(list_loaisach, "Id", "TenLoai", sach.LoaiSach);
             return View(sach);
         }
 
@@ -194,7 +193,8 @@ namespace LibraryManagement.Admin.Controllers
             {
                 return NotFound();
             }
-            ViewData["LoaiSach"] = new SelectList(_context.LoaiSach, "Id", "TenLoai", sach.LoaiSach);
+            var list_loaisach = await _apiService.GetAsync("api/loaisach").Result.Content.ReadAsAsync<List<LoaiSach>>();
+            ViewData["LoaiSach"] = new SelectList(list_loaisach, "Id", "TenLoai", sach.LoaiSach);
             return View(sach);
         }
 
@@ -262,7 +262,8 @@ namespace LibraryManagement.Admin.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["LoaiSach"] = new SelectList(_context.LoaiSach, "Id", "TenLoai", sach.LoaiSach);
+            var list_loaisach = await _apiService.GetAsync("api/loaisach").Result.Content.ReadAsAsync<List<LoaiSach>>();
+            ViewData["LoaiSach"] = new SelectList(list_loaisach, "Id", "TenLoai", sach.LoaiSach);
             return View(sach);
         }
 

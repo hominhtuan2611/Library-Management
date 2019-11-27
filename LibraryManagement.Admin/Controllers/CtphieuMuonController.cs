@@ -16,16 +16,13 @@ namespace LibraryManagement.Admin.Controllers
 {
     public class CtphieuMuonController : Controller
     {
-        private readonly LibraryDBContext _context;
-
         public IConfiguration _configuration;
 
         private HttpClient _apiService;
         private readonly string apiAddress;
 
-        public CtphieuMuonController(LibraryDBContext context, IConfiguration configuration)
+        public CtphieuMuonController(IConfiguration configuration)
         {
-            _context = context;
             _configuration = configuration;
 
             apiAddress = _configuration.GetSection("ApiAddress").GetSection("Url").Value;
@@ -97,12 +94,13 @@ namespace LibraryManagement.Admin.Controllers
         }
 
         // GET: CtphieuMuon/Create
-        public IActionResult Create(int PhieuMuonId)
+        public async Task<IActionResult> Create(int PhieuMuonId)
         {
             CtphieuMuon chitietphieumuon = new CtphieuMuon();
 
             chitietphieumuon.PhieuMuon = PhieuMuonId;
-            ViewData["Book"] = new SelectList(_context.Sach, "Id", "TenSach");
+            var list_sach = await _apiService.GetAsync("api/sach").Result.Content.ReadAsAsync<List<Sach>>();
+            ViewData["Book"] = new SelectList(list_sach, "Id", "TenSach");
             return View(chitietphieumuon);
         }
 
@@ -140,7 +138,8 @@ namespace LibraryManagement.Admin.Controllers
                 @TempData["tensp"] = sach.TenSach;
                 @TempData["masp"] = sach.Id;
             }
-            ViewData["Book"] = new SelectList(_context.Sach, "Id", "TenSach", ctphieuMuon.Book);
+            var list_sach = await _apiService.GetAsync("api/sach").Result.Content.ReadAsAsync<List<Sach>>();
+            ViewData["Book"] = new SelectList(list_sach, "Id", "TenSach", ctphieuMuon.Book);
             return View(ctphieuMuon);
         }
 
@@ -157,7 +156,8 @@ namespace LibraryManagement.Admin.Controllers
             {
                 return NotFound();
             }
-            ViewData["Book"] = new SelectList(_context.Sach, "Id", "TenSach", ctphieuMuon.Book);
+            var list_sach = await _apiService.GetAsync("api/sach").Result.Content.ReadAsAsync<List<Sach>>();
+            ViewData["Book"] = new SelectList(list_sach, "Id", "TenSach", ctphieuMuon.Book);
             return View(ctphieuMuon);
         }
 
@@ -202,8 +202,10 @@ namespace LibraryManagement.Admin.Controllers
                 @TempData["tesp"] = ctPhieMuon_cu.BookNavigation.TenSach;
                 @TempData["masp"] = ctPhieMuon_cu.Book;
             }
-            ViewData["Book"] = new SelectList(_context.Sach, "Id", "Id", ctphieuMuon.Book);
-            ViewData["PhieuMuon"] = new SelectList(_context.PhieuMuon, "Id", "Id", ctphieuMuon.PhieuMuon);
+            var list_sach = await _apiService.GetAsync("api/sach").Result.Content.ReadAsAsync<List<Sach>>();
+            ViewData["Book"] = new SelectList(list_sach, "Id", "Id", ctphieuMuon.Book);
+            var list_phieumuon = await _apiService.GetAsync("api/phieuMuon").Result.Content.ReadAsAsync<List<PhieuMuon>>();
+            ViewData["PhieuMuon"] = new SelectList(list_phieumuon, "Id", "Id", ctphieuMuon.PhieuMuon);
             return View(ctphieuMuon);
         }
 
