@@ -47,13 +47,8 @@ namespace LibraryManagement.Web.Controllers
         {
             if (ModelState.IsValid)
             {
-<<<<<<< HEAD
-                if (Password == user.Password)
-=======
                 var user = _context.DocGia.Where(x => x.Username == name).FirstOrDefault();
-
                 if (user != null)
->>>>>>> homan
                 {
                     if (Password_Encryptor.HashSHA1(password) == user.Password)
                     {
