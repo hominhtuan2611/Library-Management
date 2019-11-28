@@ -36,7 +36,7 @@ namespace LibraryManagement.Web.Controllers
 
         public async Task<IActionResult> Product2(string id)
         {
-            var loaisach = await _apiService.GetAsync("api/Loaisach").Result.Content.ReadAsAsync<List<LoaiSach>>();
+            var loaisach = await _apiService.GetAsync("api/loaisach").Result.Content.ReadAsAsync<List<LoaiSach>>();
             var list_sach = await _apiService.GetAsync($"api/loaisach/sach/{id}").Result.Content.ReadAsAsync<List<Sach>>(); 
             var sach = new Sach();
             var tuple = new Tuple<List<LibraryManagement.API.Models.LoaiSach>, List<LibraryManagement.API.Models.Sach>, LibraryManagement.API.Models.Sach>(loaisach, list_sach, sach);
