@@ -58,7 +58,7 @@ namespace LibraryManagement.Web.Controllers
 
             if (user != null)
             {
-                if (Password_Encryptor.HashSHA1(Password) == user.Password)
+                if (Password == user.Password)
                 {
                     HttpContext.Session.SetObject<int>(CommonConstants.Docgia_Session, user.Id); 
                 }
