@@ -1,94 +1,20 @@
-﻿@using LibraryManagement.Application.Common
-@using Microsoft.AspNetCore.Http
-@model Tuple<List<LibraryManagement.API.Models.LoaiSach>, List<LibraryManagement.API.Models.Sach>, LibraryManagement.API.Models.Sach>
+﻿@model Tuple<List<LibraryManagement.API.Models.LoaiSach>, List<LibraryManagement.API.Models.Sach>, LibraryManagement.API.Models.Sach>
 @using X.PagedList.Mvc.Core;
+@using LibraryManagement.Application.Common
+@using Microsoft.AspNetCore.Http
+@using X.PagedList.Mvc.Core;
+
+
 
 
 @{
     ViewData["Title"] = "Product";
 }
 
-<!-- banner -->
-<div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
-    <!-- Indicators-->
-    <ol class="carousel-indicators">
-        <li data-target="#carouselExampleIndicators" data-slide-to="0" class="active"></li>
-        <li data-target="#carouselExampleIndicators" data-slide-to="1"></li>
-        <li data-target="#carouselExampleIndicators" data-slide-to="2"></li>
-        <li data-target="#carouselExampleIndicators" data-slide-to="3"></li>
-    </ol>
-    <div class="carousel-inner">
-        <div class="carousel-item item1 active">
-            <div class="container">
-                <div class="w3l-space-banner">
-                    <div class="carousel-caption p-lg-5 p-sm-4 p-3">
-                        <p>
-                            Ngôn từ sẽ trở thành
-                            <span>Thông điệp</span>
-                        </p>
-                        <h3 class="font-weight-bold pt-2 pb-lg-5 pb-4">
-                            nếu có
-                            <span>Quyết tâm</span>
-                        </h3>
-                        @*<a class="button2" href="product.html">Shop Now </a>*@
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="carousel-item item2">
-            <div class="container">
-                <div class="w3l-space-banner">
-                    <div class="carousel-caption p-lg-5 p-sm-4 p-3">
-                        <p>
-                            Sách làm cho
-                            <span>trí tuệ con người</span>
-                        </p>
-                        <h3 class="font-weight-bold pt-2 pb-lg-5 pb-4">
-                            <span>sâu sắc và sáng sủa hơn</span>
-                        </h3>
-                        @*<a class="button2" href="product.html">Shop Now </a>*@
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="carousel-item item3">
-            <div class="container">
-                <div class="w3l-space-banner">
-                    <div class="carousel-caption p-lg-5 p-sm-4 p-3">
-                        <p>
-                            Sách là những người
-                            <span>bạn đồng hành</span>
-                        </p>
-                        <h3 class="font-weight-bold pt-2 pb-lg-5 pb-4">
-                            <span>không bao giờ rời bỏ ta.</span>
-                        </h3>
-                        @*<a class="button2" href="product.html">Shop Now </a>*@
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="carousel-item item4">
-            <div class="container">
-                <div class="w3l-space-banner">
-                    <div class="carousel-caption p-lg-5 p-sm-4 p-3">
-                        <p>
-                            Sách
-                            <span>cũng giống như bạn hữu,</span>
-                        </p>
-                        <h3 class="font-weight-bold pt-2 pb-lg-5 pb-4">
-                            <span>nên ít và nên được lựa chọn kỹ.</span>
-                        </h3>
-                        @*<a class="button2" href="product.html">Shop Now </a>*@
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-<!-- //banner -->
-<!-- top Products -->
 <div class="ads-grid py-sm-5 py-4">
     <div class="container py-xl-4 py-lg-2">
+        <!-- tittle heading -->
+        <!-- //tittle heading -->
         <div class="row">
             <!-- product left -->
             <div class="agileinfo-ads-display col-lg-12">
@@ -98,34 +24,38 @@
                         <div class="row">
                             @for (var i = 0; i < 3; i++)
                             {
-                            <div class="col-md-4 product-men">
-                                <div class="men-pro-item simpleCart_shelfItem">
-                                    <div class="men-thumb-item text-center">
-                                        <img src="~/images/m1.jpg" alt="">
-                                        <div class="men-cart-pro">
-                                            <div class="inner-men-cart-pro">
-                                                <a class="nav-link link-product-add-cart" href="/Single/single/@Html.DisplayFor(modelItem => modelItem.Item2[i].Id)"> Quick View</a>
+                                <div class="col-md-4 product-men">
+                                    <div class="men-pro-item simpleCart_shelfItem">
+                                        <div class="men-thumb-item text-center">
+                                            <img src="~/images/m1.jpg" alt="">
+                                            <div class="men-cart-pro">
+                                                <div class="inner-men-cart-pro">
+                                                    <a class="nav-link text-dark link-product-add-cart" href="/Single/single/@Html.DisplayFor(modelItem => modelItem.Item2[i].Id)"> Quick View</a>
+                                                </div>
                                             </div>
                                         </div>
-                                    </div>
-                                    <div class="item-info-product text-center border-top mt-4">
-                                        <h4 class="pt-1 he-1">
-                                            <a href="/Single/single/@Html.DisplayFor(modelItem => modelItem.Item2[i].Id)">@Html.DisplayFor(modelItem => modelItem.Item2[i].TenSach)</a>
-                                        </h4>
-                                        <div class="snipcart-details top_brand_home_details item_add single-item hvr-outline-out">
-                                            <form action="/Product/addcart" method="get">
-                                                <fieldset>
-                                                    <input type="hidden" name="idloai" value="@Html.DisplayFor(modelItem => modelItem.Item2[i].LoaiSach)" />
-                                                    <input type="hidden" name="idsach" value="@Html.DisplayFor(modelItem => modelItem.Item2[i].Id)" />
-                                                    <input type="hidden" name="sl" value="1" />
-                                                    <input type="submit" name="submit" value="Đăng ký mượn sách" class="button btn" />
-                                                </fieldset>
-                                            </form>
-                                        </div>
+                                        <div class="item-info-product text-center border-top mt-4">
+                                            <h4 class="pt-1 he-1">
+                                                <a href="/Single/single/@Html.DisplayFor(modelItem => modelItem.Item2[i].Id)">@Html.DisplayFor(modelItem => modelItem.Item2[i].TenSach)</a>
+                                            </h4>
+                                            <div class="info-product-price my-2">
+                                                @*<span class="item_price">200.000đ</span>
+                                                    <del>280.000đ</del>*@
+                                            </div>
+                                            <div class="snipcart-details top_brand_home_details item_add single-item hvr-outline-out">
+                                                <form action="/Product/addcart" method="get">
+                                                    <fieldset>
+                                                        <input type="hidden" name="idloai" value="@Html.DisplayFor(modelItem => modelItem.Item2[i].LoaiSach)" />
+                                                        <input type="hidden" name="idsach" value="@Html.DisplayFor(modelItem => modelItem.Item2[i].Id)" />
+                                                        <input type="hidden" name="sl" value="1" />
+                                                        <input type="submit" name="submit" value="Đăng ký mượn sách" class="button btn" />
+                                                    </fieldset>
+                                                </form>
+                                            </div>
 
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
                             }
                         </div>
                     </div>
@@ -134,34 +64,39 @@
                         <div class="row">
                             @for (var i = 3; i < 6; i++)
                             {
-                            <div class="col-md-4 product-men">
-                                <div class="men-pro-item simpleCart_shelfItem">
-                                    <div class="men-thumb-item text-center">
-                                        <img src="~/images/m1.jpg" alt="">
-                                        <div class="men-cart-pro">
-                                            <div class="inner-men-cart-pro">
-                                                <a class="nav-link  link-product-add-cart" href="/Single/single/@Html.DisplayFor(modelItem => modelItem.Item2[i].Id)"> Quick View</a>
+                                <div class="col-md-4 product-men">
+                                    <div class="men-pro-item simpleCart_shelfItem">
+                                        <div class="men-thumb-item text-center">
+                                            <img src="~/images/mk1.jpg" alt="">
+                                            <div class="men-cart-pro">
+                                                <div class="inner-men-cart-pro">
+                                                    <a class="nav-link text-dark link-product-add-cart" href="/Single/single/@Html.DisplayFor(modelItem => modelItem.Item2[i].Id)">Quick View</a>
+                                                </div>
                                             </div>
                                         </div>
-                                    </div>
-                                    <div class="item-info-product text-center border-top mt-4">
-                                        <h4 class="pt-1 he-1">
-                                            <a href="/Single/single/@Html.DisplayFor(modelItem => modelItem.Item2[i].Id)">@Html.DisplayFor(modelItem => modelItem.Item2[i].TenSach)</a>
-                                        </h4>
-                                        <div class="snipcart-details top_brand_home_details item_add single-item hvr-outline-out">
-                                            <form action="/Product/addcart" method="get">
-                                                <fieldset>
-                                                    <input type="hidden" name="idloai" value="@Html.DisplayFor(modelItem => modelItem.Item2[i].LoaiSach)" />
-                                                    <input type="hidden" name="idsach" value="@Html.DisplayFor(modelItem => modelItem.Item2[i].Id)" />
-                                                    <input type="hidden" name="sl" value="1" />
-                                                    <input type="submit" name="submit" value="Đăng ký mượn sách" class="button btn" />
-                                                </fieldset>
-                                            </form>
-                                        </div>
+                                        <div class="item-info-product text-center border-top mt-4">
+                                            <h4 class="pt-1 he-1">
+                                                <a href="single.html"> @Html.DisplayFor(modelItem => modelItem.Item2[i].TenSach)</a>
+                                            </h4>
+                                            <div class="info-product-price my-2">
+                                                @*<span class="item_price">$300.00</span>
+                                                <del>$320.00</del>*@
+                                            </div>
+                                            <span class="product-new-top">New</span>
+                                            <div class="snipcart-details top_brand_home_details item_add single-item hvr-outline-out">
+                                                <form action="/Product/addcart" method="get">
+                                                    <fieldset>
+                                                        <input type="hidden" name="idloai" value="@Html.DisplayFor(modelItem => modelItem.Item2[i].LoaiSach)" />
+                                                        <input type="hidden" name="idsach" value="@Html.DisplayFor(modelItem => modelItem.Item2[i].Id)" />
+                                                        <input type="hidden" name="sl" value="1" />
+                                                        <input type="submit" name="submit" value="Đăng ký mượn sách" class="button btn" />
+                                                    </fieldset>
+                                                </form>
+                                            </div>
 
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
                             }
                         </div>
                     </div>
@@ -171,34 +106,38 @@
                         <div class="row">
                             @for (var i = 6; i < 9; i++)
                             {
-                            <div class="col-md-4 product-men">
-                                <div class="men-pro-item simpleCart_shelfItem">
-                                    <div class="men-thumb-item text-center">
-                                        <img src="~/images/m1.jpg" alt="">
-                                        <div class="men-cart-pro">
-                                            <div class="inner-men-cart-pro">
-                                                <a class="nav-link  link-product-add-cart" href="/Single/single/@Html.DisplayFor(modelItem => modelItem.Item2[i].Id)"> Quick View</a>
+                                <div class="col-md-4 product-men">
+                                    <div class="men-pro-item simpleCart_shelfItem">
+                                        <div class="men-thumb-item text-center">
+                                            <img src="~/images/mk4.jpg" alt="" class="img-fluid">
+                                            <div class="men-cart-pro">
+                                                <div class="inner-men-cart-pro">
+                                                    <a class="nav-link text-dark link-product-add-cart" href="/Single/single/@Html.DisplayFor(modelItem => modelItem.Item2[i].Id)">Quick View</a>
+                                                </div>
                                             </div>
                                         </div>
-                                    </div>
-                                    <div class="item-info-product text-center border-top mt-4">
-                                        <h4 class="pt-1 he-1">
-                                            <a href="/Single/single/@Html.DisplayFor(modelItem => modelItem.Item2[i].Id)">@Html.DisplayFor(modelItem => modelItem.Item2[i].TenSach)</a>
-                                        </h4>
-                                        <div class="snipcart-details top_brand_home_details item_add single-item hvr-outline-out">
-                                            <form action="/Product/addcart" method="get">
-                                                <fieldset>
-                                                    <input type="hidden" name="idloai" value="@Html.DisplayFor(modelItem => modelItem.Item2[i].LoaiSach)" />
-                                                    <input type="hidden" name="idsach" value="@Html.DisplayFor(modelItem => modelItem.Item2[i].Id)" />
-                                                    <input type="hidden" name="sl" value="1" />
-                                                    <input type="submit" name="submit" value="Đăng ký mượn sách" class="button btn" />
-                                                </fieldset>
-                                            </form>
-                                        </div>
+                                        <div class="item-info-product text-center border-top mt-4">
+                                            <h4 class="pt-1">
+                                                <a href="/Single/single?@Html.DisplayFor(modelItem => modelItem.Item2[i].Id)">@Html.DisplayFor(modelItem => modelItem.Item2[i].TenSach)</a>
+                                            </h4>
+                                            <div class="info-product-price my-2">
+                                                @*<span class="item_price">$252.00</span>
+                                                <del>$260.00</del>*@
+                                            </div>
+                                            <div class="snipcart-details top_brand_home_details item_add single-item hvr-outline-out">
+                                                <form action="/Product/addcart" method="get">
+                                                    <fieldset>
+                                                        <input type="hidden" name="idloai" value="@Html.DisplayFor(modelItem => modelItem.Item2[i].LoaiSach)" />
+                                                        <input type="hidden" name="idsach" value="@Html.DisplayFor(modelItem => modelItem.Item2[i].Id)" />
+                                                        <input type="hidden" name="sl" value="1" />
+                                                        <input type="submit" name="submit" value="Đăng ký mượn sách" class="button btn" />
+                                                    </fieldset>
+                                                </form>
+                                            </div>
 
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
                             }
                         </div>
                     </div>
@@ -206,22 +145,26 @@
                     <!-- fourth section -->
                     <div class="product-sec1 px-sm-4 px-3 py-sm-5  py-3 mt-4">
                         <div class="row">
-                            @for (var i = 9; i < Model.Item2.Count; i++)
+                            @for (var i = 9; i < 12; i++)
                             {
                                 <div class="col-md-4 product-men">
                                     <div class="men-pro-item simpleCart_shelfItem">
                                         <div class="men-thumb-item text-center">
-                                            <img src="~/images/m1.jpg" alt="">
+                                            <img src="~/images/mk4.jpg" alt="" class="img-fluid">
                                             <div class="men-cart-pro">
                                                 <div class="inner-men-cart-pro">
-                                                    <a class="nav-link  link-product-add-cart" href="/Single/single/@Html.DisplayFor(modelItem => modelItem.Item2[i].Id)"> Quick View</a>
+                                                    <a class="nav-link text-dark link-product-add-cart" href="/Single/single/@Html.DisplayFor(modelItem => modelItem.Item2[i].Id)">Quick View</a>
                                                 </div>
                                             </div>
                                         </div>
                                         <div class="item-info-product text-center border-top mt-4">
                                             <h4 class="pt-1 he-1">
-                                                <a href="/Single/single/@Html.DisplayFor(modelItem => modelItem.Item2[i].Id)">@Html.DisplayFor(modelItem => modelItem.Item2[i].TenSach)</a>
+                                                <a href="/Single/single?@Html.DisplayFor(modelItem => modelItem.Item2[i].Id)"> @Html.DisplayFor(modelItem => modelItem.Item2[i].TenSach)</a>
                                             </h4>
+                                            <div class="info-product-price my-2">
+                                                @*<span class="item_price">$252.00</span>
+                                                    <del>$260.00</del>*@
+                                            </div>
                                             <div class="snipcart-details top_brand_home_details item_add single-item hvr-outline-out">
                                                 <form action="/Product/addcart" method="get">
                                                     <fieldset>
@@ -245,40 +188,6 @@
             <!-- //product left -->
             <!-- //product right -->
         </div>
-<!-- //top products -->
-<!-- middle section -->
-    <div class="join-w3l1 py-sm-5 py-4">
-        <div class="container py-xl-4 py-lg-2">
-            <div class="row">
-                <div class="col-lg-6">
-                    <div class="join-agile text-left p-4">
-                        <div class="row">
-                            <div class="col-sm-7 offer-name">
-                                <h6>Sách nổi bật</h6>
-                                <h4 class="mt-2 mb-3">Khi bạn đang mơ thì người khác đang nổ lực</h4>
-                                @*<p>Sale up to 25% off all in store</p>*@
-                            </div>
-                            <div class="col-sm-5 offerimg-w3l">
-                                <img src="~/images/off1.png" alt="" class="img-fluid">
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-6 mt-lg-0 mt-5">
-                    <div class="join-agile text-left p-4">
-                        <div class="row ">
-                            <div class="col-sm-7 offer-name">
-                                <h6>Sách nổi bật</h6>
-                                <h4 class="mt-2 mb-3">66 ngày thử thách</h4>
-                                @*<p>Free shipping order over $100</p>*@
-                            </div>
-                            <div class="col-sm-5 offerimg-w3l">
-                                <img src="~/images/off2.png" alt="" class="img-fluid">
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
     </div>
-    <!-- middle section -->
+</div>
+<!-- //top products -->

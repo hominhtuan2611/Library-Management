@@ -29,7 +29,7 @@ namespace LibraryManagement.Web.Controllers
         }
         public async Task<IActionResult> CheckOut()
         {
-            var loaisach = await _apiService.GetAsync("api/Loaisach").Result.Content.ReadAsAsync<List<LoaiSach>>();
+            var loaisach = await _apiService.GetAsync("api/LoaiSach").Result.Content.ReadAsAsync<List<LoaiSach>>();
             var list_sach = new List<Sach>();
             var sach = new Sach();
             var tuple = new Tuple<List<LibraryManagement.API.Models.LoaiSach>, List<LibraryManagement.API.Models.Sach>, LibraryManagement.API.Models.Sach>(loaisach, list_sach, sach);

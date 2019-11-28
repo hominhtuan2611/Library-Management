@@ -31,7 +31,7 @@ namespace LibraryManagement.Web.Controllers
         public async Task<IActionResult> Single(string id)
         {
 
-            var loaisach = await _apiService.GetAsync("api/loaisach").Result.Content.ReadAsAsync<List<LoaiSach>>();
+            var loaisach = await _apiService.GetAsync("api/LoaiSach").Result.Content.ReadAsAsync<List<LoaiSach>>();
             var list_sach = new List<Sach>();
             HttpContext.Session.SetObject("dssach", list_sach); 
             var sach = await _apiService.GetAsync($"api/sach/{id}").Result.Content.ReadAsAsync<Sach>();
