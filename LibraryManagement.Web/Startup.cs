@@ -52,7 +52,7 @@ namespace LibraryManagement.Web
             // Configure SQL Server connection
             string connString = Configuration.GetConnectionString("DefaultConnection");
             services.AddDbContext<LibraryDBContext>(options =>
-            {
+                {
                 options.UseSqlServer(connString, sqlServerOptionsAction: sqlOptions =>
                 {
                     sqlOptions.EnableRetryOnFailure(

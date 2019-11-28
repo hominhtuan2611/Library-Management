@@ -11,6 +11,23 @@
     ViewData["Title"] = "Product";
 }
 
+@if (TempData["notice"] != null)
+{
+    if (TempData["notice"].ToString() == "success")
+    {
+        <div class="alert alert-danger" role="alert">
+            <strong> Tạo phiếu mượn không thành công!</strong>
+        </div>
+    }
+    else
+    {
+        <div class="alert alert-danger" role="alert">
+            <strong> Tạo phiếu mượn không thành công!</strong>
+        </div>
+
+    }
+}
+
 <div class="ads-grid py-sm-5 py-4">
     <div class="container py-xl-4 py-lg-2">
         <!-- tittle heading -->
@@ -80,7 +97,7 @@
                                             </h4>
                                             <div class="info-product-price my-2">
                                                 @*<span class="item_price">$300.00</span>
-                                                <del>$320.00</del>*@
+                                                    <del>$320.00</del>*@
                                             </div>
                                             <span class="product-new-top">New</span>
                                             <div class="snipcart-details top_brand_home_details item_add single-item hvr-outline-out">
@@ -109,7 +126,7 @@
                                 <div class="col-md-4 product-men">
                                     <div class="men-pro-item simpleCart_shelfItem">
                                         <div class="men-thumb-item text-center">
-                                            <img src="@Html.DisplayFor(modelItem => modelItem.Item2[i].HinhAnh)"  height="300px" alt="" class="img-fluid">
+                                            <img src="@Html.DisplayFor(modelItem => modelItem.Item2[i].HinhAnh)" height="300px" alt="" class="img-fluid">
                                             <div class="men-cart-pro">
                                                 <div class="inner-men-cart-pro">
                                                     <a class="nav-link text-dark link-product-add-cart" href="/Single/single/@Html.DisplayFor(modelItem => modelItem.Item2[i].Id)">Quick View</a>
@@ -122,7 +139,7 @@
                                             </h4>
                                             <div class="info-product-price my-2">
                                                 @*<span class="item_price">$252.00</span>
-                                                <del>$260.00</del>*@
+                                                    <del>$260.00</del>*@
                                             </div>
                                             <div class="snipcart-details top_brand_home_details item_add single-item hvr-outline-out">
                                                 <form action="/Product/addcart" method="get">

@@ -52,7 +52,7 @@ namespace LibraryManagement.Web.Controllers
                 {
                     if (Password_Encryptor.HashSHA1(password) == user.Password)
                     {
-                        HttpContext.Session.SetString(CommonConstants.User_Session, user.Username);
+                        HttpContext.Session.SetObject<DocGia>(CommonConstants.User_Session, user);
 
                         return RedirectToAction(nameof(Index));
                     }
