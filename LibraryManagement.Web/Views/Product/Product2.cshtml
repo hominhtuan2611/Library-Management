@@ -37,13 +37,11 @@
                                             </div>
                                         </div>
                                         <div class="item-info-product text-center border-top mt-4">
-                                            <h4 class="pt-1">
+                                            <h4 class="pt-1 he-1">
                                                 <a href="/Single/single/@Html.DisplayFor(modelItem => modelItem.Item2[i].Id)">@Html.DisplayFor(modelItem => modelItem.Item2[i].TenSach)</a>
                                             </h4>
-                                            <div class="info-product-price my-2">
-                                                <span class="item_price">200.000đ</span>
-                                                <del>280.000đ</del>
-                                            </div>
+                                            @*<div class="info-product-price my-2">
+                                            </div>*@
                                             <div class="snipcart-details top_brand_home_details item_add single-item hvr-outline-out">
                                                 <form action="/Product/addcart" method="get">
                                                     <fieldset>

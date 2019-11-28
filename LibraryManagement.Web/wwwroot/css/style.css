@@ -59,6 +59,9 @@ h6 {
     font-family: 'Lato', sans-serif;
 }
 
+h4.he-1 {
+    height: 70px;
+}
 p {
     margin: 0;
     letter-spacing: 1px;
@@ -78,6 +81,8 @@ label {
 }
 
 /*-- top-header --*/
+
+
 
 .main-top-w3l {
     background: #0879c9;
@@ -329,6 +334,13 @@ ul.multi-column-dropdown li a:hover {
 /*-- banner --*/
 
 /*-- carousel-slider --*/
+
+
+
+}
+
+
+
 
 .carousel-item.item1 {
     background: url(../images/b1.jpg) no-repeat center;
@@ -583,6 +595,7 @@ h3.tittle-w3l span {
 
 .men-pro-item {
     position: relative;
+    margin-top: 25px;
 }
 
 .men-thumb-item {
