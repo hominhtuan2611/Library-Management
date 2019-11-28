@@ -11,6 +11,7 @@ using System.Net.Http;
 using LibraryManagement.Application.Common;
 using X.PagedList;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 
 namespace LibraryManagement.Admin.Controllers
 {
@@ -179,6 +180,12 @@ namespace LibraryManagement.Admin.Controllers
                 if (phieuMuon.NgayMuon < phieuMuon.HanTra)
                 {
                     var phieuMuon_cu = await _apiService.GetAsync($"api/phieuMuon/{id}").Result.Content.ReadAsAsync<PhieuMuon>();
+                    if(phieuMuon_cu.TrangThai==1)
+                    {
+                        string userSession = HttpContext.Session.GetString(CommonConstants.User_Session);
+                        var nhanvien = _context.NhanVien.Where(p => p.Username == userSession).FirstOrDefault();
+                        phieuMuon.MaNv = nhanvien.Id;
+                    }
                     if (phieuMuon_cu.DaTra==false && phieuMuon.DaTra==true)
                     {
                         if (DateTime.Now < phieuMuon.HanTra)
