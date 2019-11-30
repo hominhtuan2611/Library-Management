@@ -36,6 +36,10 @@ namespace LibraryManagement.Web.Controllers
 
         public async Task<IActionResult> Index()
         {
+            var notice = "";
+            if (TempData["notice"] != null) {
+                notice = TempData["notice"].ToString();
+            }
             var loaisach = await _apiService.GetAsync("api/LoaiSach").Result.Content.ReadAsAsync<List<LoaiSach>>();
             var list_sach = await _apiService.GetAsync("api/sach").Result.Content.ReadAsAsync<List<Sach>>();
             var sach = new Sach();

@@ -7,7 +7,6 @@ using System.Net.Http;
 using LibraryManagement.API.Models;
 using LibraryManagement.Application.Common;
 using Microsoft.Extensions.Configuration;
-using Newtonsoft.Json;
 using X.PagedList;
 using LibraryManagement.Web.Models;
 
@@ -28,10 +27,15 @@ namespace LibraryManagement.Web.Controllers
             _apiService = ApiService.GetAPI(apiAddress);
         }
 
-        public async Task<IActionResult> Product1()
+        public async Task<IActionResult> Search(String search)
         {
-            var list_sach = await _apiService.GetAsync("api/LoaiSach").Result.Content.ReadAsAsync<List<Sach>>();
-            return View(list_sach.ToPagedList());
+            var loaisach = await _apiService.GetAsync("api/LoaiSach").Result.Content.ReadAsAsync<List<LoaiSach>>();
+            var list_sach = await _apiService.GetAsync($"api/sach").Result.Content.ReadAsAsync<List<Sach>>();
+            var ls = list_sach.Where(x => x.TenSach.Contains(search)).ToList();
+            var sach = new Sach();
+            var tuple = new Tuple<List<LibraryManagement.API.Models.LoaiSach>, List<LibraryManagement.API.Models.Sach>, LibraryManagement.API.Models.Sach>(loaisach, ls, sach);
+
+            return View(tuple);
         }
 
         public async Task<IActionResult> Product2(string id)

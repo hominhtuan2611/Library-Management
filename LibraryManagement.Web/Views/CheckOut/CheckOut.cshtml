@@ -11,6 +11,17 @@
     ViewData["Title"] = "CheckOut";
 }
 
+@if (TempData["notice"] != null)
+{
+    if (TempData["notice"].ToString() == "fail")
+    {
+        <div class="alert alert-danger" role="alert">
+            <strong> Bạn phải đăng nhập để mượn sách!</strong>
+        </div>
+
+    }
+}
+
 <!-- checkout page -->
 <div class="privacy py-sm-5 py-4">
     <div class="container py-xl-4 py-lg-2">
@@ -68,7 +79,9 @@
             </div>
         </div>
         <div class="checkout-left">
-            <button class="submit check_out btn" id="dangky" formaction="/checkout/muonsach">Đăng ký mượn</button>
+            <button class="submit check_out btn" id="dangky" formaction="/checkout/muonsach">
+                <a href="/checkout/muonsach">Đăng ký mượn</a>
+            </button>
         </div>
     </div>
 
@@ -80,7 +93,7 @@
     Console.log(document.getElementById('<%= ss_lsSach[0].sach.TenSach%>').value)
 </script>
 
-<script>
+@*<script>
     $('#dangky').click(function () {
 
         danhsach = []
@@ -97,7 +110,7 @@
         $.ajax({
             url: "/checkout/muonsach",
             data: "{ 'name': '" + "randel" + "' }",
-            type: "POST",
+            type: "GET",
             contentType: "application/json; charset=utf-8",
             dataType: "json",
             success: function (response) {
@@ -107,7 +120,7 @@
             }
         })
     });
-</script>
+</script>*@
 
 <script>
     $('.value-plus').on('click', function () {

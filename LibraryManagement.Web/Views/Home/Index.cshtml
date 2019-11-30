@@ -11,18 +11,18 @@
     ViewData["Title"] = "Product";
 }
 
-@if (TempData["notice"] != null)
+@if (@TempData["notice"] != null)
 {
-    if (TempData["notice"].ToString() == "success")
+    if (@TempData["notice"].ToString() == "success")
     {
         <div class="alert alert-danger" role="alert">
-            <strong> Tạo phiếu mượn không thành công!</strong>
+            <strong> Mượn sách thành công!</strong>
         </div>
     }
-    else
+    else if (@TempData["notice"].ToString() == "fail")
     {
         <div class="alert alert-danger" role="alert">
-            <strong> Tạo phiếu mượn không thành công!</strong>
+            <strong> Sách bạn mượn đã hết!</strong>
         </div>
 
     }
@@ -65,7 +65,7 @@
                                                         <input type="hidden" name="idloai" value="@Html.DisplayFor(modelItem => modelItem.Item2[i].LoaiSach)" />
                                                         <input type="hidden" name="idsach" value="@Html.DisplayFor(modelItem => modelItem.Item2[i].Id)" />
                                                         <input type="hidden" name="sl" value="1" />
-                                                        <input type="submit" name="submit" value="Đăng ký mượn sách" class="button btn" />
+                                                        <input type="submit" name="submit" value="Thêm sách" class="button btn" />
                                                     </fieldset>
                                                 </form>
                                             </div>
@@ -106,7 +106,7 @@
                                                         <input type="hidden" name="idloai" value="@Html.DisplayFor(modelItem => modelItem.Item2[i].LoaiSach)" />
                                                         <input type="hidden" name="idsach" value="@Html.DisplayFor(modelItem => modelItem.Item2[i].Id)" />
                                                         <input type="hidden" name="sl" value="1" />
-                                                        <input type="submit" name="submit" value="Đăng ký mượn sách" class="button btn" />
+                                                        <input type="submit" name="submit" value="Thêm sách" class="button btn" />
                                                     </fieldset>
                                                 </form>
                                             </div>
@@ -147,7 +147,7 @@
                                                         <input type="hidden" name="idloai" value="@Html.DisplayFor(modelItem => modelItem.Item2[i].LoaiSach)" />
                                                         <input type="hidden" name="idsach" value="@Html.DisplayFor(modelItem => modelItem.Item2[i].Id)" />
                                                         <input type="hidden" name="sl" value="1" />
-                                                        <input type="submit" name="submit" value="Đăng ký mượn sách" class="button btn" />
+                                                        <input type="submit" name="submit" value="Thêm sách" class="button btn" />
                                                     </fieldset>
                                                 </form>
                                             </div>
@@ -188,7 +188,7 @@
                                                         <input type="hidden" name="idloai" value="@Html.DisplayFor(modelItem => modelItem.Item2[i].LoaiSach)" />
                                                         <input type="hidden" name="idsach" value="@Html.DisplayFor(modelItem => modelItem.Item2[i].Id)" />
                                                         <input type="hidden" name="sl" value="1" />
-                                                        <input type="submit" name="submit" value="Đăng ký mượn sách" class="button btn" />
+                                                        <input type="submit" name="submit" value="Thêm sách" class="button btn" />
                                                     </fieldset>
                                                 </form>
                                             </div>

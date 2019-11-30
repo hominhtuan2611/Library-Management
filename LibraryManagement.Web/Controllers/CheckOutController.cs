@@ -1,28 +1,29 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
-using System.Net.Http;
-using LibraryManagement.API.Models;
-using LibraryManagement.Application.Common;
-using Microsoft.Extensions.Configuration;
-using Newtonsoft.Json;
 using LibraryManagement.Web.Models;
-using Microsoft.AspNetCore.Mvc.RazorPages;
+using LibraryManagement.API.Models;
+using Microsoft.Extensions.Configuration;
+using System.Net.Http;
+using LibraryManagement.Application.Common;
+using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
+using System.Threading;
 
 namespace LibraryManagement.Web.Controllers
 {
     public class CheckOutController : Controller
     {
+        private readonly LibraryDBContext _context;
         public IConfiguration _configuration;
 
         private HttpClient _apiService;
         private readonly string apiAddress;
 
-        public CheckOutController(IConfiguration configuration)
+        public CheckOutController(LibraryDBContext context, IConfiguration configuration)
         {
+            _context = context;
             _configuration = configuration;
 
             apiAddress = _configuration.GetSection("ApiAddress").GetSection("Url").Value;
@@ -49,7 +50,7 @@ namespace LibraryManagement.Web.Controllers
             var ss_lsSach = HttpContext.Session.GetObject<List<Models.SessionSach>>("dssach");
             var tongsach = 0;
             ss_lsSach.ForEach(lssach => tongsach += lssach.soluong);
-            if (docgia.Id != 0 && ss_lsSach != null)
+            if (docgia != null && ss_lsSach != null)
             {
 
                 PhieuMuon pm = new PhieuMuon();
@@ -79,21 +80,27 @@ namespace LibraryManagement.Web.Controllers
                             CtphieuMuon new_ctPhieuMuon = await _apiService.PostAsJsonAsync("api/ctPhieuMuon", ctpm).Result.Content.ReadAsAsync<CtphieuMuon>();
                             HttpResponseMessage respond_sach = await _apiService.PutAsJsonAsync($"api/sach/{sach.Id}", sach);
                             respond_sach.EnsureSuccessStatusCode();
-                            @TempData["notice"] = "success";
+                            TempData["notice"] = "success";
 
                         }
                         else
                         {
-                            @TempData["notice"] = "fail";
+                            TempData["notice"] = "fail";
                         }
                     }
                     ss_lsSach = new List<SessionSach>();
-                    HttpContext.Session.SetObject<List<Models.SessionSach>>("dssach", ss_lsSach);
-                }
+                    HttpContext.Session.SetObject("dssach", ss_lsSach);
+                    return Redirect("~/Home/Index");
+
+                 }
+            }
+            else
+            {
+                TempData["notice"] = "fail";
+                return Redirect("~/checkout/checkout");
             }
 
-            Response.Redirect("Home/index");
-            return RedirectToAction(nameof(CheckOut));
+            return Redirect("~/Home/Index");
         }
     }
 }

@@ -1730,15 +1730,19 @@ button.submit.check_out {
     -o-transition: 0.5s all;
     -ms-transition: 0.5s all;
 }
+    button.submit.check_out a {
+        list-style-type: none;
+        color: #fff;
+    }
 
-button.submit.check_out:hover {
-    background: #F45C5D;
-    transition: 0.5s all;
-    -webkit-transition: 0.5s all;
-    -moz-transition: 0.5s all;
-    -o-transition: 0.5s all;
-    -ms-transition: 0.5s all;
-}
+    button.submit.check_out:hover {
+        background: #F45C5D;
+        transition: 0.5s all;
+        -webkit-transition: 0.5s all;
+        -moz-transition: 0.5s all;
+        -o-transition: 0.5s all;
+        -ms-transition: 0.5s all;
+    }
 
 /*-- //checkout form --*/
 
