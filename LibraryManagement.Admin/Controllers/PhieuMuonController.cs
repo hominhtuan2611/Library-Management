@@ -182,9 +182,8 @@ namespace LibraryManagement.Admin.Controllers
                     var phieuMuon_cu = await _apiService.GetAsync($"api/phieuMuon/{id}").Result.Content.ReadAsAsync<PhieuMuon>();
                     if(phieuMuon_cu.TrangThai==1)
                     {
-                        string userSession = HttpContext.Session.GetString(CommonConstants.User_Session);
-                        var nhanvien = _context.NhanVien.Where(p => p.Username == userSession).FirstOrDefault();
-                        phieuMuon.MaNv = nhanvien.Id;
+                        var userSession = HttpContext.Session.GetObject<NhanVien>(CommonConstants.User_Session);
+                        phieuMuon.MaNv = userSession.Id;
                     }
                     if (phieuMuon_cu.DaTra==false && phieuMuon.DaTra==true)
                     {
