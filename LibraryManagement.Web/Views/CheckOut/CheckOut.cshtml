@@ -50,26 +50,28 @@
                                 <td class="invert">1</td>
                                 <td class="invert-image">
                                     <a href="single.html">
-                                        <img src="../images/a.jpg" alt=" " class="img-responsive">
+                                        <img src="@ss_lsSach[i].sach.HinhAnh" alt=" " class="img-responsive">
                                     </a>
                                 </td>
                                 <td class="invert">
                                     <div class="quantity">
                                         <div class="quantity-select">
-                                            <div class="entry value-minus">&nbsp;</div>
+                                            @*<div class="entry value-minus">&nbsp;</div>*@
                                             <div class="entry value">
                                                 <span>@ss_lsSach[i].soluong</span>
                                                 @*<input type="hidden" class="form-control" placeholder=" " name="Name" value="@ss_lsSach[i].sach.Id">
                                                     <input type="text" class="form-control" placeholder=" " name="Name" value="@ss_lsSach[i].soluong">*@
                                             </div>
-                                            <div class="entry value-plus active">&nbsp;</div>
+                                            @*<div class="entry value-plus active">&nbsp;</div>*@
                                         </div>
                                     </div>
                                 </td>
                                 <td class="invert">@ss_lsSach[i].sach.TenSach</td>
                                 <td class="invert">
                                     <div class="rem">
-                                        <div class="close1"> </div>
+                                        <a href="/checkout/delete/@ss_lsSach[i].sach.Id">
+                                            <div class="close1"> </div>
+                                        </a>
                                     </div>
                                 </td>
                             </tr>
@@ -93,34 +95,6 @@
     Console.log(document.getElementById('<%= ss_lsSach[0].sach.TenSach%>').value)
 </script>
 
-@*<script>
-    $('#dangky').click(function () {
-
-        danhsach = []
-        rows = $('.timetable_sub tbody tr');
-        for (var i = 0; i < rows.length; i++) {
-            var row = $(rows[i]);
-            var product_id = row.attr('data-id');
-            var qty = row.find('.quantity .value').text()
-            danhsach[i] = qty
-        }
-
-        data = danhsach
-
-        $.ajax({
-            url: "/checkout/muonsach",
-            data: "{ 'name': '" + "randel" + "' }",
-            type: "GET",
-            contentType: "application/json; charset=utf-8",
-            dataType: "json",
-            success: function (response) {
-                if (response) {
-                    alert('Muon thanh cong!')
-                }
-            }
-        })
-    });
-</script>*@
 
 <script>
     $('.value-plus').on('click', function () {

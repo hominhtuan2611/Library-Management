@@ -26,6 +26,12 @@
         </div>
 
     }
+    else if (@TempData["notice"].ToString() == "da them")
+    {
+        <div class="alert alert-danger" role="alert">
+            <strong> Bạn đã thêm sách thành công</strong>
+        </div>
+    }
 }
 
 <div class="ads-grid py-sm-5 py-4">
@@ -47,7 +53,7 @@
                                             <img src="@Html.DisplayFor(modelItem => modelItem.Item2[i].HinhAnh)" height="300px" alt="">
                                             <div class="men-cart-pro">
                                                 <div class="inner-men-cart-pro">
-                                                    <a class="nav-link text-dark link-product-add-cart" href="/Single/single/@Html.DisplayFor(modelItem => modelItem.Item2[i].Id)"> Quick View</a>
+                                                    <a class="nav-link link-product-add-cart" href="/Single/single/@Html.DisplayFor(modelItem => modelItem.Item2[i].Id)"> Quick View</a>
                                                 </div>
                                             </div>
                                         </div>
@@ -87,7 +93,7 @@
                                             <img src="@Html.DisplayFor(modelItem => modelItem.Item2[i].HinhAnh)" height="300px" alt="">
                                             <div class="men-cart-pro">
                                                 <div class="inner-men-cart-pro">
-                                                    <a class="nav-link text-dark link-product-add-cart" href="/Single/single/@Html.DisplayFor(modelItem => modelItem.Item2[i].Id)">Quick View</a>
+                                                    <a class="nav-link link-product-add-cart" href="/Single/single/@Html.DisplayFor(modelItem => modelItem.Item2[i].Id)">Quick View</a>
                                                 </div>
                                             </div>
                                         </div>
@@ -129,7 +135,7 @@
                                             <img src="@Html.DisplayFor(modelItem => modelItem.Item2[i].HinhAnh)" height="300px" alt="" class="img-fluid">
                                             <div class="men-cart-pro">
                                                 <div class="inner-men-cart-pro">
-                                                    <a class="nav-link text-dark link-product-add-cart" href="/Single/single/@Html.DisplayFor(modelItem => modelItem.Item2[i].Id)">Quick View</a>
+                                                    <a class="nav-link link-product-add-cart" href="/Single/single/@Html.DisplayFor(modelItem => modelItem.Item2[i].Id)">Quick View</a>
                                                 </div>
                                             </div>
                                         </div>
@@ -170,7 +176,7 @@
                                             <img src="@Html.DisplayFor(modelItem => modelItem.Item2[i].HinhAnh)" height="300px" alt="" class="img-fluid">
                                             <div class="men-cart-pro">
                                                 <div class="inner-men-cart-pro">
-                                                    <a class="nav-link text-dark link-product-add-cart" href="/Single/single/@Html.DisplayFor(modelItem => modelItem.Item2[i].Id)">Quick View</a>
+                                                    <a class="nav-link   link-product-add-cart" href="/Single/single/@Html.DisplayFor(modelItem => modelItem.Item2[i].Id)">Quick View</a>
                                                 </div>
                                             </div>
                                         </div>

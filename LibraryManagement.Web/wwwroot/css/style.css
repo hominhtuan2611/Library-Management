@@ -729,6 +729,7 @@ h3.tittle-w3l span {
 }
 
 .inner-men-cart-pro .link-product-add-cart {
+    height: 50px;
     width: 51%;
     top: 0;
     left: 24%;

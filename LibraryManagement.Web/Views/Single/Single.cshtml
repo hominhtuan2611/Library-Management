@@ -4,160 +4,146 @@
     ViewData["Title"] = "Single";
 }
 
-<!-- page -->
-<div class="services-breadcrumb">
-    <div class="agile_inner_breadcrumb">
-        <div class="container">
-            <ul class="w3_short">
-                <li>
-                    <a href="index.html">Home</a>
-                    <i>|</i>
-                </li>
-                <li>@Model.Item3.TenSach</li>
-            </ul>
+@if (@TempData["notice"] != null)
+{
+    if (@TempData["notice"].ToString() == "da them")
+    {
+        <div class="alert alert-danger" role="alert">
+            <strong> Bạn đã thêm sách thành công</strong>
+        </div>
+    }
+}
+    <!-- page -->
+    <div class="services-breadcrumb">
+        <div class="agile_inner_breadcrumb">
+            <div class="container">
+                <ul class="w3_short">
+                    <li>
+                        <a href="index.html">Home</a>
+                        <i>|</i>
+                    </li>
+                    <li>@Model.Item3.TenSach</li>
+                </ul>
+            </div>
         </div>
     </div>
-</div>
-<!-- //page -->
-<!-- Single Page -->
-<div class="banner-bootom-w3-agileits py-5">
-    <div class="container py-xl-4 py-lg-2">
-        <!-- tittle heading -->
-        @*<h3 class="tittle-w3l text-center mb-lg-5 mb-sm-4 mb-3">
-            <span>S</span>ingle
-            <span>P</span>age
-        </h3>*@
-        <!-- //tittle heading -->
-        <div class="row">
-            <div class="col-lg-5 col-md-8 single-right-left ">
-                <div class="grid images_3_of_2">
-                    <div class="flexslider">
-                        <ul class="slides">
-                            <li data-thumb="/images/si1.jpg">
-                                <div class="thumb-image">
-                                    <img src="@Model.Item3.HinhAnh" data-imagezoom="true" class="img-fluid" alt="">
-                                </div>
-                            </li>
-                            @*<li data-thumb="/images/si2.jpg">
-                                <div class="thumb-image">
-                                    <img src="~/images/si2.jpg" data-imagezoom="true" class="img-fluid" alt="">
-                                </div>
-                            </li>
-                            <li data-thumb="/images/si3.jpg">
-                                <div class="thumb-image">
-                                    <img src="~/images/si3.jpg" data-imagezoom="true" class="img-fluid" alt="">
-                                </div>
-                            </li>*@
-                        </ul>
-                        <div class="clearfix"></div>
+    <!-- //page -->
+    <!-- Single Page -->
+    <div class="banner-bootom-w3-agileits py-5">
+        <div class="container py-xl-4 py-lg-2">
+            <div class="row">
+                <div class="col-lg-5 col-md-8 single-right-left ">
+                    <div class="grid images_3_of_2">
+                        <div class="flexslider">
+                            <ul class="slides">
+                                <li data-thumb="/images/si1.jpg">
+                                    <div class="thumb-image">
+                                        <img src="@Model.Item3.HinhAnh" data-imagezoom="true" class="img-fluid" alt="">
+                                    </div>
+                                </li>
+                            </ul>
+                            <div class="clearfix"></div>
+                        </div>
                     </div>
                 </div>
-            </div>
 
-            <div class="col-lg-7 single-right-left simpleCart_shelfItem">
-                <h3 class="mb-3">@Model.Item3.TenSach</h3>
-                <p class="mb-3">
-                    <span class="item_price"></span>
-                    <del class="mx-2 font-weight-light"></del>
-                    @*<label>Free delivery</label>*@
-                </p>
-                <div class="single-infoagile">
-                    <ul>
-                        <li class="mb-3">
-                            Tác giả:  @Model.Item3.TacGia
-                        </li>
-                        <li class="mb-3">
-                            Nhà xuất bản: 	 @Model.Item3.NhaXuatBan
-                        </li>
-                        @*<li class="mb-3">
-                                EMIs from $655/month.
+                <div class="col-lg-7 single-right-left simpleCart_shelfItem">
+                    <h3 class="mb-3">@Model.Item3.TenSach</h3>
+                    <p class="mb-3">
+                        <span class="item_price"></span>
+                        <del class="mx-2 font-weight-light"></del>
+                    </p>
+                    <div class="single-infoagile">
+                        <ul>
+                            <li class="mb-3">
+                                Tác giả:  @Model.Item3.TacGia
                             </li>
                             <li class="mb-3">
-                                Bank OfferExtra 5% off* with Axis Bank Buzz Credit CardT&C
-                            </li>*@
-                    </ul>
-                </div>
-                <div class="product-single-w3l">
-                    <p class="my-3">
-                        <i class="far fa-hand-point-right mr-2"></i>
-                        @Model.Item3.TomTat
-                    </p>
-                </div>
-                <div class="occasion-cart">
-                    <div class="snipcart-details top_brand_home_details item_add single-item hvr-outline-out">
-                        <form action="/Product/addcart" method="get">
-                            <fieldset>
-                                <input type="hidden" name="idloai" value="@Html.DisplayFor(modelItem => modelItem.Item3.LoaiSach)" />
-                                <input type="hidden" name="idsach" value="@Html.DisplayFor(modelItem => modelItem.Item3.Id)" />
-                                <input type="hidden" name="sl" value="1" />
-                                <input type="submit" name="submit" value="Đăng ký mượn sách" class="button btn" />
-                            </fieldset>
-                        </form>
+                                Nhà xuất bản: 	 @Model.Item3.NhaXuatBan
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="product-single-w3l">
+                        <p class="my-3">
+                            <i class="far fa-hand-point-right mr-2"></i>
+                            @Model.Item3.TomTat
+                        </p>
+                    </div>
+                    <div class="occasion-cart">
+                        <div class="snipcart-details top_brand_home_details item_add single-item hvr-outline-out">
+                            <form action="/Product/addcart" method="get">
+                                <fieldset>
+                                    <input type="hidden" name="idloai" value="@Html.DisplayFor(modelItem => modelItem.Item3.LoaiSach)" />
+                                    <input type="hidden" name="idsach" value="@Html.DisplayFor(modelItem => modelItem.Item3.Id)" />
+                                    <input type="hidden" name="sl" value="1" />
+                                    <input type="submit" name="submit" value="Đăng ký mượn sách" class="button btn" />
+                                </fieldset>
+                            </form>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-</div>
 
-<!-- jquery -->
-<script src="~/js/jquery-2.2.3.min.js"></script>
-<!-- //jquery -->
-<!-- //Single Page -->
-<!-- imagezoom -->
-<script src="~/js/imagezoom.js"></script>
-<!-- //imagezoom -->
-<!-- flexslider -->
-<link rel="stylesheet" href="~/css/flexslider.css" type="text/css" media="screen" />
+    <!-- jquery -->
+    <script src="~/js/jquery-2.2.3.min.js"></script>
+    <!-- //jquery -->
+    <!-- //Single Page -->
+    <!-- imagezoom -->
+    <script src="~/js/imagezoom.js"></script>
+    <!-- //imagezoom -->
+    <!-- flexslider -->
+    <link rel="stylesheet" href="~/css/flexslider.css" type="text/css" media="screen" />
 
-<script src="~/js/jquery.flexslider.js"></script>
-<script>
-    // Can also be used with $(document).ready()
-    jQuery(document).ready(function ($) {
-        $('.flexslider').flexslider({
-            animation: "slide",
-            controlNav: "thumbnails"
+    <script src="~/js/jquery.flexslider.js"></script>
+    <script>
+        // Can also be used with $(document).ready()
+        jQuery(document).ready(function ($) {
+            $('.flexslider').flexslider({
+                animation: "slide",
+                controlNav: "thumbnails"
+            });
         });
-    });
-</script>
-<!-- //FlexSlider-->
-<!-- smoothscroll -->
-<script src="~/js/SmoothScroll.min.js"></script>
-<!-- //smoothscroll -->
-<!-- start-smooth-scrolling -->
-<script src="~/js/move-top.js"></script>
-<script src="~/js/easing.js"></script>
-<script>
-    jQuery(document).ready(function ($) {
-        $(".scroll").click(function (event) {
-            event.preventDefault();
+    </script>
+    <!-- //FlexSlider-->
+    <!-- smoothscroll -->
+    <script src="~/js/SmoothScroll.min.js"></script>
+    <!-- //smoothscroll -->
+    <!-- start-smooth-scrolling -->
+    <script src="~/js/move-top.js"></script>
+    <script src="~/js/easing.js"></script>
+    <script>
+        jQuery(document).ready(function ($) {
+            $(".scroll").click(function (event) {
+                event.preventDefault();
 
-            $('html,body').animate({
-                scrollTop: $(this.hash).offset().top
-            }, 1000);
+                $('html,body').animate({
+                    scrollTop: $(this.hash).offset().top
+                }, 1000);
+            });
         });
-    });
-</script>
-<!-- //end-smooth-scrolling -->
-<!-- smooth-scrolling-of-move-up -->
-<script>
-    $(document).ready(function () {
-        /*
-        var defaults = {
-            containerID: 'toTop', // fading element id
-            containerHoverID: 'toTopHover', // fading element hover id
-            scrollSpeed: 1200,
-            easingType: 'linear'
-        };
-        */
-        $().UItoTop({
-            easingType: 'easeOutQuart'
-        });
+    </script>
+    <!-- //end-smooth-scrolling -->
+    <!-- smooth-scrolling-of-move-up -->
+    <script>
+        $(document).ready(function () {
+            /*
+            var defaults = {
+                containerID: 'toTop', // fading element id
+                containerHoverID: 'toTopHover', // fading element hover id
+                scrollSpeed: 1200,
+                easingType: 'linear'
+            };
+            */
+            $().UItoTop({
+                easingType: 'easeOutQuart'
+            });
 
-    });
-</script>
-<!-- //smooth-scrolling-of-move-up -->
-<!-- for bootstrap working -->
-<script src="~/js/bootstrap.js"></script>
-<!-- //for bootstrap working -->
-<!-- //js-files -->
+        });
+    </script>
+    <!-- //smooth-scrolling-of-move-up -->
+    <!-- for bootstrap working -->
+    <script src="~/js/bootstrap.js"></script>
+    <!-- //for bootstrap working -->
+    <!-- //js-files -->

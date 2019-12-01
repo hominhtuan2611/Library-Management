@@ -102,5 +102,23 @@ namespace LibraryManagement.Web.Controllers
 
             return Redirect("~/Home/Index");
         }
+
+        public void delete(string id)
+        {
+            var docgia = HttpContext.Session.GetObject<DocGia>(CommonConstants.User_Session);
+            var ss_lsSach = HttpContext.Session.GetObject<List<Models.SessionSach>>("dssach");
+            var tongsach = 0;
+
+            for( int i = 0;i < ss_lsSach.Count; i++)
+            {
+                if (ss_lsSach[i].sach.Id == id)
+                {
+                    ss_lsSach.RemoveAt(i);
+                }
+            }
+            HttpContext.Session.SetObject("dssach", ss_lsSach);
+            string urlAnterior = Request.Headers["Referer"].ToString();
+            Response.Redirect(urlAnterior);
+        }
     }
 }

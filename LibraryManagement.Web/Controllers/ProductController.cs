@@ -76,7 +76,10 @@ namespace LibraryManagement.Web.Controllers
                 LS_Sach.Add(s_sach);
             }
             HttpContext.Session.SetObject("dssach", LS_Sach);
-            Response.Redirect($"Product2/{idloai}");
+            TempData["notice"] = "da them";
+            string urlAnterior = Request.Headers["Referer"].ToString();
+            Response.Redirect(urlAnterior);
+            //Response.Redirect($"Product2/{idloai}");
         }
 
     }
