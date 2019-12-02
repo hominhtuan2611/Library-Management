@@ -71,12 +71,12 @@
                     </div>
                     <div class="occasion-cart">
                         <div class="snipcart-details top_brand_home_details item_add single-item hvr-outline-out">
-                            <form action="/Product/addcart" method="get">
+                            <form action="/Product/addcart" method="post">
                                 <fieldset>
                                     <input type="hidden" name="idloai" value="@Html.DisplayFor(modelItem => modelItem.Item3.LoaiSach)" />
                                     <input type="hidden" name="idsach" value="@Html.DisplayFor(modelItem => modelItem.Item3.Id)" />
                                     <input type="hidden" name="sl" value="1" />
-                                    <input type="submit" name="submit" value="Đăng ký mượn sách" class="button btn" />
+                                    <input type="submit" name="submit" value="Thêm sách" class="button btn" />
                                 </fieldset>
                             </form>
                         </div>
