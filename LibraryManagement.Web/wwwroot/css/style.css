@@ -59,6 +59,9 @@ h6 {
     font-family: 'Lato', sans-serif;
 }
 
+h4.he-1 {
+    height: 70px;
+}
 p {
     margin: 0;
     letter-spacing: 1px;
@@ -78,6 +81,8 @@ label {
 }
 
 /*-- top-header --*/
+
+
 
 .main-top-w3l {
     background: #0879c9;
@@ -329,6 +334,13 @@ ul.multi-column-dropdown li a:hover {
 /*-- banner --*/
 
 /*-- carousel-slider --*/
+
+
+
+}
+
+
+
 
 .carousel-item.item1 {
     background: url(../images/b1.jpg) no-repeat center;
@@ -583,10 +595,15 @@ h3.tittle-w3l span {
 
 .men-pro-item {
     position: relative;
+    margin-top: 25px;
 }
 
 .men-thumb-item {
     position: relative;
+    height: 300px;
+    width: 200px;
+    margin-left: 49px;
+}
 }
 
 #PPminicarts .minicarts-submit img {
@@ -601,12 +618,12 @@ h3.tittle-w3l span {
 
 .men-cart-pro {
     bottom: 0;
-    left: 0;
+    left: -203px;
     margin: auto;
     opacity: 0;
     overflow: hidden;
     position: absolute;
-    right: 0;
+    right: -114px;
     text-align: center;
     top: 0;
     transition: all 0.5s ease-out 0s;
@@ -634,9 +651,12 @@ h3.tittle-w3l span {
 }
 
 .inner-men-cart-pro {
+    padding-left: 103px;
     height: 100%;
     position: relative;
     width: 100%;
+    left: -19px;
+    margin-left: 20px;
     transition: all 0.5s ease-out 0s;
 }
 
@@ -650,13 +670,17 @@ h3.tittle-w3l span {
     transition: all 0.5s ease-out 0s;
 }
 
-.inner-men-cart-pro .link-product-add-cart {
-    width: 100%;
-    bottom: -40px;
-    left: 0;
-    position: absolute;
-    transition: all 0.5s ease-out 0s;
-}
+    .inner-men-cart-pro .link-product-add-cart {
+        width: 100%;
+        top: 0;
+        left: -22%;
+        right: -53px;
+        padding-left: 28px;
+        margin-left: -7px;
+        margin: 0 auto;
+        position: absolute;
+        transition: all 0.5s ease-out 0s;
+    }
 
 .link-product-add-cart {
     background: hsla(205, 92%, 41%, 0.72);
@@ -705,6 +729,7 @@ h3.tittle-w3l span {
 }
 
 .inner-men-cart-pro .link-product-add-cart {
+    height: 50px;
     width: 51%;
     top: 0;
     left: 24%;
@@ -1706,15 +1731,19 @@ button.submit.check_out {
     -o-transition: 0.5s all;
     -ms-transition: 0.5s all;
 }
+    button.submit.check_out a {
+        list-style-type: none;
+        color: #fff;
+    }
 
-button.submit.check_out:hover {
-    background: #F45C5D;
-    transition: 0.5s all;
-    -webkit-transition: 0.5s all;
-    -moz-transition: 0.5s all;
-    -o-transition: 0.5s all;
-    -ms-transition: 0.5s all;
-}
+    button.submit.check_out:hover {
+        background: #F45C5D;
+        transition: 0.5s all;
+        -webkit-transition: 0.5s all;
+        -moz-transition: 0.5s all;
+        -o-transition: 0.5s all;
+        -ms-transition: 0.5s all;
+    }
 
 /*-- //checkout form --*/
 

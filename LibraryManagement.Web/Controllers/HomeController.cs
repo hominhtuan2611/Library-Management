@@ -36,41 +36,52 @@ namespace LibraryManagement.Web.Controllers
 
         public async Task<IActionResult> Index()
         {
-            var loaisach = await _apiService.GetAsync("api/loaisach").Result.Content.ReadAsAsync<List<LoaiSach>>();
-            var list_sach = new List<Sach>();
+            var notice = "";
+            if (TempData["notice"] != null) {
+                notice = TempData["notice"].ToString();
+            }
+            var loaisach = await _apiService.GetAsync("api/LoaiSach").Result.Content.ReadAsAsync<List<LoaiSach>>();
+            var list_sach = await _apiService.GetAsync("api/sach").Result.Content.ReadAsAsync<List<Sach>>();
             var sach = new Sach();
             var tuple = new Tuple<List<LibraryManagement.API.Models.LoaiSach>, List<LibraryManagement.API.Models.Sach>, LibraryManagement.API.Models.Sach>(loaisach, list_sach, sach);
             return View(tuple);
         }
 
-        public async Task<IActionResult> Login()
+        public async Task<IActionResult> Login(string name, string password)
         {
-            var loaisach = await _apiService.GetAsync("api/loaisach").Result.Content.ReadAsAsync<List<LoaiSach>>();
-            var list_sach = new List<Sach>();
+            if (ModelState.IsValid)
+            {
+                var user = _context.DocGia.Where(x => x.Username == name).FirstOrDefault();
+                if (user != null)
+                {
+                    if (Password_Encryptor.HashSHA1(password) == user.Password)
+                    {
+                        HttpContext.Session.SetObject<DocGia>(CommonConstants.User_Session, user);
+
+                        return RedirectToAction(nameof(Index));
+                    }
+                    else
+                    {
+                        ModelState.AddModelError("", "Thông tin đăng nhập không đúng!");
+                    }
+                }
+                else
+                {
+                    ModelState.AddModelError("", "Tài khoản không tồn tại!");
+                }
+            }
+            var loaisach = await _apiService.GetAsync("api/LoaiSach").Result.Content.ReadAsAsync<List<LoaiSach>>();
+            var list_sach = await _apiService.GetAsync("api/sach").Result.Content.ReadAsAsync<List<Sach>>();
             var sach = new Sach();
             var tuple = new Tuple<List<LibraryManagement.API.Models.LoaiSach>, List<LibraryManagement.API.Models.Sach>, LibraryManagement.API.Models.Sach>(loaisach, list_sach, sach);
             return View(tuple);
         }
-
-        [HttpPost]
-        public void CheckLogin(string name, string pass)
+        public IActionResult Logout()
         {
-            HttpContext.Session.SetString(CommonConstants.Docgia_Session, "");
-            string password = Password_Encryptor.HashSHA1(pass);
-            var docGia = _context.DocGia.Where(m => m.Username == name && m.Password == pass).FirstOrDefault();
-            if (docGia == null)
-            {
-                Response.Redirect("Error");
-            }
-            else
-            {
-                HttpContext.Session.SetObject<int>(CommonConstants.Docgia_Session, docGia.Id);
-                Response.Redirect("Index");
-            }
-            /*return Index();*/
-            //return View();
-        }
+            HttpContext.Session.Remove(CommonConstants.User_Session);
 
+            return RedirectToAction(nameof(Index));
+        }
         public IActionResult Privacy()
         {
             return View();

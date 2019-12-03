@@ -1,13 +1,25 @@
 ﻿@using Microsoft.AspNetCore.Http
 @using LibraryManagement.Application.Common
+@using LibraryManagement.API.Models;
 
 @{
-    var session = Context.Session.GetString(CommonConstants.Docgia_Session);
+    var docgia = Context.Session.GetObject<DocGia>(CommonConstants.User_Session);
     var ss_lsSach = Context.Session.GetObject<List<SessionSach>>("dssach");
 }
 
 @{
     ViewData["Title"] = "CheckOut";
+}
+
+@if (TempData["notice"] != null)
+{
+    if (TempData["notice"].ToString() == "fail")
+    {
+        <div class="alert alert-danger" role="alert">
+            <strong> Bạn phải đăng nhập để mượn sách!</strong>
+        </div>
+
+    }
 }
 
 <!-- checkout page -->
@@ -19,10 +31,6 @@
         </h3>
         <!-- //tittle heading -->
         <div class="checkout-right">
-            <h4 class="mb-sm-4 mb-3">
-                Tổng số sách bạn sẽ mượn:
-                <span>3 quyển</span>
-            </h4>
             <div class="table-responsive">
                 <table class="timetable_sub">
                     <thead>
@@ -42,26 +50,28 @@
                                 <td class="invert">1</td>
                                 <td class="invert-image">
                                     <a href="single.html">
-                                        <img src="../images/a.jpg" alt=" " class="img-responsive">
+                                        <img src="@ss_lsSach[i].sach.HinhAnh" alt=" " class="img-responsive">
                                     </a>
                                 </td>
                                 <td class="invert">
                                     <div class="quantity">
                                         <div class="quantity-select">
-                                            <div class="entry value-minus">&nbsp;</div>
+                                            @*<div class="entry value-minus">&nbsp;</div>*@
                                             <div class="entry value">
                                                 <span>@ss_lsSach[i].soluong</span>
                                                 @*<input type="hidden" class="form-control" placeholder=" " name="Name" value="@ss_lsSach[i].sach.Id">
-                                                <input type="text" class="form-control" placeholder=" " name="Name" value="@ss_lsSach[i].soluong">*@
+                                                    <input type="text" class="form-control" placeholder=" " name="Name" value="@ss_lsSach[i].soluong">*@
                                             </div>
-                                            <div class="entry value-plus active">&nbsp;</div>
+                                            @*<div class="entry value-plus active">&nbsp;</div>*@
                                         </div>
                                     </div>
                                 </td>
                                 <td class="invert">@ss_lsSach[i].sach.TenSach</td>
                                 <td class="invert">
                                     <div class="rem">
-                                        <div class="close1"> </div>
+                                        <a href="/checkout/delete/@ss_lsSach[i].sach.Id">
+                                            <div class="close1"> </div>
+                                        </a>
                                     </div>
                                 </td>
                             </tr>
@@ -71,7 +81,9 @@
             </div>
         </div>
         <div class="checkout-left">
-            <button class="submit check_out btn" id="dangky">Đăng ký mượn</button>
+            <button class="submit check_out btn" id="dangky" formaction="/checkout/muonsach">
+                <a href="/checkout/muonsach">Đăng ký mượn</a>
+            </button>
         </div>
     </div>
 
@@ -83,34 +95,6 @@
     Console.log(document.getElementById('<%= ss_lsSach[0].sach.TenSach%>').value)
 </script>
 
-<script>
-    $('#dangky').click(function () {
-
-        danhsach = []
-        rows = $('.timetable_sub tbody tr');
-        for (var i = 0; i < rows.length; i++) {
-            var row = $(rows[i]);
-            var product_id = row.attr('data-id');
-            var qty = row.find('.quantity .value').text()
-            danhsach[i] = qty
-        }
-
-        data = danhsach
-
-        $.ajax({
-            url: "/checkout/muonsach",
-            data: "{ 'name': '" + "randel" + "' }",
-            type: "POST",
-            contentType:"application/json; charset=utf-8",
-            dataType: "json",
-            success: function (response) {
-                if (response) {
-                    alert('Muon thanh cong!')
-                }
-            }
-        })
-    });
-</script>
 
 <script>
     $('.value-plus').on('click', function () {

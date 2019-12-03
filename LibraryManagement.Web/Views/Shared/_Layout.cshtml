@@ -2,12 +2,11 @@
 @using Microsoft.AspNetCore.Http
 @model Tuple<List<LibraryManagement.API.Models.LoaiSach>, List<LibraryManagement.API.Models.Sach>, LibraryManagement.API.Models.Sach>
 @using X.PagedList.Mvc.Core;
-
-
+@using LibraryManagement.API.Models;
 @{
-    var session = Context.Session.GetObject<int>(CommonConstants.Docgia_Session);
-    var ss_lsSach = Context.Session.GetObject<List<SessionSach>>("dssach");
+    var session = Context.Session.GetObject<DocGia>(CommonConstants.User_Session);
 }
+
 
 <!--
 Author: W3layouts
@@ -56,152 +55,155 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 
 <body>
     <header>
-        @*<nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
-            <div class="container">
-                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">LibraryManagement.Web</a>
-                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
-                        aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>*@
-                @*<div class="collapse navbar-collapse" id="navbarSupportedContent">
-                    <ul class="navbar-nav ml-auto text-center mr-xl-5">
-                        <li class="nav-item active mr-lg-2 mb-lg-0 mb-2">
-                            <a class="nav-link" href="./Home/Index">
-                                Trang chủ
-                                <span class="sr-only">(current)</span>
-                            </a>*@
-    <!-- top-header -->
-    <div class="agile-main-top">
-        <div class="container-fluid">
-            <div class="row main-top-w3l py-2">
-                <div class="col-lg-8 header-most-top">
+        <!-- top-header -->
+        <div class="agile-main-top">
+            <div class="container-fluid">
+                <div class="row main-top-w3l py-2">
+                    <div class="col-lg-8 header-most-top">
 
-                </div>
-                <div class="col-lg-4 header-right mt-lg-0 mt-2">
-                    <!-- header lists -->
-                    <ul>
+                    </div>
+                    <div class="col-lg-4 header-right mt-lg-0 mt-2">
+                        <!-- header lists -->
+                        <ul>
 
-                        <li class="text-center border-right text-white">
-                            <i class="fas fa-phone mr-2"></i> 001 234 5678
-                        </li>
-                        <li class="text-center border-right text-white">
-                            <a class="nav-link text-white" asp-area="" asp-controller="Home" asp-action="login">
-                                <i class="fas fa-sign-in-alt mr-2"></i> Đăng nhập
-                            </a>
-                        </li>
+                            <li class="text-center border-right text-white">
+                                <i class="fas fa-phone mr-2"></i> 001 234 5678
+                            </li>
 
-                    </ul>
-                    <!-- //header lists -->
-                </div>
-            </div>
-        </div>
-    </div>
+                            @if (session != null)
+                            {
+                                <li class="dropdown">
+                                    <a style="color:white" class="dropdown-toggle" data-toggle="dropdown" href="#">
+                                        <i class="fa fa-user fa-fw"></i> Chào @session.Username <i class="fa fa-caret-down"></i>
+                                    </a>
+                                    <ul class="dropdown-menu dropdown-user">
+                                        <li style="width:100% !important">
+                                            <a href="@Url.Action("Logout", "Home")"><i class="fas fa-sign-out-alt"></i> Đăng xuất</a>
+                                        </li>
+                                    </ul>
+                                    <!-- /.dropdown-user -->
+                                </li>
+                            }
+                            else
+                            {
+                                <li class="text-center border-right text-white">
+                                    <a class="nav-link text-white" asp-area="" asp-controller="Home" asp-action="login">
+                                        <i class="fas fa-sign-in-alt mr-2"></i> Đăng nhập
+                                    </a>
+                                </li>
+                            }
 
-    <!-- modals -->
-    <!-- register -->
-    <!-- //modal -->
-    <!-- //top-header -->
-    <!-- header-bottom-->
-    <div class="header-bot">
-        <div class="container">
-            <div class="row header-bot_inner_wthreeinfo_header_mid">
-                <!-- logo -->
-                <div class="col-md-3 logo_agile">
-                    <h1 class="text-center">
-                        <a href="../home/index" class="font-weight-bold font-italic">
-                            <img src="~/images/logo2.png" alt=" " class="img-fluid">THƯ VIỆN THÀNH PHỐ
-                        </a>
-                    </h1>
-                </div>
-                <!-- //logo -->
-                <!-- header-bot -->
-                <div class="col-md-9 header mt-4 mb-md-0 mb-4">
-                    <div class="row">
-                        <!-- search -->
-                        <div class="col-10 agileits_search">
-                            <form class="form-inline" action="#" method="post">
-                                <input class="form-control mr-sm-2" type="search" placeholder="Tìm kiếm" aria-label="Search" required>
-                                <button class="btn my-2 my-sm-0" type="submit">Tìm kiếm</button>
-                            </form>
-                        </div>
-                        <!-- //search -->
-                        <!-- cart details -->
-                        <div class="col-2 top_nav_right text-center mt-sm-0 mt-2">
-                            <div class="wthreecartaits wthreecartaits2 cart cart box_1">
-                                <a class="nav-link text-dark" href="/CheckOut/CheckOut">
-                                    <button class="btn w3view-cart" type="submit" name="submit" value="">
-                                        <i class="fas fa-cart-arrow-down"></i>
-                                    </button>
-                                </a>
-                            </div>
-                        </div>
-                        <!-- //cart details -->
+                        </ul>
+                        <!-- //header lists -->
                     </div>
                 </div>
             </div>
         </div>
-    </div>
-    <!-- shop locator (popup) -->
-    <!-- //header-bottom -->
-    <!-- navigation -->
-    <div class="navbar-inner">
-        <div class="container">
-            <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <!-- modals -->
+        <!-- register -->
+        <!-- //modal -->
+        <!-- //top-header -->
+        <!-- header-bottom-->
+        <div class="header-bot">
+            <div class="container">
+                <div class="row header-bot_inner_wthreeinfo_header_mid">
+                    <!-- logo -->
+                    <div class="col-md-3 logo_agile">
+                        <h1 class="text-center">
+                            <a href="~/home/index" class="font-weight-bold font-italic">
+                                <img src="~/images/logo2.png" alt=" " class="img-fluid">THƯ VIỆN THÀNH PHỐ
+                            </a>
+                        </h1>
+                    </div>
+                    <!-- //logo -->
+                    <!-- header-bot -->
+                    <div class="col-md-9 header mt-4 mb-md-0 mb-4">
+                        <div class="row">
+                            <!-- search -->
+                            <div class="col-10 agileits_search">
+                                <form class="form-inline" action="/Product/Search" method="post">
+                                    <input class="form-control mr-sm-2" type="search" placeholder="Tìm kiếm" aria-label="Search" name="search" required>
+                                    <button class="btn my-2 my-sm-0" type="submit">Tìm kiếm</button>
+                                </form>
+                            </div>
+                            <!-- //search -->
+                            <!-- cart details -->
+                            <div class="col-2 top_nav_right text-center mt-sm-0 mt-2">
+                                <div class="wthreecartaits wthreecartaits2 cart cart box_1">
+                                    <a class="nav-link text-dark" href="/CheckOut/CheckOut">
+                                        <button class="btn w3view-cart" type="submit" name="submit" value="">
+                                            <i class="fas fa-cart-arrow-down"></i>
+                                        </button>
+                                    </a>
+                                </div>
+                            </div>
+                            <!-- //cart details -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- shop locator (popup) -->
+        <!-- //header-bottom -->
+        <!-- navigation -->
+        <div class="navbar-inner">
+            <div class="container">
+                <nav class="navbar navbar-expand-lg navbar-light bg-light">
 
-                <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                    <ul class="navbar-nav ml-auto text-center mr-xl-5">
-                        <li class="nav-item active mr-lg-2 mb-lg-0 mb-2">
-                            <a class="nav-link" href="./Home/Index">
-                                Trang chủ
-                                <span class="sr-only">(current)</span>
-                            </a>
-                        </li>
-                        <li class="nav-item dropdown mr-lg-2 mb-lg-0 mb-2">
-                            <a class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                Loại Sách
-                            </a>
-                            <div class="dropdown-menu">
-                                <div class="agile_inner_drop_nav_info p-4">
-                                    <h5 class="mb-3">Sách tiếng Việt</h5>
-                                    <div class="row">
-                                        <div class="col-sm-6 multi-gd-img">
-                                            <ul class="multi-column-dropdown">
-                                                @for (var i = 0; i < Model.Item1.Count() / 2; i++)
-                                                {
-                                                    <li>
-                                                        <a class="nav-link text-dark" href="/Product/Product2/@Html.DisplayFor(modelItem => modelItem.Item1[i].Id)">@Html.DisplayFor(modelItem => modelItem.Item1[i].TenLoai)</a>
-                                                    </li>
-                                                }
-                                            </ul>
-                                        </div>
-                                        <div class="col-sm-6 multi-gd-img">
-                                            <ul class="multi-column-dropdown">
-                                                @for (var i = Model.Item1.Count() / 2; i < Model.Item1.Count(); i++)
-                                                {
-                                                    <li>
-                                                        <a class="nav-link text-dark" href="/Product/Product2/@Html.DisplayFor(modelItem => modelItem.Item1[i].Id)">@Html.DisplayFor(modelItem => modelItem.Item1[i].TenLoai)</a>
-                                                    </li>
-                                                }
-                                            </ul>
+                    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                        <ul class="navbar-nav ml-auto text-center mr-xl-5">
+                            <li class="nav-item active mr-lg-2 mb-lg-0 mb-2">
+                                <a class="nav-link" href="~/Home/Index">
+                                    Trang chủ
+                                    <span class="sr-only">(current)</span>
+                                </a>
+                            </li>
+                            <li class="nav-item dropdown mr-lg-2 mb-lg-0 mb-2">
+                                <a class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    Loại Sách
+                                </a>
+                                <div class="dropdown-menu">
+                                    <div class="agile_inner_drop_nav_info p-4">
+                                        <h5 class="mb-3">Sách tiếng Việt</h5>
+                                        <div class="row">
+                                            <div class="col-sm-6 multi-gd-img">
+                                                <ul class="multi-column-dropdown">
+                                                    @for (var i = 0; i < Model.Item1.Count() / 2; i++)
+                                                    {
+                                                        <li>
+                                                            <a class="nav-link text-dark" href="/Product/Product2/@Html.DisplayFor(modelItem => modelItem.Item1[i].Id)">@Html.DisplayFor(modelItem => modelItem.Item1[i].TenLoai)</a>
+                                                        </li>
+                                                    }
+                                                </ul>
+                                            </div>
+                                            <div class="col-sm-6 multi-gd-img">
+                                                <ul class="multi-column-dropdown">
+                                                    @for (var i = Model.Item1.Count() / 2; i < Model.Item1.Count(); i++)
+                                                    {
+                                                        <li>
+                                                            <a class="nav-link text-dark" href="/Product/Product2/@Html.DisplayFor(modelItem => modelItem.Item1[i].Id)">@Html.DisplayFor(modelItem => modelItem.Item1[i].TenLoai)</a>
+                                                        </li>
+                                                    }
+                                                </ul>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
-                            </div>
-                        </li>
+                            </li>
 
-                        <li class="nav-item mr-lg-2 mb-lg-0 mb-2">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="About" asp-action="About">Giới thiệu</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Contact" asp-action="Contact">Liên hệ</a>
-                        </li>
-                    </ul>
-                </div>
-            </nav>
+                            <li class="nav-item mr-lg-2 mb-lg-0 mb-2">
+                                <a class="nav-link text-dark" asp-area="" asp-controller="About" asp-action="About">Giới thiệu</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Contact" asp-action="Contact">Liên hệ</a>
+                            </li>
+                        </ul>
+                    </div>
+                </nav>
+            </div>
         </div>
-    </div>
-    <!-- //navigation -->
-</header>
+        <!-- //navigation -->
+    </header>
 
     @RenderBody()
 
@@ -429,13 +431,13 @@ License URL: http://creativecommons.org/licenses/by/3.0/
     <script>
         jQuery(document).ready(function ($) {
             $(".scroll").click(function (event)
-                                                    event.preventDefault();
+                                                        event.preventDefault();
 
             $('html,body').animate({
                 scrollTop: $(this.hash).offset().top
             }, 1000);
         });
-                                            });
+                                                });
     </script>
     <!-- //end-smooth-scrolling -->
     <!-- smooth-scrolling-of-move-up -->
