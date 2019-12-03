@@ -16,7 +16,6 @@ namespace LibraryManagement.Web
 {
     public class Startup
     {
-
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
@@ -65,6 +64,8 @@ namespace LibraryManagement.Web
             services.AddMvc()
                 .SetCompatibilityVersion(CompatibilityVersion.Version_2_2)
                 .AddJsonOptions(options => options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore);
+            services.AddProgressiveWebApp();
+            services.AddSingleton(typeof(IHttpContextAccessor), typeof(HttpContextAccessor));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
