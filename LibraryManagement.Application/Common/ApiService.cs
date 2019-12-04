@@ -9,7 +9,11 @@ namespace LibraryManagement.Application.Common
     {
         public static HttpClient GetAPI(string address)
         {
-            HttpClient client = new HttpClient();
+            HttpClientHandler clientHandler = new HttpClientHandler();
+            clientHandler.ServerCertificateCustomValidationCallback = (sender, cert, chain, sslPolicyErrors) => { return true; };
+
+            // Pass the handler to httpclient(from you are calling api)
+            var client = new HttpClient(clientHandler);
 
             Uri apiAddress = new Uri(address);
 
