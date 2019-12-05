@@ -29,9 +29,14 @@ namespace LibraryManagement.Web.Controllers
 
         public async Task<IActionResult> Search(String search)
         {
+            if(search!=null)
+            {
+                HttpContext.Session.SetObject("search", search);
+            }
+            var s = HttpContext.Session.GetObject<string>("search");
             var loaisach = await _apiService.GetAsync("api/LoaiSach").Result.Content.ReadAsAsync<List<LoaiSach>>();
             var list_sach = await _apiService.GetAsync($"api/sach").Result.Content.ReadAsAsync<List<Sach>>();
-            var ls = list_sach.Where(x => x.TenSach.Contains(search)).ToList();
+            var ls = list_sach.Where(x => x.TenSach.Contains(s)).ToList();
             var sach = new Sach();
             var tuple = new Tuple<List<LibraryManagement.API.Models.LoaiSach>, List<LibraryManagement.API.Models.Sach>, LibraryManagement.API.Models.Sach>(loaisach, ls, sach);
 
